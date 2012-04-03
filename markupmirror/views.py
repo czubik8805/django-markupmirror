@@ -8,7 +8,7 @@ from django.views.generic.base import View
 from markdownmirror.settings import MARKDOWN_EXTENSIONS
 
 
-class MarkupMirrorPreview(View):
+class MarkupPreview(View):
     """Renders markup content to HTML for preview purposes."""
 
     http_method_names = ['post']
