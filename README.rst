@@ -6,10 +6,18 @@
 in Django. It utilizes the `CodeMirror`_ JS editor for a richer editing
 experience.
 
-**django-markupmirror** uses parts of `James Turk's`_ `django-markupfield`_ and
-adds a nicer widget with live-preview and an extension content-type for
-`FeinCMS`_.
+It uses parts of `James Turk's`_ `django-markupfield`_ and adds a nicer widget
+with live-preview and an extension content-type for `FeinCMS`_.
 
+
+Documentation
+    on Read the Docs: http://django-markupmirror.readthedocs.org/
+
+Code and issues
+    on bitbucket: https://bitbucket.org/fabianbuechler/django-markupmirror
+
+Releases
+    on PyPi: http://pypi.python.org/pypi/django-markupmirror
 
 .. _CodeMirror: http://codemirror.net/
 .. _James Turk's: https://github.com/jamesturk
