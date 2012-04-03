@@ -1,0 +1,20 @@
+syntax: glob
+
+dist
+build
+*.mo
+*.pyc
+*.pyo
+*.tmp*
+*.egg-info
+*.egg
+*.EGG
+*.EGG-INFO
+.tox
+
+syntax: regexp
+
+^docs/_build/[^.].*
+^docs/_coverage/[^.].*
+^docs/_static/[^.].*
+^docs/_templates/[^.].*
