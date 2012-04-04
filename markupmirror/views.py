@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.generic.base import View
 
-from markdownmirror.settings import MARKDOWN_EXTENSIONS
+from markupmirror.settings import MARKDOWN_EXTENSIONS
 
 
 class MarkupPreview(View):
