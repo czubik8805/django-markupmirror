@@ -6,15 +6,16 @@ from setuptools import find_packages
 
 PROJECT_NAME = "markupmirror"
 AUTHORS = (
-    (u"Fabian B\xfcchler", "fabian.buechler@gmail.com"),
+    ("Fabian B\xc3\xbcchler", "fabian.buechler@gmail.com"),
 )
 
 
 def read(*parts):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), *parts))
     content = ""
-    with open(path) as fp:
-        content = fp.read()
+    fp = open(path)
+    content = fp.read()
+    fp.close()
     return content
 
 
@@ -24,7 +25,7 @@ setup(
     author=", ".join([a[0] for a in AUTHORS]),
     author_email=", ".join([a[1] for a in AUTHORS]),
     description="Django field and widget for editing markup content.",
-    long_description="{0}\n\n{1}".format(
+    long_description="%s\n\n%s" % (
         read('README.rst'),
         read('docs', 'changelog.rst')),
     url="https://bitbucket.org/fabianbuechler/django-markupmirror",

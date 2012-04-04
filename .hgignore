@@ -18,3 +18,5 @@ syntax: regexp
 ^docs/_coverage/[^.].*
 ^docs/_static/[^.].*
 ^docs/_templates/[^.].*
+^tests/media/[^.].*
+^tests/static/[^.].*
