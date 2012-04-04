@@ -9,7 +9,6 @@ class MarkdownMarkup(BaseMarkup):
     """
     def __init__(self):
         self.extensions = settings.MARKDOWN_EXTENSIONS
-        from markdown import markdown
         self.markdown = markdown
 
     def __call__(self, markup):
@@ -18,7 +17,7 @@ class MarkdownMarkup(BaseMarkup):
 
 # Only register if Markdown is installed
 try:
-    import markdown
+    from markdown import markdown
     register_markup(MarkdownMarkup)
 except ImportError:
     pass

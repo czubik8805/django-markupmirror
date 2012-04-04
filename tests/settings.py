@@ -61,3 +61,22 @@ LOGGING = {
         },
     }
 }
+
+
+# ### coverage / django-coverage
+
+INSTALLED_APPS += (
+    'django_coverage',
+)
+
+COVERAGE_PATH_EXCLUDES = [
+    r'.hg',
+    r'bin',
+    r'etc',
+    r'fixtures',
+    r'static',
+    r'templates',
+]
+
+COVERAGE_REPORT_HTML_OUTPUT_DIR = tests_path_to(
+    os.path.pardir, 'docs', '_coverage')
