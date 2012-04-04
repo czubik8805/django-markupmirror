@@ -8,8 +8,7 @@ class ReStructuredTextMarkup(BaseMarkup):
 
     """
     def __init__(self):
-        self.filter_settings = settings.RESTRUCTUREDTEXT_FILTER_SETTINGS
-        from docutils.core import publish_parts
+        self.filter_settings = settings.RESTRUCTUREDTEXT_FILTER
         self.restructuredtext = publish_parts
 
     def __call__(self, markup):

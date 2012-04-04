@@ -1,12 +1,22 @@
 from django.test import TestCase
 
+from markupmirror.markup.base import BaseMarkup
+
 
 class MarkupBaseTests(TestCase):
     """Tests the ``markupmirror.markup.base`` module basics."""
 
-    def test_true(self):
-        """Test"""
-        self.assertTrue(True)
+    def test_name(self):
+        """Tests ``BaseMarkup.get_name``."""
+
+        self.assertEqual(BaseMarkup.get_name(), 'base')
+
+        class DummyMarkup(BaseMarkup):
+            pass
+
+        self.assertEqual(DummyMarkup.get_name(), 'dummy')
+
+        import ipdb; ipdb.set_trace()
 
 
 __all__ = ('MarkupBaseTests',)

@@ -9,16 +9,15 @@ class TextileMarkup(BaseMarkup):
     """
     def __init__(self):
         self.textile_settings = settings.TEXTILE_SETTINGS
-        from textile import textile
         self.textile = textile
 
     def __call__(self, markup):
-        return = self.textile(markup, **self.textile_settings)
+        return self.textile(markup, **self.textile_settings)
 
 
 # Only register if textile is installed
 try:
-    import textile
+    from textile import textile
     register_markup(TextileMarkup)
 except ImportError:
     pass
