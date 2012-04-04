@@ -12,4 +12,3 @@ class InvalidMarkup(Exception):
 
 class MarkupNotFound(Exception):
     """Raised when trying to look up a markup that was not registered."""
-
