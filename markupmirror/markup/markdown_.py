@@ -11,7 +11,7 @@ class MarkdownMarkup(BaseMarkup):
         self.extensions = settings.MARKDOWN_EXTENSIONS
         self.markdown = markdown
 
-    def __call__(self, markup):
+    def convert(self, markup):
         return self.markdown(markup, extensions=self.extensions)
 
 
