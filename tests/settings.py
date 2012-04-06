@@ -69,11 +69,16 @@ INSTALLED_APPS += (
     'django_coverage',
 )
 
+COVERAGE_ADDITIONAL_MODULES = [
+    'markupmirror',
+]
+
 COVERAGE_PATH_EXCLUDES = [
     r'.hg',
     r'bin',
     r'etc',
     r'fixtures',
+    r'media',
     r'static',
     r'templates',
 ]

@@ -58,7 +58,7 @@ class MarkupPool(object):
         self.markups[markup_name] = markup()
 
     def unregister_markup(self, markup_name):
-        if markup_class in self.markups:
+        if markup_name in self.markups:
             del self.markups[markup_name]
 
     def get_markup(self, name):
