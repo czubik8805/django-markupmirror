@@ -5,7 +5,7 @@ from markupmirror.markup.base import BaseMarkup
 from markupmirror.markup.base import register_markup
 
 
-class PlainMarkup(BaseMarkup):
+class PlainTextMarkup(BaseMarkup):
     """Markup transformer for plain-text content.
 
     This uses Django's ``urlize`` and ``linebreaks`` utitlies to convert URLs
@@ -17,7 +17,7 @@ class PlainMarkup(BaseMarkup):
         return urlize(linebreaks(markup))
 
 
-register_markup(PlainMarkup)
+register_markup(PlainTextMarkup)
 
 
-__all__ = ('PlainMarkup',)
+__all__ = ('PlainTextMarkup',)

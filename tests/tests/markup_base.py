@@ -16,7 +16,5 @@ class MarkupBaseTests(TestCase):
 
         self.assertEqual(DummyMarkup.get_name(), 'dummy')
 
-        import ipdb; ipdb.set_trace()
-
 
 __all__ = ('MarkupBaseTests',)
