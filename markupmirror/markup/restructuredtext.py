@@ -11,7 +11,7 @@ class ReStructuredTextMarkup(BaseMarkup):
         self.filter_settings = settings.RESTRUCTUREDTEXT_FILTER
         self.restructuredtext = publish_parts
 
-    def __call__(self, markup):
+    def convert(self, markup):
         parts = self.restructuredtext(
             source=markup,
             writer_name='html4css1',

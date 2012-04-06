@@ -13,7 +13,7 @@ class PlainTextMarkup(BaseMarkup):
     elements respectively.
 
     """
-    def __call__(self, markup):
+    def convert(self, markup):
         return urlize(linebreaks(markup))
 
 

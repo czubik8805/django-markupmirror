@@ -11,7 +11,7 @@ class TextileMarkup(BaseMarkup):
         self.textile_settings = settings.TEXTILE_SETTINGS
         self.textile = textile
 
-    def __call__(self, markup):
+    def convert(self, markup):
         return self.textile(markup, **self.textile_settings)
 
 

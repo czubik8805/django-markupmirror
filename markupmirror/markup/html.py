@@ -9,8 +9,7 @@ class HtmlMarkup(BaseMarkup):
     Use with care.
 
     """
-    def __call__(self, markup):
-        return markup
+    pass
 
 
 register_markup(HtmlMarkup)

@@ -2,7 +2,7 @@ from markupmirror.exceptions import *
 
 
 class BaseMarkup(object):
-    """Basic interface for markup transformer classes.
+    """Basic interface for markup converter classes.
 
     """
     @classmethod
@@ -10,13 +10,28 @@ class BaseMarkup(object):
         """Returns lowercase markup name, without the "Markup" part."""
         return cls.__name__.replace("Markup", "", 1).lower()
 
+    def before_convert(self, markup):
+        """Called before ``convert``."""
+        return markup
+
+    def after_convert(self, markup):
+        """``Called after ``convert``."""
+        return markup
+
+    def convert(self, markup):
+        """Main conversion method. Use third-pary libraries here."""
+        return markup
+
     def __call__(self, markup):
-        """Implement in subclasses."""
-        raise NotImplementedError()
+        """Main entry point. Calls ``before_convert``, ``convert`` and
+        ``after_convert`` in that order.
+
+        """
+        return self.after_convert(self.convert(self.before_convert(markup)))
 
 
 class MarkupPool(object):
-    """Pool for markup transforms.
+    """Pool for markup converters.
 
     Each markup class, subclassing
     ``markupmirror.markup.base.BaseMarkup``, must register to this
