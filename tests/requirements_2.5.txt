@@ -1,7 +1,7 @@
 coverage == 3.5.1
 django-coverage == 1.2.2
 docutils == 0.8.1
-Markdown == 2.1.1
+-e git+https://github.com/skurfer/Python-Markdown.git#egg=Markdown
 pep8 == 1.0
 Sphinx == 1.1.3
 textile == 2.1.5

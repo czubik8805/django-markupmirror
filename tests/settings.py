@@ -83,5 +83,12 @@ COVERAGE_PATH_EXCLUDES = [
     r'templates',
 ]
 
+COVERAGE_CODE_EXCLUDES = [
+    'def __unicode__\(self\):',
+    'def get_absolute_url\(self\):',
+    'from .* import .*', 'import .*',
+    'except ImportError:',
+]
+
 COVERAGE_REPORT_HTML_OUTPUT_DIR = tests_path_to(
     os.path.pardir, 'docs', '_coverage')

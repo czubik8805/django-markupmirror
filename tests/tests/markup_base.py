@@ -12,7 +12,7 @@ class DummyMarkup(BaseMarkup):
     pass
 
 
-class MarkupBaseTests(TestCase):
+class BaseMarkupTests(TestCase):
     """Tests the ``markupmirror.markup.base.BaseMarkup`` class that acts as
     a base class for markup converters.
 
@@ -113,4 +113,4 @@ class MarkupPoolTests(TestCase):
             ['html', 'markdown', 'plaintext', 'restructuredtext', 'textile'])
 
 
-__all__ = ('MarkupBaseTests', 'MarkupPoolTests')
+__all__ = ('BaseMarkupTests', 'MarkupPoolTests')
