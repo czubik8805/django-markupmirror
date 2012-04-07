@@ -5,40 +5,40 @@ from django.test import TestCase
 from markupmirror.markup.markdown_ import MarkdownMarkup
 
 
+MARKUP = u"""\
+A First Level Header
+====================
+
+A Second Level Header
+---------------------
+
+Now is the time for all good men to come to
+the aid of their country. This is just a
+regular paragraph.
+
+The quick brown fox jumped over the lazy
+dog's back.
+
+### Header 3
+
+> This is a blockquote.
+>
+> This is the second paragraph in the blockquote.
+>
+> ## This is an H2 in a blockquote
+"""
+
+
 class MarkdownMarkupTests(TestCase):
     """Tests the ``markupmirror.markup.markdown_.MarkdownMarkup`` class that
     converts Markdown content to HTML.
 
     """
-    def setUp(self):
-        self.markup = textwrap.dedent(u"""\
-            A First Level Header
-            ====================
-
-            A Second Level Header
-            ---------------------
-
-            Now is the time for all good men to come to
-            the aid of their country. This is just a
-            regular paragraph.
-
-            The quick brown fox jumped over the lazy
-            dog's back.
-
-            ### Header 3
-
-            > This is a blockquote.
-            >
-            > This is the second paragraph in the blockquote.
-            >
-            > ## This is an H2 in a blockquote
-            """)
-
     def test_convert(self):
         markdown_markup = MarkdownMarkup()
         # === becomes h2 because of headerid(level=2) extension
         self.assertHTMLEqual(
-            markdown_markup(self.markup),
+            markdown_markup(MARKUP),
             textwrap.dedent(u"""\
                 <h2 id="a-first-level-header">A First Level Header</h2>
                 <h3 id="a-second-level-header">A Second Level Header</h3>
