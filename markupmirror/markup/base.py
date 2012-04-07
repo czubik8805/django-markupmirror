@@ -1,5 +1,4 @@
 from django.utils.encoding import force_unicode
-from django.utils.safestring import mark_safe
 
 from markupmirror.exceptions import *
 
@@ -30,8 +29,8 @@ class BaseMarkup(object):
         ``after_convert`` in that order.
 
         """
-        return mark_safe(force_unicode(
-            self.after_convert(self.convert(self.before_convert(markup)))))
+        return force_unicode(
+            self.after_convert(self.convert(self.before_convert(markup))))
 
 
 class MarkupPool(object):
