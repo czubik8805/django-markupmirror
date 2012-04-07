@@ -16,7 +16,8 @@ TEMPLATE_DEBUG = DEBUG
 
 INSTALLED_APPS = (
     'markupmirror',
-    'tests',
+    'markupmirror.feincms',
+    'markupmirror.tests',
 )
 
 ROOT_URLCONF = 'tests.urls'
@@ -91,4 +92,4 @@ COVERAGE_CODE_EXCLUDES = [
 ]
 
 COVERAGE_REPORT_HTML_OUTPUT_DIR = tests_path_to(
-    os.path.pardir, 'docs', '_coverage')
+    os.path.pardir, os.path.pardir, 'docs', '_coverage')

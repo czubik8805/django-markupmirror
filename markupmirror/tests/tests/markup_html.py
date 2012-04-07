@@ -1,5 +1,3 @@
-import textwrap
-
 from django.test import TestCase
 
 from markupmirror.markup.html import HtmlMarkup
