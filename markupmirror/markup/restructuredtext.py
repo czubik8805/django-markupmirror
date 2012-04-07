@@ -9,6 +9,8 @@ class ReStructuredTextMarkup(BaseMarkup):
     """Markup transformer for reStructuredText content.
 
     """
+    codemirror_mode = 'text/x-rst'
+
     def __init__(self):
         self.filter_settings = settings.RESTRUCTUREDTEXT_FILTER
         self.restructuredtext = publish_parts

@@ -9,7 +9,7 @@ class HtmlMarkup(BaseMarkup):
     Use with care.
 
     """
-    pass
+    codemirror_mode = 'text/html'
 
 
 register_markup(HtmlMarkup)
