@@ -13,6 +13,8 @@ class PlainTextMarkup(BaseMarkup):
     elements respectively.
 
     """
+    codemirror_mode = ''
+
     def convert(self, markup):
         return urlize(linebreaks(markup))
 

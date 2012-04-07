@@ -9,6 +9,8 @@ class MarkdownMarkup(BaseMarkup):
     """Markup transformer for Markdown content.
 
     """
+    codemirror_mode = 'text/x-markdown'
+
     def __init__(self):
         self.extensions = settings.MARKDOWN_EXTENSIONS
         self.output_format = settings.MARKDOWN_OUTPUT_FORMAT

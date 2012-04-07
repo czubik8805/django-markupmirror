@@ -7,6 +7,8 @@ class TextileMarkup(BaseMarkup):
     """Markup transformer for Textile content.
 
     """
+    codemirror_mode = ''
+
     def __init__(self):
         self.textile_settings = settings.TEXTILE_SETTINGS
         self.textile = textile

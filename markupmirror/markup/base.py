@@ -7,6 +7,8 @@ class BaseMarkup(object):
     """Basic interface for markup converter classes.
 
     """
+    codemirror_mode = ''
+
     @classmethod
     def get_name(cls):
         """Returns lowercase markup name, without the "Markup" part."""
