@@ -1,3 +1,5 @@
+from django.utils.encoding import smart_str
+
 from markupmirror import settings
 from markupmirror.markup.base import BaseMarkup
 from markupmirror.markup.base import register_markup
@@ -13,10 +15,15 @@ class ReStructuredTextMarkup(BaseMarkup):
 
     def convert(self, markup):
         parts = self.restructuredtext(
-            source=markup,
+            source=smart_str(markup),
             writer_name='html4css1',
             settings_overrides=self.filter_settings)
-        return parts['fragment']
+        # Intentionally return ``html_body`` instead of ``fragment`` as
+        # Django's templatetag does. ``html_body`` also includes the document's
+        # title and subtitle, and if the first parts of ``markup`` are
+        # headlines (=== or ---), they would be stripped off the result
+        # otherwise.
+        return parts['html_body']
 
 
 # Only register if docutils is installed

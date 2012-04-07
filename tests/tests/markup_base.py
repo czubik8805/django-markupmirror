@@ -103,13 +103,10 @@ class MarkupPoolTests(TestCase):
         self.assertRaises(MarkupNotFound, markup_pool.get_markup, 'dummy')
 
     def test_get_all(self):
-        """``markup_pool.get_all_markups`` returns all markup converters
-        sorted by name.
-
-        """
+        """``markup_pool.get_all_markups`` returns all markup converters."""
         all_markups = markup_pool.get_all_markups()
         self.assertEqual(
-            sorted([markup.get_name() for markup in all_markups]),
+            sorted(all_markups.keys()),
             ['html', 'markdown', 'plaintext', 'restructuredtext', 'textile'])
 
 
