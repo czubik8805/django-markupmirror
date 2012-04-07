@@ -11,9 +11,6 @@ from markupmirror.markup.base import markup_pool
 _rendered_field_name = lambda name: '_%s_rendered' % name
 _markup_type_field_name = lambda name: '%s_markup_type' % name
 
-# get available markup types from markup_pool
-_MARKUP_TYPES = markup_pool.get_all_markups()
-
 
 class Markup(object):
     """Wrapper class for markup content output.
@@ -92,8 +89,7 @@ class MarkupMirrorField(models.TextField):
     """
     def __init__(self, verbose_name=None, name=None,
                  markup_type=None, default_markup_type=None,
-                 markup_choices=_MARKUP_TYPES, escape_html=False,
-                 **kwargs):
+                 escape_html=False, **kwargs):
 
         if markup_type and default_markup_type:
             raise ImproperlyConfigured(
@@ -104,6 +100,7 @@ class MarkupMirrorField(models.TextField):
         self.escape_html = escape_html
 
         # TODO: this was a list of tuples originally
+        markup_choices = markup_pool.get_all_markups()
         self.markup_choices_list = sorted(markup_choices.keys())
         self.markup_choices_dict = markup_choices
 
@@ -183,6 +180,9 @@ class MarkupMirrorField(models.TextField):
         defaults = {'widget': widgets.MarkupMirrorTextarea}
         defaults.update(kwargs)
         return super(MarkupMirrorField, self).formfield(**defaults)
+
+
+__all__ = ('Markup', 'MarkupMirrorFieldDescriptor', 'MarkupMirrorField')
 
 
 # register MarkupMirrorField to use the custom widget in the Admin

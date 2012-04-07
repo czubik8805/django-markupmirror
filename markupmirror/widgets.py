@@ -13,3 +13,6 @@ class MarkupMirrorTextarea(forms.Textarea):
 class AdminMarkupMirrorTextareaWidget(
     MarkupMirrorTextarea, AdminTextareaWidget):
     pass
+
+
+__all__ = ('MarkupMirrorTextarea', 'AdminMarkupMirrorTextareaWidget')
