@@ -25,6 +25,7 @@ class MarkupMirrorContentAdminForm(ItemEditorForm):
         markup = markup_pool.get_markup(markup_type)
         self.fields['content'].widget.attrs.update({
             'class': 'item-markupmirror',
+            'data-markuptype': markup_type,
             'data-mode': markup.codemirror_mode,
         })
 

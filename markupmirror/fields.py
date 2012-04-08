@@ -8,7 +8,7 @@ from markupmirror.markup.base import markup_pool
 
 
 # suffixes for rendered and markup_type fields
-_rendered_field_name = lambda name: '_%s_rendered' % name
+_rendered_field_name = lambda name: '%s_rendered' % name
 _markup_type_field_name = lambda name: '%s_markup_type' % name
 
 
@@ -90,7 +90,6 @@ class MarkupMirrorField(models.TextField):
     def __init__(self, verbose_name=None, name=None,
                  markup_type=None, default_markup_type=None,
                  escape_html=False, **kwargs):
-
         if markup_type and default_markup_type:
             raise ImproperlyConfigured(
                 "Cannot specify both markup_type and default_markup_type")
@@ -107,9 +106,10 @@ class MarkupMirrorField(models.TextField):
         if (self.default_markup_type and
             self.default_markup_type not in self.markup_choices_list):
             raise ImproperlyConfigured(
-                "Invalid default_markup_type for field '%s', "
+                "Invalid default_markup_type for field '%r', "
                 "available types: %s" % (
-                    name, ', '.join(self.markup_choices_list)))
+                    name or verbose_name,
+                    ', '.join(self.markup_choices_list)))
 
         # for South FakeORM compatibility: the frozen version of a
         # MarkupMirrorField can't try to add a _rendered field, because the
@@ -134,7 +134,8 @@ class MarkupMirrorField(models.TextField):
             markup_type_field.creation_counter = self.creation_counter + 1
 
             # rendered
-            rendered_field = models.TextField(editable=False)
+            rendered_field = models.TextField(
+                editable=False, blank=True, null=True)
             rendered_field.creation_counter = self.creation_counter + 2
 
             # add fields to class

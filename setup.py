@@ -4,7 +4,6 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-PROJECT_NAME = "markupmirror"
 AUTHORS = (
     ("Fabian B\xc3\xbcchler", "fabian.buechler@gmail.com"),
 )
@@ -20,8 +19,8 @@ def read(*parts):
 
 
 setup(
-    name=PROJECT_NAME,
-    version=__import__(PROJECT_NAME).get_version(),
+    name='django-markupmirror',
+    version=__import__('markupmirror').get_version(),
     author=", ".join([a[0] for a in AUTHORS]),
     author_email=", ".join([a[1] for a in AUTHORS]),
     description="Django field and widget for editing markup content.",
