@@ -1,7 +1,5 @@
 from django.conf import settings
 
-from markupmirror.markup import *
-
 
 # CodeMirror settings
 
@@ -41,13 +39,13 @@ TEXTILE_SETTINGS = getattr(settings,
 # Settings for MarkupMirrorContent for FeinCMS
 
 # Init template for CodeMirror in FeinCMS
-FEINCMS_MARKUPMIRRORCONTENT_INIT_TEMPLATE = getattr(settings,
-    'MARKUPMIRROR_FEINCMS_MARKUPMIRRORCONTENT_INIT_TEMPLATE',
+FEINCMS_INIT_TEMPLATE = getattr(settings,
+    'MARKUPMIRROR_FEINCMS_INIT_TEMPLATE',
     'templates/admin/markupmirror/feincms/init_codemirror.html')
 
 # Context for init template
-FEINCMS_MARKUPMIRRORCONTENT_INIT_CONTEXT = getattr(settings,
-    'MARKUPMIRROR_FEINCMS_MARKUPMIRRORCONTENT_INIT_CONTEXT', {
+FEINCMS_INIT_CONTEXT = getattr(settings,
+    'MARKUPMIRROR_FEINCMS_INIT_CONTEXT', {
         'CODEMIRROR_JS': CODEMIRROR_JS,
         'CODEMIRROR_CSS': CODEMIRROR_CSS,
         'CODEMIRROR_PATH': CODEMIRROR_PATH,
@@ -55,5 +53,5 @@ FEINCMS_MARKUPMIRRORCONTENT_INIT_CONTEXT = getattr(settings,
         'CODEMIRROR_HEIGHT': '300px',
     })
 
-FEINCMS_MARKUPMIRRORCONTENT_MARKUP_TYPE = getattr(settings,
-    'MARKUPMIRROR_FEINCMS_MARKUPMIRRORCONTENT_MARKUP_TYPE', None)
+FEINCMS_MARKUP_TYPE = getattr(settings,
+    'MARKUPMIRROR_FEINCMS_MARKUP_TYPE', 'plaintext')
