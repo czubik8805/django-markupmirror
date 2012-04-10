@@ -1,18 +1,5 @@
 {% load url from future %}
 
-{% block 'codemirror_js' %}
-    {% if CODEMIRROR_JS %}
-        {% for js_url in CODEMIRROR_JS %}
-            <script type="text/javascript" src="{{ js_url }}"></script>
-        {% endfor %}
-    {% endif %}
-    {% if CODEMIRROR_CSS %}
-        {% for css_url in CODEMIRROR_CSS %}
-            <link rel="stylesheet" type="text/css" href="{{ css_url }}">
-        {% endfor %}
-    {% endif %}
-{% endblock %}
-
 {% block 'codemirror_init' %}
     <script type="text/javascript">
     {% block 'functions' %}{% endblock %}

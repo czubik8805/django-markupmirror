@@ -3,15 +3,13 @@ from django.conf import settings
 
 # CodeMirror settings
 
-# Separate modules of CodeMirror
-CODEMIRROR_PATH = settings.STATIC_URL + 'markupmirror/codemirror/'
 # Minified JS and CSS files
-CODEMIRROR_JS = (
-    CODEMIRROR_PATH + 'codemirror.min.js',
+MARKUPMIRROR_JS = (
+    'markupmirror/codemirror/codemirror.min.js',
 )
-CODEMIRROR_CSS = (
-    CODEMIRROR_PATH + 'codemirror.min.css',
-    settings.STATIC_URL + 'markupmirror/css/markupmirror.css',
+MARKUPMIRROR_CSS = (
+    'markupmirror/codemirror/codemirror.min.css',
+    'markupmirror/css/markupmirror.css',
 )
 
 
@@ -46,9 +44,9 @@ FEINCMS_INIT_TEMPLATE = getattr(settings,
 # Context for init template
 FEINCMS_INIT_CONTEXT = getattr(settings,
     'MARKUPMIRROR_FEINCMS_INIT_CONTEXT', {
-        'CODEMIRROR_JS': CODEMIRROR_JS,
-        'CODEMIRROR_CSS': CODEMIRROR_CSS,
-        'CODEMIRROR_PATH': CODEMIRROR_PATH,
+    #     'CODEMIRROR_JS': CODEMIRROR_JS,
+    #     'CODEMIRROR_CSS': CODEMIRROR_CSS,
+        'CODEMIRROR_PATH': settings.STATIC_URL + 'markupmirror/codemirror/',
         'CODEMIRROR_WIDTH': '50%',
         'CODEMIRROR_HEIGHT': '300px',
     })
