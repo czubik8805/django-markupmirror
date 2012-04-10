@@ -5,7 +5,7 @@ docutils == 0.8.1
 ipython == 0.12
 ipdb == 0.6.1
 FeinCMS == 1.5.3
--e git+https://github.com/skurfer/Python-Markdown.git#egg=Markdown
+Markdown == 2.1.1
 pep8 == 1.0
 Sphinx == 1.1.3
 textile == 2.1.5
