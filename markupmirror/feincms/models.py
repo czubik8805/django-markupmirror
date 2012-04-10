@@ -2,9 +2,7 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
-
 from markupmirror import settings
-from markupmirror.feincms.admin import MarkupMirrorContentAdminForm
 from markupmirror.fields import MarkupMirrorField
 
 
@@ -15,8 +13,6 @@ class MarkupMirrorContent(models.Model):
     # TODO: find a way to include a button like richtext content
     # __name__ = 'richtextcontent'
 
-    form = MarkupMirrorContentAdminForm
-    feincms_item_editor_form = MarkupMirrorContentAdminForm
     feincms_item_editor_context_processors = (
         lambda x: settings.FEINCMS_INIT_CONTEXT,
     )
