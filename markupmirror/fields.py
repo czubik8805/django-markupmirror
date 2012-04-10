@@ -182,6 +182,33 @@ class MarkupMirrorField(models.TextField):
         defaults.update(kwargs)
         return super(MarkupMirrorField, self).formfield(**defaults)
 
+    # TODO: this does not work for model fields, only for form fields.
+    #
+    # def widget_attrs(self, widget):
+    #     """Adds attributes necessary for CodeMirror initialization to the
+    #     field's widget.
+
+    #     The class "item-markupmirror" is used to identify textareas that should
+    #     be enhanced with the editor.
+
+    #     The ``data-mode`` and ``data-markuptype`` attributes depend on a
+    #     selected ``default_markup_type``. If a field does not have a default
+    #     markup type selected, the attributes will be added in the widgets'
+    #     ``render`` method by accessing the ``markup_type`` property of the
+    #     markup content wrapper ``markupmirror.fields.Markup``.
+
+    #     """
+    #     attrs = super(MarkupMirrorField, self).widget_attrs(widget)
+    #     attrs = {
+    #         'class': 'item-markupmirror',
+    #     }
+    #     if (self.default_markup_type and
+    #         self.default_markup_type in self.markup_choices_dict):
+    #         attrs['data-mode'] = self.markup_choices_dict[
+    #             self.default_markup_type].codemirror_mode
+    #         attrs['data-markuptype'] = self.default_markup_type
+    #     return attrs
+
 
 __all__ = ('Markup', 'MarkupMirrorFieldDescriptor', 'MarkupMirrorField')
 
