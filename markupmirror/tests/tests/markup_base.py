@@ -106,8 +106,8 @@ class MarkupPoolTests(TestCase):
         """``markup_pool.get_all_markups`` returns all markup converters."""
         all_markups = markup_pool.get_all_markups()
         self.assertEqual(
-            sorted(all_markups.keys()),
-            ['html', 'markdown', 'plaintext', 'restructuredtext', 'textile'])
+            ['html', 'markdown', 'plaintext', 'restructuredtext', 'textile'],
+            sorted(all_markups.keys()))
 
 
 __all__ = ('BaseMarkupTests', 'MarkupPoolTests')
