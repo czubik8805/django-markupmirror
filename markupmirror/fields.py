@@ -61,7 +61,7 @@ class MarkupMirrorFieldDescriptor(object):
 
     def __get__(self, instance, owner):
         if instance is None:
-            raise AttributeError("Requires MarkupMirrorField instance")
+            raise AttributeError("Can only be accessed via an instance.")
         markup = instance.__dict__[self.field.name]
         if markup is None:
             return None

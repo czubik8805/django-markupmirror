@@ -41,7 +41,7 @@ TEXTILE_SETTINGS = getattr(settings,
 # Init template for CodeMirror in FeinCMS
 FEINCMS_INIT_TEMPLATE = getattr(settings,
     'MARKUPMIRROR_FEINCMS_INIT_TEMPLATE',
-    'templates/admin/markupmirror/feincms/init_codemirror.html')
+    'admin/markupmirror/feincms/init_codemirror.html')
 
 # Context for init template
 FEINCMS_INIT_CONTEXT = getattr(settings,

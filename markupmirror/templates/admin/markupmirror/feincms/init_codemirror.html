@@ -42,7 +42,7 @@
                             $codemirror = $textarea.next('.CodeMirror'),
                             $iframe = $codemirror.children('iframe');
 
-                        var url = '{% url 'markdown:preview' markup_type='plain' %}';
+                        var url = '{% url 'markupmirror:preview' markup_type='plain' %}';
                         url = url.replace(
                             'plain', $textarea.attr('data-markuptype'));
 
@@ -90,7 +90,7 @@
                         .append('<iframe>')
                         .children(':last')
                         .addClass('CodeMirror-preview')
-                        .attr('src', '{% url "markdown:base" %}');
+                        .attr('src', '{% url "markupmirror:base" %}');
 
                     $codemirror
                         .children('iframe')
@@ -141,7 +141,7 @@
             }
 
             var markdown_init_fn = function(){
-                $('{% block selectors %}.order-machine textarea[class=item-markdown], #frontend_editor textarea[class=item-markdown]{% endblock %}').each(function(){
+                $('{% block selectors %}.order-machine textarea[class=item-markupmirror], #frontend_editor textarea[class=item-markupmirror]{% endblock %}').each(function(){
                     feincms_markdown_add_codemirror(this);
                 });
             }
@@ -149,11 +149,11 @@
             {% block enable %}
                 contentblock_init_handlers.push(markdown_init_fn);
                 contentblock_move_handlers.poorify.push(function(item) {
-                    item.find('textarea[class=item-markdown]').each(
+                    item.find('textarea[class=item-markupmirror]').each(
                         feincms_markdown_remove_codemirror);
                 });
                 contentblock_move_handlers.richify.push(function(item) {
-                    item.find('textarea[class=item-markdown]').each(
+                    item.find('textarea[class=item-markupmirror]').each(
                         feincms_markdown_add_codemirror);
                 });
 
