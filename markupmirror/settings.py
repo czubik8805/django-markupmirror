@@ -12,11 +12,13 @@ DEFAULT_MARKUP_TYPE = getattr(settings,
 
 # Minified JS and CSS files
 MARKUPMIRROR_JS = (
-    'markupmirror/codemirror/codemirror.min.js',
+    'markupmirror/jquery-1.7.2.min.js',
+    'markupmirror/codemirror.min.js',
+    'markupmirror/markupmirror.js',
 )
 MARKUPMIRROR_CSS = (
-    'markupmirror/codemirror/codemirror.min.css',
-    'markupmirror/css/markupmirror.css',
+    'markupmirror/codemirror.min.css',
+    'markupmirror/markupmirror.css',
 )
 
 
@@ -53,7 +55,7 @@ FEINCMS_INIT_CONTEXT = getattr(settings,
     'MARKUPMIRROR_FEINCMS_INIT_CONTEXT', {
     #     'CODEMIRROR_JS': CODEMIRROR_JS,
     #     'CODEMIRROR_CSS': CODEMIRROR_CSS,
-        'CODEMIRROR_PATH': settings.STATIC_URL + 'markupmirror/codemirror/',
+        'CODEMIRROR_PATH': settings.STATIC_URL + 'markupmirror/',
         'CODEMIRROR_WIDTH': '50%',
         'CODEMIRROR_HEIGHT': '300px',
     })
