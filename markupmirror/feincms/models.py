@@ -22,7 +22,7 @@ class MarkupMirrorContent(models.Model):
 
     content = MarkupMirrorField(
         verbose_name=_(u"Markup content"),
-        markup_type=settings.FEINCMS_MARKUP_TYPE,
+        markup_type=settings.DEFAULT_MARKUP_TYPE,
         blank=True)
 
     class Meta:

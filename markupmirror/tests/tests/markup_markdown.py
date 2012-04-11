@@ -65,7 +65,7 @@ class MarkdownMarkupTests(TestCase):
     #     """
     #     # first, remove already registered markdown converter
     #     markup_pool.unregister_markup('markdown')
-    #     self.assertRaises(MarkupNotFound, markup_pool.get_markup, 'markdown')
+    #     self.assertRaises(KeyError, markup_pool.get_markup, 'markdown')
 
     #     # trying to import markdown fails
     #     with self.assertRaises(ImportError):
@@ -76,7 +76,7 @@ class MarkdownMarkupTests(TestCase):
     #     from markupmirror.markup import markdown_
 
     #     # markdown should not be found
-    #     self.assertRaises(MarkupNotFound, markup_pool.get_markup, 'markdown')
+    #     self.assertRaises(KeyError, markup_pool.get_markup, 'markdown')
 
     #     # re-register markdown to restore default state
     #     register_markup(MarkdownMarkup)

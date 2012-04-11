@@ -1,6 +1,13 @@
 from django.conf import settings
 
 
+# Default markup type
+# Used for fields which have no markup_type or default_markup_type assigned
+# before a markup_type has been selected by the user (selectbox).
+DEFAULT_MARKUP_TYPE = getattr(settings,
+    'MARKUPMIRROR_DEFAULT_MARKUP_TYPE', 'plaintext')
+
+
 # CodeMirror settings
 
 # Minified JS and CSS files
@@ -50,6 +57,3 @@ FEINCMS_INIT_CONTEXT = getattr(settings,
         'CODEMIRROR_WIDTH': '50%',
         'CODEMIRROR_HEIGHT': '300px',
     })
-
-FEINCMS_MARKUP_TYPE = getattr(settings,
-    'MARKUPMIRROR_FEINCMS_MARKUP_TYPE', 'plaintext')
