@@ -1,4 +1,5 @@
 from django.utils.encoding import smart_str
+from django.utils.translation import ugettext_lazy as _
 
 from markupmirror import settings
 from markupmirror.markup.base import BaseMarkup
@@ -10,6 +11,7 @@ class ReStructuredTextMarkup(BaseMarkup):
 
     """
     codemirror_mode = 'text/x-rst'
+    title = _(u"reStructuredText")
 
     def __init__(self):
         self.filter_settings = settings.RESTRUCTUREDTEXT_FILTER

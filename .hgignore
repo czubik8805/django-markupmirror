@@ -2,7 +2,6 @@ syntax: glob
 
 dist
 build
-*.mo
 *.pyc
 *.pyo
 *.tmp*

@@ -1,5 +1,7 @@
 import logging
 
+from django.utils.translation import ugettext_lazy as _
+
 from markupmirror import settings
 from markupmirror.markup.base import BaseMarkup
 from markupmirror.markup.base import register_markup
@@ -10,6 +12,7 @@ class MarkdownMarkup(BaseMarkup):
 
     """
     codemirror_mode = 'text/x-markdown'
+    title = _(u"Markdown")
 
     def __init__(self):
         self.extensions = settings.MARKDOWN_EXTENSIONS
