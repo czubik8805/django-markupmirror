@@ -7,10 +7,52 @@ from markupmirror.markup.base import markup_pool
 
 class MarkupMirrorTextarea(forms.Textarea):
 
+    css_class = 'item-markupmirror'
+
+    def __init__(self, attrs=None):
+        """Adds the ``item-markupmirror`` class to the textarea to make sure
+        it can be identified through JS.
+
+        """
+        css_class = self.css_class
+        if attrs and 'class' in attrs:
+            css_class += ' %s' % attrs.pop('class')
+
+        default_attrs = {
+            'class': css_class,
+        }
+
+        if attrs:
+            default_attrs.update(attrs)
+        super(MarkupMirrorTextarea, self).__init__(attrs=default_attrs)
+
     def render(self, name, value, attrs=None):
+        default_attrs = {}
         if value is not None and not isinstance(value, unicode):
+            # get markup converter by type.
+            # ``value`` is ``markupmirror.fields.Markup``.
+            markup_type = value.markup_type
+            markup = markup_pool.get_markup(markup_type)
+
+            default_attrs = {
+                'data-mode': markup.codemirror_mode,
+                'data-markuptype': markup_type,
+            }
+
+            # get real value
             value = value.raw
-        return super(MarkupMirrorTextarea, self).render(name, value, attrs)
+        else:
+            default = settings.DEFAULT_MARKUP_TYPE
+            default_attrs = {
+                'data-mode': markup_pool[default].codemirror_mode,
+                'data-markuptype': default,
+            }
+
+        if attrs:
+            default_attrs.update(attrs)
+
+        return super(MarkupMirrorTextarea, self).render(name, value,
+                                                        default_attrs)
 
     class Media:
         css = {
@@ -22,25 +64,7 @@ class MarkupMirrorTextarea(forms.Textarea):
 class AdminMarkupMirrorTextareaWidget(
     MarkupMirrorTextarea, AdminTextareaWidget):
 
-    def render(self, name, value, attrs=None):
-        """Adds attributes necessary to load CodeMirror for each textarea
-        in the admin.
-
-        """
-        if value and hasattr(value, 'markup_type'):
-            # get markup converter by type.
-            # ``value`` is ``markupmirror.fields.Markup``.
-            markup_type = value.markup_type
-            markup = markup_pool.get_markup(markup_type)
-
-            default_attrs = {
-                'data-mode': markup.codemirror_mode,
-                'data-markuptype': markup_type,
-            }
-            default_attrs.update(attrs)
-
-        return super(AdminMarkupMirrorTextareaWidget, self).render(
-            name, value, attrs)
+    css_class = 'vLargeTextField item-markupmirror'
 
 
 __all__ = ('MarkupMirrorTextarea', 'AdminMarkupMirrorTextareaWidget')

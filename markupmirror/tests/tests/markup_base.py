@@ -1,8 +1,6 @@
 from django.test import TestCase
 
 from markupmirror.exceptions import InvalidMarkup
-from markupmirror.exceptions import MarkupAlreadyRegistered
-from markupmirror.exceptions import MarkupNotFound
 from markupmirror.markup.base import BaseMarkup
 from markupmirror.markup.base import markup_pool
 from markupmirror.markup.base import register_markup
@@ -73,38 +71,37 @@ class MarkupPoolTests(TestCase):
         self.assertRaises(InvalidMarkup, register_markup, InvalidMarkupClass)
 
     def test_re_register(self):
-        """Registering a markup converter twice raises a
-        ``MarkupAlreadyRegistered`` exception.
+        """Registering a markup converter would overwrite it.
 
         """
         register_markup(DummyMarkup)
-        self.assertRaises(MarkupAlreadyRegistered,
-                          register_markup, DummyMarkup)
+        dummy_markup = markup_pool['dummy']
+        register_markup(DummyMarkup)
+        self.assertTrue(isinstance(markup_pool['dummy'], DummyMarkup))
+        self.assertFalse(dummy_markup is markup_pool['dummy'])
 
     def test_register(self):
         """Registering a markup converter makes it available through its name.
 
         """
-        # before the markup is registered, we'll get ``MarkupNotFound`` if
+        # before the markup is registered, we'll get ``KeyError`` if
         # we try to retrieve it.
-        self.assertRaises(MarkupNotFound, markup_pool.get_markup, 'dummy')
+        self.assertRaises(KeyError, markup_pool.get_markup, 'dummy')
 
         # it is available after registering it
         register_markup(DummyMarkup)
-        self.assertTrue(
-            isinstance(markup_pool.get_markup('dummy'), DummyMarkup))
+        self.assertTrue(isinstance(markup_pool['dummy'], DummyMarkup))
 
     def test_unregister(self):
         """Unregistering a markup converter removes it from the pool."""
         register_markup(DummyMarkup)
-        self.assertTrue(
-            isinstance(markup_pool.get_markup('dummy'), DummyMarkup))
-        markup_pool.unregister_markup('dummy')
-        self.assertRaises(MarkupNotFound, markup_pool.get_markup, 'dummy')
+        self.assertTrue(isinstance(markup_pool['dummy'], DummyMarkup))
+        del markup_pool['dummy']
+        self.assertRaises(KeyError, markup_pool.get_markup, 'dummy')
 
     def test_get_all(self):
         """``markup_pool.get_all_markups`` returns all markup converters."""
-        all_markups = markup_pool.get_all_markups()
+        all_markups = markup_pool.markups
         self.assertEqual(
             ['html', 'markdown', 'plaintext', 'restructuredtext', 'textile'],
             sorted(all_markups.keys()))

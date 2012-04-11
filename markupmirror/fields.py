@@ -98,18 +98,13 @@ class MarkupMirrorField(models.TextField):
         self.markup_type_editable = markup_type is None
         self.escape_html = escape_html
 
-        # TODO: this was a list of tuples originally
-        markup_choices = markup_pool.get_all_markups()
-        self.markup_choices_list = sorted(markup_choices.keys())
-        self.markup_choices_dict = markup_choices
-
         if (self.default_markup_type and
-            self.default_markup_type not in self.markup_choices_list):
+            self.default_markup_type not in markup_pool):
             raise ImproperlyConfigured(
                 "Invalid default_markup_type for field '%r', "
                 "available types: %s" % (
                     name or verbose_name,
-                    ', '.join(self.markup_choices_list)))
+                    ', '.join(sorted(markup_pool.markups.keys()))))
 
         # for South FakeORM compatibility: the frozen version of a
         # MarkupMirrorField can't try to add a _rendered field, because the
@@ -126,7 +121,9 @@ class MarkupMirrorField(models.TextField):
         """
         if not cls._meta.abstract:
             # markup_type
-            choices = zip(self.markup_choices_list, self.markup_choices_list)
+            choices = [(markup_type, markup.title) for markup_type, markup in
+                sorted(markup_pool.markups.iteritems(),
+                    key=lambda markup: markup[1].title.lower())]
             markup_type_field = models.CharField(
                 choices=choices, max_length=30,
                 default=self.default_markup_type, blank=self.blank,
@@ -151,11 +148,11 @@ class MarkupMirrorField(models.TextField):
         value = super(MarkupMirrorField, self).pre_save(model_instance, add)
 
         # check for valid markup type
-        if value.markup_type not in self.markup_choices_list:
+        if value.markup_type not in markup_pool:
             raise ValueError(
                 'Invalid markup type (%s), available types: %s' % (
                     value.markup_type,
-                    ', '.join(self.markup_choices_list)))
+                    ', '.join(sorted(markup_pool.markups.keys()))))
 
         # escape HTML
         if self.escape_html:
@@ -163,7 +160,7 @@ class MarkupMirrorField(models.TextField):
         else:
             raw = value.raw
 
-        rendered = self.markup_choices_dict[value.markup_type](raw)
+        rendered = markup_pool[value.markup_type](raw)
         setattr(model_instance, _rendered_field_name(self.attname), rendered)
         return value.raw
 
@@ -178,36 +175,34 @@ class MarkupMirrorField(models.TextField):
         return value.raw
 
     def formfield(self, **kwargs):
-        defaults = {'widget': widgets.MarkupMirrorTextarea}
+        """Adds attributes necessary for CodeMirror initialization to the
+        field's widget.
+
+        The class "item-markupmirror" is used to identify textareas that should
+        be enhanced with the editor.
+
+        The ``data-mode`` and ``data-markuptype`` attributes depend on a
+        selected ``default_markup_type``. If a field does not have a default
+        markup type selected, the attributes will be added in the widgets'
+        ``render`` method by accessing the ``markup_type`` property of the
+        markup content wrapper ``markupmirror.fields.Markup``.
+
+        """
+        widget_attrs = {
+            'class': 'item-markupmirror',
+        }
+        if (self.default_markup_type and
+            self.default_markup_type in markup_pool):
+            widget_attrs['data-mode'] = markup_pool[
+                self.default_markup_type].codemirror_mode
+            widget_attrs['data-markuptype'] = self.default_markup_type
+
+        defaults = {
+            'widget': widgets.MarkupMirrorTextarea(attrs=widget_attrs),
+        }
+
         defaults.update(kwargs)
         return super(MarkupMirrorField, self).formfield(**defaults)
-
-    # TODO: this does not work for model fields, only for form fields.
-    #
-    # def widget_attrs(self, widget):
-    #     """Adds attributes necessary for CodeMirror initialization to the
-    #     field's widget.
-
-    #     The class "item-markupmirror" is used to identify textareas that should
-    #     be enhanced with the editor.
-
-    #     The ``data-mode`` and ``data-markuptype`` attributes depend on a
-    #     selected ``default_markup_type``. If a field does not have a default
-    #     markup type selected, the attributes will be added in the widgets'
-    #     ``render`` method by accessing the ``markup_type`` property of the
-    #     markup content wrapper ``markupmirror.fields.Markup``.
-
-    #     """
-    #     attrs = super(MarkupMirrorField, self).widget_attrs(widget)
-    #     attrs = {
-    #         'class': 'item-markupmirror',
-    #     }
-    #     if (self.default_markup_type and
-    #         self.default_markup_type in self.markup_choices_dict):
-    #         attrs['data-mode'] = self.markup_choices_dict[
-    #             self.default_markup_type].codemirror_mode
-    #         attrs['data-markuptype'] = self.default_markup_type
-    #     return attrs
 
 
 __all__ = ('Markup', 'MarkupMirrorFieldDescriptor', 'MarkupMirrorField')
