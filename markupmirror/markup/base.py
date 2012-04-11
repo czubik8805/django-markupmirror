@@ -8,6 +8,7 @@ class BaseMarkup(object):
 
     """
     codemirror_mode = ''
+    title = ""
 
     @classmethod
     def get_name(cls):
@@ -59,13 +60,8 @@ class MarkupPool(object):
                 "Markups must be subclasses of "
                 "markupmirror.markup.base.BaseMarkup. %r is not."
                 % markup)
-        # check if markup was already registered
-        markup_name = markup.get_name()
-        if markup_name in self.markups:
-            raise MarkupAlreadyRegistered(
-                "Cannot register %r. A markup with this name (%r) is "
-                "already registered." % (markup, markup_name))
 
+        markup_name = markup.get_name()
         self.markups[markup_name] = markup()
 
     def unregister_markup(self, markup_name):
@@ -75,18 +71,24 @@ class MarkupPool(object):
         if markup_name in self.markups:
             del self.markups[markup_name]
 
+    def has_markup(self, name):
+        return name in self.markups
+
     def get_markup(self, name):
         """Returns one markup converter by name.
-        Raises ``MarkupNotFound`` if no converter was registered by ``name``.
+        Raises ``KeyError`` if no converter was registered by ``name``.
 
         """
-        if name in self.markups:
-            return self.markups[name]
-        raise MarkupNotFound("Unknown markup %r." % name)
+        return self.markups[name]
 
-    def get_all_markups(self):
-        """Returns a dictionary of all registered markup converters."""
-        return self.markups.copy()
+    def __contains__(self, key):
+        return self.has_markup(key)
+
+    def __getitem__(self, key):
+        return self.get_markup(key)
+
+    def __delitem__(self, key):
+        self.unregister_markup(key)
 
 
 markup_pool = MarkupPool()

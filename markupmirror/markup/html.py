@@ -1,3 +1,5 @@
+from django.utils.translation import ugettext_lazy as _
+
 from markupmirror.markup.base import BaseMarkup
 from markupmirror.markup.base import register_markup
 
@@ -10,6 +12,7 @@ class HtmlMarkup(BaseMarkup):
 
     """
     codemirror_mode = 'text/html'
+    title = _(u"HTML")
 
 
 register_markup(HtmlMarkup)
