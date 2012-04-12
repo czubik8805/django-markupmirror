@@ -6,7 +6,7 @@ from markupmirror.fields import MarkupMirrorFieldDescriptor
 from markupmirror.widgets import MarkupMirrorTextarea
 from markupmirror.widgets import AdminMarkupMirrorTextareaWidget
 
-from markupmirror.tests.models import Post, Article, Abstract, Concrete
+from tests.models import Post, Article, Abstract, Concrete
 
 
 class MarkupMirrorFieldTests(TestCase):
@@ -18,6 +18,7 @@ class MarkupMirrorFieldTests(TestCase):
                        body_markup_type='markdown')
 
     def test_verbose_name(self):
+        """Tests that the standard field property ``verbose_name`` works."""
         self.assertEqual(self.mp._meta.get_field('body').verbose_name,
                          'post body')
 

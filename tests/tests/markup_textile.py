@@ -4,6 +4,7 @@ from django.test import TestCase
 
 from markupmirror.markup.textile_ import TextileMarkup
 
+
 MARKUP = u"""\
 h1. A First Level Header
 
@@ -27,6 +28,10 @@ class TextileMarkupTests(TestCase):
 
     """
     def test_convert(self):
+        """The ``TextileMarkup`` converter uses textile to convert Textile
+        markup to HTML.
+
+        """
         textile_markup = TextileMarkup()
         self.assertHTMLEqual(
             textile_markup(MARKUP),

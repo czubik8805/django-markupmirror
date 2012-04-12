@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from markupmirror.markup.html import HtmlMarkup
 
+
 MARKUP = u"""\
 <h1>A First Level Header</h1>
 
@@ -27,6 +28,7 @@ class HTMLMarkupTests(TestCase):
 
     """
     def test_convert(self):
+        """The ``HtmlMarkup`` converter does not do anything."""
         html_markup = HtmlMarkup()
         self.assertHTMLEqual(html_markup(MARKUP), MARKUP)
 

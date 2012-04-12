@@ -4,6 +4,7 @@ from django.test import TestCase
 
 from markupmirror.markup.restructuredtext import ReStructuredTextMarkup
 
+
 MARKUP = u"""\
 A First Level Header
 ====================
@@ -34,6 +35,10 @@ class ReStructuredTextMarkupTests(TestCase):
 
     """
     def test_convert(self):
+        """The ``ReStructuredTextMarkup`` converter uses docutils to convert
+        reStructuredText markup to HTML.
+
+        """
         restructuredtext_markup = ReStructuredTextMarkup()
         self.assertHTMLEqual(
             restructuredtext_markup(MARKUP),
