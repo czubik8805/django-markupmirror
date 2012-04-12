@@ -15,9 +15,10 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 INSTALLED_APPS = (
+    'django_nose',
     'markupmirror',
     'markupmirror.feincms',
-    'markupmirror.tests',
+    'tests',
 )
 
 ROOT_URLCONF = 'tests.urls'
@@ -64,32 +65,15 @@ LOGGING = {
 }
 
 
-# ### coverage / django-coverage
+# ### django-nose
 
-INSTALLED_APPS += (
-    'django_coverage',
-)
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
-COVERAGE_ADDITIONAL_MODULES = [
-    'markupmirror',
+NOSE_ARGS = [
+    '--detailed-errors',
+    '--verbose',
+    '--with-coverage',
+    '--cover-html',
+    '--cover-html-dir=' + tests_path_to(os.path.pardir, 'docs', '_coverage'),
+    '--cover-package=markupmirror',
 ]
-
-COVERAGE_PATH_EXCLUDES = [
-    r'.hg',
-    r'bin',
-    r'etc',
-    r'fixtures',
-    r'media',
-    r'static',
-    r'templates',
-]
-
-COVERAGE_CODE_EXCLUDES = [
-    'def __unicode__\(self\):',
-    'def get_absolute_url\(self\):',
-    'from .* import .*', 'import .*',
-    'except ImportError:',
-]
-
-COVERAGE_REPORT_HTML_OUTPUT_DIR = tests_path_to(
-    os.path.pardir, os.path.pardir, 'docs', '_coverage')

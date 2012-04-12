@@ -1,5 +1,5 @@
 coverage == 3.5.1
-django-coverage == 1.2.2
+django-nose == 1.0
 docutils == 0.8.1
 ipython == 0.12
 ipdb == 0.6.1

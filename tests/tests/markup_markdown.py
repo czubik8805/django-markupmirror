@@ -35,6 +35,10 @@ class MarkdownMarkupTests(TestCase):
 
     """
     def test_convert(self):
+        """The ``MarkdownMarkup`` converter uses python-markdown to convert
+        markdown to HTML.
+
+        """
         markdown_markup = MarkdownMarkup()
         # === becomes h2 because of headerid(level=2) extension
         self.assertHTMLEqual(

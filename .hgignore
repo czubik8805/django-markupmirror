@@ -10,6 +10,8 @@ build
 *.EGG
 *.EGG-INFO
 .tox
+.coverage
+.noseids
 
 syntax: regexp
 

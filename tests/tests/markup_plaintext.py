@@ -20,6 +20,10 @@ class PlainTextMarkupTests(TestCase):
     """
 
     def test_convert(self):
+        """The ``PlaintextMarkup`` converter uses ``urlize`` and ``linebreaks``
+        to convert URLs to anchors and linebreaks to paragraphs.
+
+        """
         plaintext_markup = PlainTextMarkup()
         self.assertHTMLEqual(
             plaintext_markup(MARKUP),
