@@ -19,6 +19,18 @@ class VersionTests(TestCase):
     def tearDown(self):
         markupmirror.VERSION_INFO = self.original_version
 
+    def test_definitions(self):
+        """Tests that the module-level definitions in ``markupmirror.__ini__``
+        work. (This is mainly for coverage)
+
+        """
+        import sys
+        del sys.modules['markupmirror']
+        import markupmirror
+        self.assertTrue(hasattr(markupmirror, 'VERSION_INFO'))
+        self.assertTrue(hasattr(markupmirror, 'get_version'))
+        self.assertTrue(hasattr(markupmirror, '__version__'))
+
     def test_get_version(self):
         """Tests if ``markupmirror.get_version`` returns the correct dotted
         version string depending on the settings in ``VERSION_INFO``.
