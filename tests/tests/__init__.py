@@ -1,3 +1,4 @@
+from tests.tests.feincms_ import *
 from tests.tests.fields import *
 from tests.tests.markup_base import *
 from tests.tests.markup_html import *
