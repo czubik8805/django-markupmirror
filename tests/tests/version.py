@@ -75,7 +75,6 @@ class VersionTests(TestCase):
         markupmirror.VERSION_INFO['serial'] = '1'
         self.assertRaises(AssertionError, markupmirror.get_version)
 
-
     def test_invalid_major_minor_micro(self):
         """``VERSION_INFO['major|minor|micro']`` must be integers."""
         # invalid major
