@@ -1,7 +1,3 @@
-=====================
- django-markupmirror
-=====================
-
 **django-markupmirror** is a custom field and widget for editing markup text
 in Django. It utilizes the `CodeMirror`_ JS editor for a richer editing
 experience.
