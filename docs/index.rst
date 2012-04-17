@@ -31,6 +31,11 @@ Contents
 ========
 
 .. toctree::
+   :hidden:
+
+   quickstart
+
+.. toctree::
    :maxdepth: 2
 
    installation
