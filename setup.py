@@ -24,9 +24,12 @@ setup(
     author=", ".join([a[0] for a in AUTHORS]),
     author_email=", ".join([a[1] for a in AUTHORS]),
     description="Django field and widget for editing markup content.",
-    long_description="%s\n\n%s" % (
+    long_description='\n\n'.join([
         read('README.rst'),
-        read('docs', 'changelog.rst')),
+        read('docs', 'installation.rst'),
+        read('docs', 'usage.rst'),
+        read('docs', 'changelog.rst'),
+        ]),
     url="https://bitbucket.org/fabianbuechler/django-markupmirror",
     keywords="django markup field widget codemirror",
     license="BSD License",
