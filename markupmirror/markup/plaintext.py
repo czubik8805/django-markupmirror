@@ -14,7 +14,7 @@ class PlainTextMarkup(BaseMarkup):
     elements respectively.
 
     """
-    codemirror_mode = ''
+    codemirror_mode = 'text/plain'
     title = _(u"Plain text")
 
     def convert(self, markup):

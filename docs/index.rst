@@ -17,8 +17,6 @@ with live-preview and an extension content-type for `FeinCMS`_.
 **Code and issues**
     on bitbucket: https://bitbucket.org/fabianbuechler/django-markupmirror
 
-    https://bitbucket.org/fabianbuechler/django-markupmirror/issues
-
 **Releases**
     on PyPi: http://pypi.python.org/pypi/django-markupmirror
 
@@ -27,10 +25,7 @@ with live-preview and an extension content-type for `FeinCMS`_.
 .. _django-markupfield: https://github.com/jamesturk/django-markupfield
 .. _FeinCMS: http://www.feinheit.ch/media/labs/feincms/
 
-Quickstart
-==========
-
-
+.. include:: quickstart.rst
 
 Contents
 ========
