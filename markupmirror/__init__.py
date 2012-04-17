@@ -2,7 +2,7 @@ VERSION_INFO = {
     'major': 0,
     'minor': 1,
     'micro': 0,
-    'sub': 'beta',
+    'sub': 'alpha',
     'serial': 1
 }
 
