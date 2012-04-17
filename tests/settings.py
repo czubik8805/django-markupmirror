@@ -64,6 +64,10 @@ LOGGING = {
     }
 }
 
+# ### django-markupmirror
+
+MARKUPMIRROR_DEFAULT_MARKUP_TYPE = 'markdown'
+
 
 # ### django-nose
 

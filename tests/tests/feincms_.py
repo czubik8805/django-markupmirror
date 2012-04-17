@@ -1,6 +1,8 @@
-from django.test import TestCase
+import textwrap
 
-from markupmirror.feincms.models import MarkupMirrorContent
+from django.utils.safestring import SafeData
+
+from django.test import TestCase
 
 
 class FeinCMSTests(TestCase):
@@ -57,16 +59,28 @@ class FeinCMSTests(TestCase):
         self.assertTrue('markupmirror.feincms.models' in sys.modules)
 
     def test_markupmirror_content(self):
-        """
+        """Tests registering and rendering a ``MarkupMirrorContent`` instance
+        with a FeinCMS ``Page``.
+
         """
         from feincms.module.page.models import Page
-        from markupmirror.feincms.models import MarkupMirrorContent
-        Page.register_templates({
-            'key': 'page',
-            'title': 'Page template',
-            'path': 'feincms_page.html',
-            'regions': (
-                ('main', 'Main region'),
-                ),
-        })
-        Page.create_content_type(MarkupMirrorContent)
+        from markupmirror.markup.base import markup_pool
+
+        mmc_type = Page._feincms_content_types[0]
+        obj = mmc_type()
+        obj.content = "**markdown**"
+
+        # fake obj.save(): DB does not have page_page_markupmirrorcontent table
+        rendered = markup_pool[obj.content.markup_type](obj.content.raw)
+        obj.content_rendered = rendered
+
+        with self.assertTemplateUsed('content/markupmirror/default.html'):
+            self.assertIsInstance(obj.render(), SafeData)
+            self.assertEqual(
+                obj.render(),
+                textwrap.dedent(u"""\
+                    <p><strong>markdown</strong></p>
+                    """))
+
+
+__all__ = ('FeinCMSTests',)
