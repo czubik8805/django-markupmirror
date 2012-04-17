@@ -1,3 +1,5 @@
+.. _quickstart:
+
 Quickstart
 ==========
 
@@ -26,8 +28,9 @@ Quickstart
             verbose_name="content", markup_type='markdown')
 
 By default, django-markupmirror comes with markup converters for plain text
-(converts links and linebreaks), HTML (does nothing), `Markdown`_,
-`reStructuredText`_ and `Textile`_. However, you can register your own markup
+(converts links and linebreaks) and HTML (does nothing). Converters for
+`Markdown`_, `reStructuredText`_ and `Textile`_ are also available, but require
+3rd-party libraries to be installed. However, you can register your own markup
 converters.
 
 .. _pip: http://www.pip-installer.org/
