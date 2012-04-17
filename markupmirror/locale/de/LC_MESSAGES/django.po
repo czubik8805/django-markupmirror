@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-11 12:29+0200\n"
+"POT-Creation-Date: 2012-04-17 12:13+0200\n"
 "PO-Revision-Date: 2012-04-11 12:30+0100\n"
 "Last-Translator: Fabian Büchler <buechler@wienfluss.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: feincms/models.py:24
-#: feincms/models.py:31
-#: feincms/models.py:32
+#: feincms/models.py:24 feincms/models.py:31 feincms/models.py:32
 msgid "Markup content"
 msgstr "Markup Inhalt"
 
@@ -42,4 +40,3 @@ msgstr "reStructuredText"
 #: markup/textile_.py:13
 msgid "Textile"
 msgstr "Textile"
-
