@@ -35,7 +35,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha"
+        "Development Status :: 4 - Beta"
         "Framework :: Django",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
@@ -44,5 +44,7 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: JavaScript",
         "Environment :: Web Environment",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Text Processing :: Markup",
     ],
 )
