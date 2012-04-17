@@ -26,6 +26,7 @@ setup(
     description="Django field and widget for editing markup content.",
     long_description='\n\n'.join([
         read('README.rst'),
+        read('docs', 'quickstart.rst'),
         read('docs', 'installation.rst'),
         read('docs', 'usage.rst'),
         read('docs', 'changelog.rst'),

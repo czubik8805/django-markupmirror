@@ -9,7 +9,7 @@ class TextileMarkup(BaseMarkup):
     """Markup transformer for Textile content.
 
     """
-    codemirror_mode = ''
+    codemirror_mode = 'text/plain'
     title = _(u"Textile")
 
     def __init__(self):

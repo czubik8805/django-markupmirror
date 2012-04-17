@@ -15,8 +15,6 @@ with live-preview and an extension content-type for `FeinCMS`_.
 **Code and issues**
     on bitbucket: https://bitbucket.org/fabianbuechler/django-markupmirror
 
-    https://bitbucket.org/fabianbuechler/django-markupmirror/issues
-
 **Releases**
     on PyPi: http://pypi.python.org/pypi/django-markupmirror
 
