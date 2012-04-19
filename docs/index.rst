@@ -40,6 +40,7 @@ Contents
 
    installation
    usage
+   feincms
 
 Changelog
 =========
