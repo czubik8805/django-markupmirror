@@ -3,7 +3,7 @@ VERSION_INFO = {
     'minor': 1,
     'micro': 0,
     'sub': 'alpha',
-    'serial': 1
+    'serial': 2
 }
 
 
