@@ -31,16 +31,16 @@ Contents
 ========
 
 .. toctree::
-   :hidden:
-
-   quickstart
-
-.. toctree::
    :maxdepth: 2
 
    installation
    usage
    feincms
+
+.. toctree::
+   :hidden:
+
+   quickstart
 
 Changelog
 =========
