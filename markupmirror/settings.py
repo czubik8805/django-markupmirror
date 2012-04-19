@@ -32,11 +32,6 @@ MARKDOWN_OUTPUT_FORMAT = getattr(settings,
     'MARKUPMIRROR_MARKDOWN_OUTPUT_FORMAT',
     'html5')
 
-# Filter settings for reStructuredText
-RESTRUCTUREDTEXT_FILTER = getattr(settings,
-    'MARKUPMIRROR_RESTRUCTUREDTEXT_FILTER',
-    {})
-
 # Textile settings
 TEXTILE_SETTINGS = getattr(settings,
     'MARKUPMIRROR_TEXTILE_SETTINGS',
