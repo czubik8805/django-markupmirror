@@ -18,6 +18,10 @@ class Markup(object):
     Stores the names of the associated field, the rendered field and the
     markup_type field to make assignment possible.
 
+    When accessing the value of a ``MarkupField``, a ``Markup`` instance will
+    be returned. This provides a few methods to access the raw and rendered
+    markup, and the markup type of the saved content.
+
     """
     def __init__(self, instance, field_name,
                  rendered_field_name, markup_type_field_name):
@@ -28,6 +32,7 @@ class Markup(object):
 
     @property
     def raw(self):
+        """The raw markup content."""
         return self.instance.__dict__[self.field_name]
 
     @raw.setter
@@ -36,6 +41,7 @@ class Markup(object):
 
     @property
     def markup_type(self):
+        """Markup type of the current markup content."""
         return self.instance.__dict__[self.markup_type_field_name]
 
     @markup_type.setter
@@ -44,10 +50,17 @@ class Markup(object):
 
     @property
     def rendered(self):
+        """Returns the rendered markup content (read only). This is only
+        available after ``Model.save`` has been called.
+
+        """
         return getattr(self.instance, self.rendered_field_name)
 
     def __unicode__(self):
-        """Allows display via templates to work without safe filter."""
+        """Allows display via templates to work without safe filter. Same as
+        ``rendered``.
+
+        """
         return mark_safe(self.rendered)
 
 
@@ -80,11 +93,19 @@ class MarkupMirrorFieldDescriptor(object):
 class MarkupMirrorField(models.TextField):
     """Field to store markup content.
 
-    MarkupMirrorField adds three fields to the model it is used in.
+    The ``MarkupMirrorField`` adds three fields to the model it is used in.
 
-    * One field for the raw markup content.
-    * One field for the rendered HTML content.
-    * One field that specifies the markup type.
+    * One field for the raw markup content (``<field_name>``).
+    * One field for the rendered HTML content (``<field_name>_rendered``).
+    * One field that specifies the markup type (``<field_name>_markup_type``).
+
+    The field can be used with a fixed ``markup_type`` or a
+    ``default_markup_type``, which displays an additional selection widget
+    for the available markup types. However, only one of ``markup_type`` and
+    ``default_markup_type`` can be provided.
+
+    If neither is provided, the setting ``MARKUPMIRROR_DEFAULT_MARKUP_TYPE``
+    is used as ``default_markup_type`` instead.
 
     """
     def __init__(self, verbose_name=None, name=None,
@@ -94,12 +115,12 @@ class MarkupMirrorField(models.TextField):
             raise ImproperlyConfigured(
                 "Cannot specify both markup_type and default_markup_type")
 
-        self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE = markup_type or default_markup_type
+        self.default_markup_type = markup_type or default_markup_type
         self.markup_type_editable = markup_type is None
         self.escape_html = escape_html
 
-        if (self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE and
-            self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE not in markup_pool):
+        if (self.default_markup_type and
+            self.default_markup_type not in markup_pool):
             raise ImproperlyConfigured(
                 "Invalid default_markup_type for field '%r', "
                 "available types: %s" % (
@@ -126,7 +147,7 @@ class MarkupMirrorField(models.TextField):
                     key=lambda markup: markup[1].title.lower())]
             markup_type_field = models.CharField(
                 choices=choices, max_length=30,
-                default=self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE, blank=self.blank,
+                default=self.default_markup_type, blank=self.blank,
                 editable=self.markup_type_editable)
             markup_type_field.creation_counter = self.creation_counter + 1
 
@@ -191,11 +212,11 @@ class MarkupMirrorField(models.TextField):
         widget_attrs = {
             'class': 'item-markupmirror',
         }
-        if (self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE and
-            self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE in markup_pool):
+        if (self.default_markup_type and
+            self.default_markup_type in markup_pool):
             widget_attrs['data-mode'] = markup_pool[
-                self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE].codemirror_mode
-            widget_attrs['data-markuptype'] = self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE
+                self.default_markup_type].codemirror_mode
+            widget_attrs['data-markuptype'] = self.default_markup_type
 
         defaults = {
             'widget': widgets.MarkupMirrorTextarea(attrs=widget_attrs),
