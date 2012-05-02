@@ -111,9 +111,7 @@ class MarkupPool(object):
         self.unregister_markup(key)
 
 
-markup_pool = MarkupPool()
-"""Instance of ``MarkupPool`` for public use."""
-
+markup_pool = MarkupPool()  # Instance of ``MarkupPool`` for public use.
 register_markup = markup_pool.register_markup
 
 

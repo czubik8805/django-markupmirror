@@ -44,7 +44,9 @@ The Markup Pool
 The markup pool is the main access point to markup converters. They are
 registered with the pool, and retrieved from it.
 
-.. autodata:: markupmirror.markup.base.markup_pool
+.. py:data:: markupmirror.markup.base.markup_pool
+
+   Instance of ``MarkupPool`` for public use.
 
 .. autoclass:: markupmirror.markup.base.MarkupPool
    :members:
