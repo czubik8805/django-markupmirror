@@ -6,25 +6,39 @@ from markupmirror.exceptions import *
 class BaseMarkup(object):
     """Basic interface for markup converter classes.
 
+    An example converter could look like this::
+
+        class ExampleMarkup(BaseMarkup):
+
+            def convert(self, markup):
+                return markup.replace("example", "markup")
+
     """
     codemirror_mode = ''
     title = ""
 
     @classmethod
     def get_name(cls):
-        """Returns lowercase markup name, without the "Markup" part."""
+        """Returns lowercase markup name, without the "Markup" part.
+
+        Class naming convention is ``<Markup-Type>Markup``.
+        """
         return cls.__name__.replace("Markup", "", 1).lower()
 
+    def convert(self, markup):
+        """Main conversion method. Must be implemented in subclasses."""
+        return markup
+
     def before_convert(self, markup):
-        """Called before ``convert``."""
+        """Called before ``convert``. Can be used to separate the main
+        conversion through a third-party library (e.g. Markdown) from
+        additional logic.
+
+        """
         return markup
 
     def after_convert(self, markup):
-        """``Called after ``convert``."""
-        return markup
-
-    def convert(self, markup):
-        """Main conversion method. Use third-pary libraries here."""
+        """Called after ``convert``. Similar to ``before_convert``."""
         return markup
 
     def __call__(self, markup):
