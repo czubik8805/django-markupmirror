@@ -54,12 +54,41 @@ registered with the pool, and retrieved from it.
 Create your own Markup Type
 ---------------------------
 
-You can easily create your own markup types for any purpose.
+You can easily create your own markup converters for any purpose. The converter
+only needs to inherit from ``BaseMarkup`` and implement the ``convert`` method.
 
+.. autoclass:: markupmirror.markup.base.BaseMarkup
+   :members: convert, before_convert, after_convert, __call__, get_name
+   :special-members:
 
 Register and unregister Markup Types
 ------------------------------------
 
+The :ref:`default markup types <usage-markup-types-default>` provided by
+django-markupmirror are registered during initialization. If you want to remove
+any of these, you can use the ``MarkupPool.unregister_markup`` method::
+
+    from markupmirror.markup.base import markup_pool
+
+    markup_pool.unregister_markup('plaintext')  # is equal to
+    del markup_pool['textile']
+
+To register new markup converters, pass the markup class to the
+``MarkupPool.register_markup`` method::
+
+    from markupmirror.markup.base import markup_pool, BaseMarkup
+
+    class ExampleMarkup(BaseMarkup):
+
+        def convert(self, markup):
+            return markup.replace("markup", "example")
+
+    markup_pool.register_markup(ExampleMarkup)
+
+This would make the ``ExampleMarkup`` converter available through the key
+``example``, derived from its class name::
+
+    example_markup = markup_pool['example']
 
 Using the ``MarkupMirrorField``
 ===============================
