@@ -19,24 +19,24 @@ Default Markup Types
 The markup-types available by default are:
 
 ``plaintext``
-    Plain text markup. Converts URLs to links and linebreaks to breaks and
-    paragraphs.
+    .. automodule:: markupmirror.markup.plaintext
+    .. autoclass:: PlainTextMarkup
 
 ``html``
-    Allows HTML. Therefore potentially unsafe.
+    .. automodule:: markupmirror.markup.html
+    .. autoclass:: HtmlMarkup
 
 ``markdown``
-    Converts `Markdown`_ to HTML.
+    .. automodule:: markupmirror.markup.markdown_
+    .. autoclass:: MarkdownMarkup
 
 ``restructuredtext``
-    Converts `reStructuredText`_ to HTML.
+    .. automodule:: markupmirror.markup.restructuredtext
+    .. autoclass:: ReStructuredTextMarkup
 
 ``textile``
-    Converts `Textile`_ to HTML.
-
-.. _Markdown: http://daringfireball.net/projects/markdown/
-.. _reStructuredText: http://docutils.sourceforge.net/rst.html
-.. _Textile: http://www.textism.com/tools/textile/
+    .. automodule:: markupmirror.markup.textile_
+    .. autoclass:: TextileMarkup
 
 The Markup Pool
 ---------------
@@ -44,11 +44,13 @@ The Markup Pool
 The markup pool is the main access point to markup converters. They are
 registered with the pool, and retrieved from it.
 
+.. automodule:: markupmirror.markup.base
+
 .. py:data:: markupmirror.markup.base.markup_pool
 
    Instance of ``MarkupPool`` for public use.
 
-.. autoclass:: markupmirror.markup.base.MarkupPool
+.. autoclass:: MarkupPool
    :members:
 
 Create your own Markup Type
@@ -93,4 +95,33 @@ This would make the ``ExampleMarkup`` converter available through the key
 Using the ``MarkupMirrorField``
 ===============================
 
+After you have configured markupmirror in your settings and added your custom
+markup converters, the only thing left to do is to use the
+``MarkupMirrorField`` in your models.
 
+A field with fixed markup type would have to provide a ``markup_type``::
+
+    from django.db import models
+    from markupmirror.fields import MarkupMirrorFields
+
+    class MyModel(models.Model):
+        content = MarkupMirrorField(markup_type='markdown')
+
+To provide a selectbox for the users to select the content's markup type
+manually, use ``default_markup_type`` instead::
+
+    class MyModel(models.Model):
+        content = MarkupMirrorField(default_markup_type='plaintext')
+
+If you provide neither ``markup_type`` nor ``default_markup_type``, the
+``MARKUPMIRROR_DEFAULT_MARKUP_TYPE`` setting will be used as default.
+
+For reference, see the ``MarkupMirrorField`` and ``Markup`` classes:
+
+.. automodule:: markupmirror.fields
+
+.. autoclass:: MarkupMirrorField
+
+.. autoclass:: Markup
+   :members: raw, markup_type, rendered, __unicode__
+   :special-members:

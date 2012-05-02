@@ -6,7 +6,9 @@ from markupmirror.markup.base import register_markup
 
 
 class TextileMarkup(BaseMarkup):
-    """Markup transformer for Textile content.
+    """Markup transformer for `Textile`_ content.
+
+    .. _Textile: http://www.textism.com/tools/textile/
 
     """
     codemirror_mode = 'text/plain'

@@ -8,7 +8,9 @@ from markupmirror.markup.base import register_markup
 
 
 class MarkdownMarkup(BaseMarkup):
-    """Markup transformer for Markdown content.
+    """Markup transformer for `Markdown`_ content.
+
+    .. _Markdown: http://daringfireball.net/projects/markdown/
 
     """
     codemirror_mode = 'text/x-markdown'

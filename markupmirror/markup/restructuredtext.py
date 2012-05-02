@@ -6,7 +6,9 @@ from markupmirror.markup.base import register_markup
 
 
 class ReStructuredTextMarkup(BaseMarkup):
-    """Markup transformer for reStructuredText content.
+    """Markup transformer for `reStructuredText`_ content.
+
+    .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 
     """
     codemirror_mode = 'text/x-rst'
