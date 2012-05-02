@@ -94,12 +94,12 @@ class MarkupMirrorField(models.TextField):
             raise ImproperlyConfigured(
                 "Cannot specify both markup_type and default_markup_type")
 
-        self.default_markup_type = markup_type or default_markup_type
+        self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE = markup_type or default_markup_type
         self.markup_type_editable = markup_type is None
         self.escape_html = escape_html
 
-        if (self.default_markup_type and
-            self.default_markup_type not in markup_pool):
+        if (self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE and
+            self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE not in markup_pool):
             raise ImproperlyConfigured(
                 "Invalid default_markup_type for field '%r', "
                 "available types: %s" % (
@@ -126,7 +126,7 @@ class MarkupMirrorField(models.TextField):
                     key=lambda markup: markup[1].title.lower())]
             markup_type_field = models.CharField(
                 choices=choices, max_length=30,
-                default=self.default_markup_type, blank=self.blank,
+                default=self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE, blank=self.blank,
                 editable=self.markup_type_editable)
             markup_type_field.creation_counter = self.creation_counter + 1
 
@@ -191,11 +191,11 @@ class MarkupMirrorField(models.TextField):
         widget_attrs = {
             'class': 'item-markupmirror',
         }
-        if (self.default_markup_type and
-            self.default_markup_type in markup_pool):
+        if (self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE and
+            self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE in markup_pool):
             widget_attrs['data-mode'] = markup_pool[
-                self.default_markup_type].codemirror_mode
-            widget_attrs['data-markuptype'] = self.default_markup_type
+                self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE].codemirror_mode
+            widget_attrs['data-markuptype'] = self.MARKUPMIRROR_DEFAULT_MARKUP_TYPE
 
         defaults = {
             'widget': widgets.MarkupMirrorTextarea(attrs=widget_attrs),

@@ -67,19 +67,39 @@ class MarkupPool(object):
     def unregister_markup(self, markup_name):
         """Unregisters a markup converter with the name ``markup_name``.
         Fails silently if no converter was registered by that name.
+
+        Alternatively you can also use the ``del`` operator::
+
+           del markup_pool['restructuredtext']
+
         """
         if markup_name in self.markups:
             del self.markups[markup_name]
 
-    def has_markup(self, name):
-        return name in self.markups
+    def has_markup(self, markup_name):
+        """Tests if a markup converter with the name ``markup_name`` is already
+        registered with the markup pool.
 
-    def get_markup(self, name):
-        """Returns one markup converter by name.
-        Raises ``KeyError`` if no converter was registered by ``name``.
+        Alternatively you can also use the ``in`` operator, like with a
+        dictionary::
+
+            if 'restructuredtext' in markup_pool:
+                pass
 
         """
-        return self.markups[name]
+        return markup_name in self.markups
+
+    def get_markup(self, markup_name):
+        """Returns one markup converter by name.
+        Raises ``KeyError`` if no converter was registered by ``markup_name``.
+
+        Alternatively you can also use the ``[]`` accessor, like with a
+        dictionary::
+
+            markup = markup_pool['restructuredtext']
+
+        """
+        return self.markups[markup_name]
 
     def __contains__(self, key):
         return self.has_markup(key)
@@ -92,6 +112,8 @@ class MarkupPool(object):
 
 
 markup_pool = MarkupPool()
+"""Instance of ``MarkupPool`` for public use."""
+
 register_markup = markup_pool.register_markup
 
 

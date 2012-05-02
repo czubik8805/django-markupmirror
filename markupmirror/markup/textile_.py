@@ -13,7 +13,7 @@ class TextileMarkup(BaseMarkup):
     title = _(u"Textile")
 
     def __init__(self):
-        self.textile_settings = settings.TEXTILE_SETTINGS
+        self.textile_settings = settings.MARKUPMIRROR_TEXTILE_SETTINGS
         self.textile = textile
 
     def convert(self, markup):

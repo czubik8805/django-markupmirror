@@ -14,8 +14,14 @@
 
 import os
 
-import markupmirror
+from django.core.management import setup_environ
 
+import markupmirror
+import tests.settings
+
+
+# setup django environment for autodoc
+setup_environ(tests.settings)
 
 # switch for different configuration on Read the Docs
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
@@ -33,6 +39,7 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc']
+autodoc_member_order = 'bysource'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -37,6 +37,8 @@ Contents
    usage
    feincms
 
+* :ref:`modindex`
+
 .. toctree::
    :hidden:
 
