@@ -15,8 +15,8 @@ class MarkdownMarkup(BaseMarkup):
     title = _(u"Markdown")
 
     def __init__(self):
-        self.extensions = settings.MARKDOWN_EXTENSIONS
-        self.output_format = settings.MARKDOWN_OUTPUT_FORMAT
+        self.extensions = settings.MARKUPMIRROR_MARKDOWN_EXTENSIONS
+        self.output_format = settings.MARKUPMIRROR_MARKDOWN_OUTPUT_FORMAT
         self.markdown = Markdown(
             extensions=self.extensions,
             output_format=self.output_format)

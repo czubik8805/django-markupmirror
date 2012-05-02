@@ -41,10 +41,19 @@ The markup-types available by default are:
 The Markup Pool
 ---------------
 
-Markup types are registered with the ``markup_pool``.
+The markup pool is the main access point to markup converters. They are
+registered with the pool, and retrieved from it.
+
+.. autodata:: markupmirror.markup.base.markup_pool
+
+.. autoclass:: markupmirror.markup.base.MarkupPool
+   :members:
 
 Create your own Markup Type
 ---------------------------
+
+You can easily create your own markup types for any purpose.
+
 
 Register and unregister Markup Types
 ------------------------------------

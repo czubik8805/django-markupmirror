@@ -14,15 +14,15 @@ class MarkupMirrorContent(models.Model):
     # __name__ = 'richtextcontent'
 
     feincms_item_editor_context_processors = (
-        lambda x: settings.FEINCMS_INIT_CONTEXT,
+        lambda x: settings.MARKUPMIRROR_FEINCMS_INIT_CONTEXT,
     )
     feincms_item_editor_includes = {
-        'head': [settings.FEINCMS_INIT_TEMPLATE],
+        'head': [settings.MARKUPMIRROR_FEINCMS_INIT_TEMPLATE],
     }
 
     content = MarkupMirrorField(
         verbose_name=_(u"Markup content"),
-        markup_type=settings.DEFAULT_MARKUP_TYPE,
+        markup_type=settings.MARKUPMIRROR_DEFAULT_MARKUP_TYPE,
         blank=True)
 
     class Meta:

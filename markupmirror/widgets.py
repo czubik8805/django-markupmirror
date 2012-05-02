@@ -44,7 +44,7 @@ class MarkupMirrorTextarea(forms.Textarea):
             # get real value
             value = value.raw
         else:
-            default = settings.DEFAULT_MARKUP_TYPE
+            default = settings.MARKUPMIRROR_DEFAULT_MARKUP_TYPE
             default_attrs = {
                 'data-mode': markup_pool[default].codemirror_mode,
                 'data-markuptype': default,
