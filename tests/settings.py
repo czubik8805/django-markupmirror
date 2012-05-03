@@ -75,7 +75,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
     '--detailed-errors',
-    '--verbose',
+    # '--verbose',
     '--with-coverage',
     '--cover-html',
     '--cover-html-dir=' + tests_path_to(os.path.pardir, 'docs', '_coverage'),

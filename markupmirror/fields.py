@@ -221,7 +221,8 @@ class MarkupMirrorField(models.TextField):
                 'mode': markup_pool[self.default_markup_type].codemirror_mode,
                 'markup_type': self.default_markup_type,
             }
-            widget_attrs['data-mm-settings'] = json.dumps(mm_settings)
+            widget_attrs['data-mm-settings'] = json.dumps(mm_settings,
+                                                          sort_keys=True)
 
         defaults = {
             'widget': widgets.MarkupMirrorTextarea(attrs=widget_attrs),

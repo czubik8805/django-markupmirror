@@ -56,7 +56,7 @@ class MarkupMirrorTextarea(forms.Textarea):
 
         # provide mm_settings as data attribute in widget
         default_attrs = {
-            'data-mm-settings': json.dumps(mm_settings),
+            'data-mm-settings': json.dumps(mm_settings, sort_keys=True),
         }
         if attrs:
             default_attrs.update(attrs)

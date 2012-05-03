@@ -1,7 +1,10 @@
 import textwrap
 
+from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.utils import simplejson as json
 
+from markupmirror import settings as mm_settings
 from markupmirror.markup.base import markup_pool
 from markupmirror.widgets import AdminMarkupMirrorTextareaWidget
 
@@ -14,6 +17,9 @@ class MarkupMirrorWidgetTests(TestCase):
     ``..AdminMarkupMirrorTextareaWidget`` implementations.
 
     """
+
+    maxDiff = None
+
     def setUp(self):
         """Creates three ``Post`` objects with different field settings."""
 
@@ -21,6 +27,13 @@ class MarkupMirrorWidgetTests(TestCase):
         self.mp = Post(title="example Markdown post",
                        body="**markdown**", body_markup_type='markdown')
         self.mp.save()
+
+        # default data attribute values for textareas:
+        self.mm_settings = mm_settings.MARKUPMIRROR_CODEMIRROR_SETTINGS.copy()
+        self.mm_settings.update({
+            'preview_url': reverse('markupmirror:preview'),
+            'base_url': reverse('markupmirror:base'),
+        })
 
     def test_widget_media(self):
         """Tests that the CSS and JS files required by the
@@ -37,13 +50,20 @@ class MarkupMirrorWidgetTests(TestCase):
         """
         form = PostForm(instance=self.mp)
         comment = form.fields['comment']
+
+        attrs = self.mm_settings.copy()
+        attrs.update({
+            'mode': 'text/x-markdown',
+            'markup_type': 'markdown',
+        })
         self.assertHTMLEqual(
             comment.widget.render('comment', self.mp.comment),
             textwrap.dedent(u"""\
                 <textarea rows="10" cols="40" name="comment"
                           class="item-markupmirror"
-                          data-markuptype="markdown"
-                          data-mode="text/x-markdown"></textarea>"""))
+                          data-mm-settings='{0}'></textarea>""").format(
+                    json.dumps(attrs, sort_keys=True))
+            )
 
     def test_widget_additional_attributes(self):
         """Tests that additional attributes passed to the widget's ``render``
@@ -52,6 +72,12 @@ class MarkupMirrorWidgetTests(TestCase):
         """
         form = PostForm(instance=self.mp)
         comment = form.fields['comment']
+
+        attrs = self.mm_settings.copy()
+        attrs.update({
+            'mode': 'text/x-markdown',
+            'markup_type': 'markdown',
+        })
         self.assertHTMLEqual(
             comment.widget.render('comment', self.mp.comment, attrs={
                 'data-something': "else",
@@ -59,9 +85,10 @@ class MarkupMirrorWidgetTests(TestCase):
             textwrap.dedent(u"""\
                 <textarea rows="10" cols="40" name="comment"
                           class="item-markupmirror"
-                          data-markuptype="markdown"
-                          data-mode="text/x-markdown"
-                          data-something="else"></textarea>"""))
+                          data-mm-settings='{0}'
+                          data-something="else"></textarea>""").format(
+                    json.dumps(attrs, sort_keys=True))
+            )
 
     def test_widget_default_mode_and_markuptype(self):
         """Widgets initialized without data (create model forms) should
@@ -72,15 +99,19 @@ class MarkupMirrorWidgetTests(TestCase):
         comment = form.fields['comment']
 
         default = settings.MARKUPMIRROR_DEFAULT_MARKUP_TYPE
+        attrs = self.mm_settings.copy()
+        attrs.update({
+            'mode': markup_pool[default].codemirror_mode,
+            'markup_type': default,
+        })
         self.assertHTMLEqual(
             comment.widget.render('comment', u""),
             textwrap.dedent(u"""\
                 <textarea rows="10" cols="40" name="comment"
                           class="item-markupmirror"
-                          data-markuptype="{default_markup_type}"
-                          data-mode="{default_mode}"></textarea>""".format(
-                default_markup_type=default,
-                default_mode=markup_pool[default].codemirror_mode)))
+                          data-mm-settings='{0}'></textarea>""").format(
+                json.dumps(attrs, sort_keys=True))
+            )
 
     def test_admin_widget_render(self):
         """Tests that the ``AdminMarkupMirrorTextareaWidget`` renders
@@ -88,12 +119,18 @@ class MarkupMirrorWidgetTests(TestCase):
 
         """
         admin_widget = AdminMarkupMirrorTextareaWidget()
+        attrs = self.mm_settings.copy()
+        attrs.update({
+            'mode': 'text/x-markdown',
+            'markup_type': 'markdown',
+        })
         self.assertHTMLEqual(
             admin_widget.render('comment', self.mp.comment),
             textwrap.dedent(u"""\
                 <textarea rows="10" cols="40" name="comment"
                           class="vLargeTextField item-markupmirror"
-                          data-markuptype="markdown"
-                          data-mode="text/x-markdown"></textarea>"""))
+                          data-mm-settings='{0}' />""").format(
+                json.dumps(attrs, sort_keys=True))
+            )
 
 __all__ = ('MarkupMirrorWidgetTests',)
