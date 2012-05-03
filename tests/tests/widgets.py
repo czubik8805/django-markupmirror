@@ -30,9 +30,12 @@ class MarkupMirrorWidgetTests(TestCase):
 
         # default data attribute values for textareas:
         self.mm_settings = mm_settings.MARKUPMIRROR_CODEMIRROR_SETTINGS.copy()
+        default = mm_settings.MARKUPMIRROR_DEFAULT_MARKUP_TYPE
         self.mm_settings.update({
             'preview_url': reverse('markupmirror:preview'),
             'base_url': reverse('markupmirror:base'),
+            'mode': markup_pool[default].codemirror_mode,
+            'markup_type': default,
         })
 
     def test_widget_media(self):
@@ -50,19 +53,13 @@ class MarkupMirrorWidgetTests(TestCase):
         """
         form = PostForm(instance=self.mp)
         comment = form.fields['comment']
-
-        attrs = self.mm_settings.copy()
-        attrs.update({
-            'mode': 'text/x-markdown',
-            'markup_type': 'markdown',
-        })
         self.assertHTMLEqual(
             comment.widget.render('comment', self.mp.comment),
             textwrap.dedent(u"""\
                 <textarea rows="10" cols="40" name="comment"
                           class="item-markupmirror"
                           data-mm-settings='{0}'></textarea>""").format(
-                    json.dumps(attrs, sort_keys=True))
+                    json.dumps(self.mm_settings, sort_keys=True))
             )
 
     def test_widget_additional_attributes(self):
@@ -72,12 +69,6 @@ class MarkupMirrorWidgetTests(TestCase):
         """
         form = PostForm(instance=self.mp)
         comment = form.fields['comment']
-
-        attrs = self.mm_settings.copy()
-        attrs.update({
-            'mode': 'text/x-markdown',
-            'markup_type': 'markdown',
-        })
         self.assertHTMLEqual(
             comment.widget.render('comment', self.mp.comment, attrs={
                 'data-something': "else",
@@ -87,7 +78,7 @@ class MarkupMirrorWidgetTests(TestCase):
                           class="item-markupmirror"
                           data-mm-settings='{0}'
                           data-something="else"></textarea>""").format(
-                    json.dumps(attrs, sort_keys=True))
+                    json.dumps(self.mm_settings, sort_keys=True))
             )
 
     def test_widget_default_mode_and_markuptype(self):
