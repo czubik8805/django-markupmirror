@@ -1,9 +1,8 @@
-===========
- Changelog
-===========
+Changelog
+=========
 
 0.1 - unreleased
-================
+----------------
 
 * Initial release including ``MarkupMirrorField`` field,
   ``MarkupMirrorTextarea`` and ``AdminMarkupMirrorTextareaWidget`` widgets and
