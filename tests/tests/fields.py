@@ -1,6 +1,5 @@
 import textwrap
 
-from django import forms
 from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
@@ -294,27 +293,27 @@ class MarkupMirrorFieldTests(TestCase):
             self.assertTrue(hasattr(rendered, '__str__'))
 
     def test_formfield(self):
-        """Form fields for ``MarkupMirrorFields`` always have three additional
+        """Form fields for ``MarkupMirrorFields`` always have two additional
         attributes:
 
         * ``class=item-markupmirror``.
-        * ``data-mode``: ``codemirror_mode`` of the assigned markup converter.
-        * ``data-markuptype``: the field's ``default_markup_type`` or the
-          assigned value's ``Markup.markup_type``.
+        * ``data-mm-settings``: a JSON dictionary containing the init settings
+          for CodeMirror and the URLs and parameters required for the preview
+          view.
 
         """
         form = PostForm()
         comment = form.fields['comment']
         self.assertEqual(
             sorted(comment.widget.attrs.keys()),
-            ['class', 'cols', 'data-markuptype', 'data-mode', 'rows'])
+            ['class', 'cols', 'data-mm-settings', 'rows'])
         self.assertTrue('item-markupmirror' in comment.widget.attrs['class'])
         self.assertEqual(
-            comment.widget.attrs['data-markuptype'],
-            self.mp.comment.markup_type)
-        self.assertEqual(
-            comment.widget.attrs['data-mode'],
-            markup_pool[self.mp.comment.markup_type].codemirror_mode)
+            comment.widget.attrs['data-mm-settings'],
+            '{{"markup_type": "{0}", "mode": "{1}"}}'.format(
+                self.mp.comment.markup_type,
+                markup_pool[self.mp.comment.markup_type].codemirror_mode)
+            )
 
 
 __all__ = ('MarkupMirrorFieldTests',)

@@ -12,21 +12,20 @@ class MarkupPreviewViewTests(TestCase):
         the preview URL can be resolved correctly.
 
         """
-        self.assertEqual(
-            reverse('markupmirror:preview',
-                    kwargs={'markup_type': 'plaintext'}),
-            '/markupmirror/preview/plaintext/')
+        self.assertEqual(reverse('markupmirror:preview'),
+                         '/markupmirror/preview/')
 
     def test_post_only(self):
         """The preview view may only be used via POST to make sure text won't
         be truncated or the like.
 
         """
-        url = reverse('markupmirror:preview',
-                      kwargs={'markup_type': 'plaintext'})
+        url = reverse('markupmirror:preview')
         self.assertIsInstance(self.client.get(url), HttpResponseNotAllowed)
-        self.assertIsInstance(self.client.post(url, {'text': "**markup**"}),
-                              HttpResponse)
+        self.assertIsInstance(self.client.post(url, {
+                'text': "**markup**",
+                'markup_type': 'plaintext'
+            }), HttpResponse)
 
 
 __all__ = ('MarkupPreviewViewTests',)
