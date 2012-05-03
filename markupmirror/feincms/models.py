@@ -13,13 +13,6 @@ class MarkupMirrorContent(models.Model):
     # TODO: find a way to include a button like richtext content
     # __name__ = 'richtextcontent'
 
-    feincms_item_editor_context_processors = (
-        lambda x: settings.MARKUPMIRROR_FEINCMS_INIT_CONTEXT,
-    )
-    feincms_item_editor_includes = {
-        'head': [settings.MARKUPMIRROR_FEINCMS_INIT_TEMPLATE],
-    }
-
     content = MarkupMirrorField(
         verbose_name=_(u"Markup content"),
         markup_type=settings.MARKUPMIRROR_DEFAULT_MARKUP_TYPE,

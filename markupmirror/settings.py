@@ -40,19 +40,14 @@ MARKUPMIRROR_TEXTILE_SETTINGS = getattr(settings,
     {'encoding': 'utf-8', 'output': 'utf-8'})
 
 
-# Settings for MarkupMirrorContent for FeinCMS
+# CodeMirror settings
 
-# Init template for CodeMirror in FeinCMS
-MARKUPMIRROR_FEINCMS_INIT_TEMPLATE = getattr(settings,
-    'MARKUPMIRROR_FEINCMS_INIT_TEMPLATE',
-    'admin/markupmirror/feincms/init_codemirror.html')
-
-# Context for init template
-MARKUPMIRROR_FEINCMS_INIT_CONTEXT = getattr(settings,
-    'MARKUPMIRROR_FEINCMS_INIT_CONTEXT', {
-    #     'CODEMIRROR_JS': CODEMIRROR_JS,
-    #     'CODEMIRROR_CSS': CODEMIRROR_CSS,
-        'CODEMIRROR_PATH': settings.STATIC_URL + 'markupmirror/',
-        'CODEMIRROR_WIDTH': '50%',
-        'CODEMIRROR_HEIGHT': '300px',
+MARKUPMIRROR_CODEMIRROR_SETTINGS = getattr(settings,
+    'MARKUPMIRROR_CODEMIRROR_SETTINGS', {
+        'width': '50%',
+        'height': '300px',
+        'indentUnit': 4,
+        'lineNumbers': True,
+        'lineWrapping': True,
+        'path': settings.STATIC_URL + 'markupmirror/',
     })

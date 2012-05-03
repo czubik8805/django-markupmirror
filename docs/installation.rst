@@ -100,27 +100,33 @@ behaviour of django-markupmirror:
    ``head_offset=0, html_type='xhtml', auto_link=False, encoding=None,
    output=None``.
 
-   Defaults to: ``{'encoding': 'utf-8', 'output': 'utf-8'}``
+   Defaults to::
 
-.. py:data:: MARKUPMIRROR_FEINCMS_INIT_TEMPLATE
+    MARKUPMIRROR_TEXTILE_SETTINGS = {
+        'encoding': 'utf-8',
+        'output': 'utf-8'
+    }
 
-   Defines the template used by FeinCMS to initialize Pages with
-   ``MarkupMirrorContent`` blocks.
+.. py:data:: MARKUPMIRROR_CODEMIRROR_SETTINGS
 
-   .. deprecated:: 0.1a2
-      This will soon be obsolete due to a generic jQuery plugin to initialize
-      the CodeMirror editor anywhere.
+   Basic settings passed to all CodeMirror editor instances for initialization.
+   Check the `CodeMirror documentation on configuration settings`_ for details.
 
-.. py:data:: MARKUPMIRROR_FEINCMS_INIT_CONTEXT
+   Defaults to::
 
-   Context passed to the ``MARKUPMIRROR_FEINCMS_INIT_TEMPLATE``.
-
-   .. deprecated:: 0.1a2
-      This will soon be obsolete due to a generic jQuery plugin to initialize
-      the CodeMirror editor anywhere.
+    MARKUPMIRROR_CODEMIRROR_SETTINGS = {
+        'width': '50%',
+        'height': '300px',
+        'indentUnit': 4,
+        'lineNumbers': True,
+        'lineWrapping': True,
+        'path': settings.STATIC_URL + 'markupmirror/',
+    }
 
 
 .. _Markdown: http://daringfireball.net/projects/markdown/
 .. _Markdown's package documentation: http://packages.python.org/Markdown/
 .. _a list of available extensions:
     http://packages.python.org/Markdown/extensions/
+.. _CodeMirror documentation on configuration settings:
+    http://codemirror.net/doc/manual.html#config
