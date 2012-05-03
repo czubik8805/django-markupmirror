@@ -1,4 +1,5 @@
 import os
+import textwrap
 
 from setuptools import setup
 from setuptools import find_packages
@@ -23,7 +24,10 @@ setup(
     version=__import__('markupmirror').get_version(),
     author=", ".join([a[0] for a in AUTHORS]),
     author_email=", ".join([a[1] for a in AUTHORS]),
-    description="Django field and widget for editing markup content.",
+    description=textwrap.dedent("""\
+        Django field and widget for editing markup content (PlainText, HTML,
+        Markdown, reStructuredText, Textile) using the CodeMirror editor with
+        live preview."""),
     long_description='\n\n'.join([
         read('README.rst'),
         read('docs', 'quickstart.rst'),

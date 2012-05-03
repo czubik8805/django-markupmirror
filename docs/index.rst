@@ -25,6 +25,10 @@ with live-preview and an extension content-type for `FeinCMS`_.
 .. _django-markupfield: https://github.com/jamesturk/django-markupfield
 .. _FeinCMS: http://www.feinheit.ch/media/labs/feincms/
 
+.. note::
+   django-markupmirror is currently tested with Django 1.4 on Python 2.6 and
+   2.7 only, but with almost complete test coverage.
+
 .. include:: quickstart.rst
 
 Contents
