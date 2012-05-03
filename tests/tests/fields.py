@@ -296,7 +296,7 @@ class MarkupMirrorFieldTests(TestCase):
         """Form fields for ``MarkupMirrorFields`` always have two additional
         attributes:
 
-        * ``class=item-markupmirror``.
+        * ``class=markupmirror-editor``.
         * ``data-mm-settings``: a JSON dictionary containing the init settings
           for CodeMirror and the URLs and parameters required for the preview
           view.
@@ -307,7 +307,7 @@ class MarkupMirrorFieldTests(TestCase):
         self.assertEqual(
             sorted(comment.widget.attrs.keys()),
             ['class', 'cols', 'data-mm-settings', 'rows'])
-        self.assertTrue('item-markupmirror' in comment.widget.attrs['class'])
+        self.assertTrue('markupmirror-editor' in comment.widget.attrs['class'])
         self.assertEqual(
             comment.widget.attrs['data-mm-settings'],
             '{{"markup_type": "{0}", "mode": "{1}"}}'.format(

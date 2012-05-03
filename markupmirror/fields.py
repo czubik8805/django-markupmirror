@@ -200,8 +200,8 @@ class MarkupMirrorField(models.TextField):
         """Adds attributes necessary for CodeMirror initialization to the
         field's widget.
 
-        The class "item-markupmirror" is used to identify textareas that should
-        be enhanced with the editor.
+        The class "markupmirror-editor" is used to identify textareas that
+        should be enhanced with the editor.
 
         The ``data-mode`` and ``data-markuptype`` attributes depend on a
         selected ``default_markup_type``. If a field does not have a default
@@ -211,7 +211,7 @@ class MarkupMirrorField(models.TextField):
 
         """
         widget_attrs = {
-            'class': 'item-markupmirror',
+            'class': 'markupmirror-editor',
         }
         if (self.default_markup_type and
             self.default_markup_type in markup_pool):
