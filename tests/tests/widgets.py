@@ -57,7 +57,7 @@ class MarkupMirrorWidgetTests(TestCase):
             comment.widget.render('comment', self.mp.comment),
             textwrap.dedent(u"""\
                 <textarea rows="10" cols="40" name="comment"
-                          class="item-markupmirror"
+                          class="markupmirror-editor"
                           data-mm-settings='{0}'></textarea>""").format(
                     json.dumps(self.mm_settings, sort_keys=True))
             )
@@ -75,7 +75,7 @@ class MarkupMirrorWidgetTests(TestCase):
                 }),
             textwrap.dedent(u"""\
                 <textarea rows="10" cols="40" name="comment"
-                          class="item-markupmirror"
+                          class="markupmirror-editor"
                           data-mm-settings='{0}'
                           data-something="else"></textarea>""").format(
                     json.dumps(self.mm_settings, sort_keys=True))
@@ -99,7 +99,7 @@ class MarkupMirrorWidgetTests(TestCase):
             comment.widget.render('comment', u""),
             textwrap.dedent(u"""\
                 <textarea rows="10" cols="40" name="comment"
-                          class="item-markupmirror"
+                          class="markupmirror-editor"
                           data-mm-settings='{0}'></textarea>""").format(
                 json.dumps(attrs, sort_keys=True))
             )
@@ -119,7 +119,7 @@ class MarkupMirrorWidgetTests(TestCase):
             admin_widget.render('comment', self.mp.comment),
             textwrap.dedent(u"""\
                 <textarea rows="10" cols="40" name="comment"
-                          class="vLargeTextField item-markupmirror"
+                          class="vLargeTextField markupmirror-editor"
                           data-mm-settings='{0}' />""").format(
                 json.dumps(attrs, sort_keys=True))
             )

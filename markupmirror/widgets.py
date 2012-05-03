@@ -9,10 +9,10 @@ from markupmirror.markup.base import markup_pool
 
 class MarkupMirrorTextarea(forms.Textarea):
 
-    css_classes = ('item-markupmirror',)
+    css_classes = ('markupmirror-editor',)
 
     def __init__(self, attrs=None):
-        """Adds the ``item-markupmirror`` class to the textarea to make sure
+        """Adds the ``markupmirror-editor`` class to the textarea to make sure
         it can be identified through JS.
 
         """
@@ -74,7 +74,7 @@ class MarkupMirrorTextarea(forms.Textarea):
 class AdminMarkupMirrorTextareaWidget(
     MarkupMirrorTextarea, AdminTextareaWidget):
 
-    css_classes = ('vLargeTextField', 'item-markupmirror')
+    css_classes = ('vLargeTextField', 'markupmirror-editor')
 
 
 __all__ = ('MarkupMirrorTextarea', 'AdminMarkupMirrorTextareaWidget')

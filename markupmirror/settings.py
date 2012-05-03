@@ -13,6 +13,7 @@ MARKUPMIRROR_DEFAULT_MARKUP_TYPE = getattr(settings,
 # Minified JS and CSS files
 MARKUPMIRROR_JS = (
     'markupmirror/jquery-1.7.2.min.js',
+    'markupmirror/jquery.cookie.min.js',
     'markupmirror/codemirror.min.js',
     'markupmirror/markupmirror.js',
 )

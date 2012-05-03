@@ -2,11 +2,24 @@ var markupmirror = {
     "jQuery": jQuery
 };
 
-/* document ready and jQuery closure */
+/* jQuery closure and document ready */
 (function($) { $(function() {
 
 
 
+/* make AJAX requests work with Django's CSRF protection */
+$.ajaxSetup({
+    crossDomain: false
+});
+$(document).ajaxSend(function(event, xhr, settings) {
+    if (!(/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type))) {
+        xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+    }
+});
+
+
+/* Plugin that handles the initialization of CodeMirror editors
+   and preview iframes for each textarea.markupmirror-editor */
 var MarkupMirrorEditor = function( element, options ) {
     var _this = this,
         _public = {
@@ -27,43 +40,46 @@ var MarkupMirrorEditor = function( element, options ) {
 
             /* add the Codemirror to a new element */
             add: function( el, options ) {
+
+                /* skip if no element passed */
                 if( !el || el.length === 0 ) {
                     return _this;
                 }
 
                 var editor;
                 $.each( el, function() {
-                    if( this.nodeName.toLowerCase() === 'textarea' ) {
-                        if( options === undefined ) {
-                            if( _private.getOption( '_init' ) === true &&
-                                _private.getOption( 'inherit' ) === true ) {
-                                editor = CodeMirror.fromTextArea(
-                                    this,
-                                    _private.getOption( 'initOptions' ) );
-                                _public.configure( { 'editor': editor } );
-                            } else {
-                                editor = CodeMirror.fromTextArea( this );
-                                _public.configure( { 'editor': editor } );
-                            }
+                    if( this.nodeName.toLowerCase() !== 'textarea' ) {
+                        return true;
+                    }
+
+                    if( options === undefined ) {
+                        if( _private.getOption( '_init' ) === true &&
+                            _private.getOption( 'inherit' ) === true ) {
+                            editor = CodeMirror.fromTextArea(
+                                this,
+                                _private.getOption( 'initOptions' ) );
+                            _public.configure( { 'editor': editor } );
                         } else {
-
-                            /* so we are able to overwrite just a few of the
-                             * options */
-                            if( _private.getOption( '_init' ) === true &&
-                                _private.getOption( 'extend' ) ) {
-                                options = $.extend(
-                                    _private.getOption( 'initOptions' ),
-                                    options );
-                            }
-
-                            editor = CodeMirror.fromTextArea( this, options );
+                            editor = CodeMirror.fromTextArea( this );
                             _public.configure( { 'editor': editor } );
                         }
-
-                        if( typeof(
-                            _private.getOption( 'onInit' ) ) === 'function' ) {
-                            _private.getOption( 'onInit' )( this );
+                    } else {
+                        /* so we are able to overwrite just a few of the
+                         * options */
+                        if( _private.getOption( '_init' ) === true &&
+                            _private.getOption( 'extend' ) ) {
+                            options = $.extend(
+                                _private.getOption( 'initOptions' ),
+                                options );
                         }
+
+                        editor = CodeMirror.fromTextArea( this, options );
+                        _public.configure( { 'editor': editor } );
+                    }
+
+                    if( typeof( _private.getOption( 'onInit' ) ) ===
+                            'function' ) {
+                        _private.getOption( 'onInit' )( this );
                     }
                 });
 
@@ -82,12 +98,11 @@ var MarkupMirrorEditor = function( element, options ) {
                 /* initial options passed in */
                 initOptions: undefined,
 
-                /* new added elements inherit from the inital
-                 * options */
+                /* new added elements inherit from the inital options */
                 inherit: true,
 
-                /* extends the original options object by passing a
-                 * new element in */
+                /* extends the original options object by passing
+                   a new element in */
                 extend: true,
 
                 /* initial init was done */
@@ -108,39 +123,98 @@ var MarkupMirrorEditor = function( element, options ) {
     /* add init element */
     _public.add( element, options );
 
-    return _this = _public;
+    _this = _public;
+    return _this;
 };
 
 
-/* initialize plugin for all textareas, class item-markupmirror */
-var $textarea = $('.item-markupmirror'),
+/* initialize plugin for all textarea.markupmirror-editor elements */
+var preview_delay,
+    $textarea = $( '.markupmirror-editor' ),
     CM = new MarkupMirrorEditor( undefined,
-                                 $textarea.data('mmSettings') )
-        .configure({'onInit': createIframe})
-        .configure({'onChange': updateIframe})
+            $.extend( {
+                'onChange': function( editor ) {
+                    clearTimeout( preview_delay );
+                    preview_delay = setTimeout(function() {
+                        updatePreview(editor);
+                    }, 500);
+                }
+            },
+            $textarea.data('mmSettings') ) )
+        .configure({
+            'onInit': createIframe
+        })
         .add( $textarea );
 
 
-/* when init a textarea with codemirror we also create an iframe */
-function createIframe( el ) {
-    var $el = $(el),
-        $iframe = $('<iframe />').attr(
-            'src', $el.data('mmSettings')['base_url']);
-
-    $el.on('change', updateIframe);
-    $iframe.insertAfter( $el );
-}
-
-
 /* when changing the textarea we replace the iframe content with the
- * new coming from the server */
-function updateIframe( e ) {
-    console.log('update');
+   new coming from the server */
+function updatePreview( editor ) {
+    var $textarea = $( editor.getTextArea() ),
+        $codemirror = $textarea.next( '.CodeMirror' ),
+        $iframe = $codemirror.children( 'iframe' ),
+        mm_settings = $textarea.data( 'mmSettings' ),
+        url = mm_settings[ 'preview_url' ],
+        markup_type = mm_settings[ 'markup_type' ];
+
+    $.post(url, {
+            /* csrfmiddlewaretoken: '{{ csrf_token }}', */
+            markup_type: markup_type,
+            text: editor.getValue()
+        },
+        function(data, textStatus, jqXHR) {
+            $iframe.trigger('_resize');
+
+            if( $iframe.data('load') === true ) {
+                $iframe.trigger('_update',
+                                {html: data});
+            } else {
+                $iframe.data('replace', data);
+            }
+        }
+    );
 }
 
-console.log( CM.get('editor') );
+
+/* when init a textarea with codemirror we also create an iframe */
+function createIframe( textarea ) {
+    var $textarea = $( textarea ),
+        $iframe = $( '<iframe />' ).attr(
+            'src', $textarea.data( 'mmSettings' )[ 'base_url' ] ),
+        $codemirror = $textarea.next( '.CodeMirror' );
+
+    $iframe
+        .addClass( 'CodeMirror-preview' )
+        .on({
+            'load': function() {
+                var $this = $(this);
+                $this.data('load', true);
+
+                if( $this.data('replace') !== undefined ) {
+                    $this.trigger(
+                        '_update',
+                        {html: $this.data('replace')});
+                }
+            },
+            '_resize': function() {
+                $(this).css({'height':
+                    $(this).prev().outerHeight()});
+            },
+            '_update': function( e, data ) {
+                $(this)
+                    .contents()
+                    .find('body')
+                    .html(data.html);
+            }
+        })
+        .trigger('_resize')
+        .appendTo( $codemirror );
+
+    /* update iframe contents for the first time */
+    updatePreview( $codemirror.get(0).CodeMirror );
+}
 
 
 
-/* end document ready and jQuery closure */
+/* end jQuery closure and document ready */
 }); })(markupmirror.jQuery);
