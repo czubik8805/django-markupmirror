@@ -4,6 +4,9 @@ Changelog
 0.1 - unreleased
 ----------------
 
+* Added jQuery plugin for CodeMirror initialization and preview updating.
+  Thanks to Gustav Pursche!
+
 * Initial release including ``MarkupMirrorField`` field,
   ``MarkupMirrorTextarea`` and ``AdminMarkupMirrorTextareaWidget`` widgets and
   providing FeinCMS integration with ``MarkupMirrorContent`` Page content-type.
