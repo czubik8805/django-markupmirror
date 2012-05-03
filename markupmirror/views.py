@@ -9,7 +9,10 @@ class MarkupPreview(View):
 
     http_method_names = ['post']
 
-    def post(self, request, markup_type, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
+        markup_type = self.request.POST.get('markup_type')
+        if not markup_type:
+            return HttpResponse(u"", content_type='text/html')
         markup = markup_pool.get_markup(markup_type)
         text = self.request.POST.get('text', u"")
         return HttpResponse(markup(text), content_type='text/html')

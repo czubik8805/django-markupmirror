@@ -1,5 +1,6 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
+from django.utils import simplejson as json
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
@@ -214,9 +215,13 @@ class MarkupMirrorField(models.TextField):
         }
         if (self.default_markup_type and
             self.default_markup_type in markup_pool):
-            widget_attrs['data-mode'] = markup_pool[
-                self.default_markup_type].codemirror_mode
-            widget_attrs['data-markuptype'] = self.default_markup_type
+            # prepare default settings for CodeMirror and preview in case
+            # the widget has no value yet.
+            mm_settings = {
+                'mode': markup_pool[self.default_markup_type].codemirror_mode,
+                'markup_type': self.default_markup_type,
+            }
+            widget_attrs['data-mm-settings'] = json.dumps(mm_settings)
 
         defaults = {
             'widget': widgets.MarkupMirrorTextarea(attrs=widget_attrs),
