@@ -138,11 +138,14 @@ var preview_delay,
                     }, 500);
                 }
             },
-            $textarea.data('mmSettings')))
+            $textarea.first().data('mmSettings')))
         .configure({
             'onInit': create_iframe
-        })
-        .add($textarea);
+        });
+$textarea.each(function() {
+    var $this = $(this);
+    MME.add($this, $this.data('mmSettings'));
+});
 
 
 
@@ -168,6 +171,7 @@ $('.add-row').children('a').on('click', function(event) {
     }
     MME.add(added_form.find('.markupmirror-editor'));
 });
+
 /* opening collapsed fieldsets */
 $('.collapse').find('.collapse-toggle').on('click', function(event) {
     var $codemirror = $(event.target)
@@ -175,14 +179,47 @@ $('.collapse').find('.collapse-toggle').on('click', function(event) {
         .find('.CodeMirror');
     refresh_iframe($codemirror);
 });
-/* switching tabs in FeinCMS */
-$('.change-form').on('click', '.navi_tab', function(event) {
-    var $tab = $(event.target),
-        id = $tab.attr('id'),
-        panel_id = id.substr(0, id.length - 4),  // _tab -> _body
-        $codemirror = $('#' + panel_id + '_body').find('.CodeMirror');
-    refresh_iframe($codemirror);
-});
+
+/* FeinCMS related handlers */
+if (feincms !== undefined) {
+
+    /* switching tabs in FeinCMS */
+    $('.change-form').on('click', '.navi_tab', function(event) {
+        var $tab = $(event.target),
+            id = $tab.attr('id'),
+            panel_id = id.substr(0, id.length - 4),  // _tab -> _body
+            $codemirror = $('#' + panel_id + '_body').find('.CodeMirror');
+        refresh_iframe($codemirror);
+    });
+
+    /* adding new content items in FeinCMS */
+    contentblock_init_handlers.push(function() {
+        var $textareas = $('.order-machine').find('.markupmirror-editor');
+        $textareas.each(function() {
+            var $this = $(this);
+            /* continue if CodeMirror already initialized */
+            if ($this.next('.CodeMirror').length !== 0) {
+                return true;
+            }
+
+            MME.add($this, $this.data('mmSettings'));
+            var $codemirror = $this.next('.CodeMirror'),
+                resize_delay,
+                initial_resize = function($codemirror) {
+                    clearTimeout(resize_delay);
+                    if ($codemirror.is(':visible')) {
+                        refresh_iframe($codemirror);
+                    } else {
+                        resize_delay = setTimeout(function() {
+                            initial_resize($codemirror);
+                        }, 50);
+                    }
+                };
+            initial_resize($codemirror);
+        });
+    });
+
+}
 
 
 /* when changing the textarea we replace the iframe content with the
