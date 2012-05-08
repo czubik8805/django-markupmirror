@@ -17,9 +17,6 @@ class MarkupMirrorWidgetTests(TestCase):
     ``..AdminMarkupMirrorTextareaWidget`` implementations.
 
     """
-
-    maxDiff = None
-
     def setUp(self):
         """Creates three ``Post`` objects with different field settings."""
 
