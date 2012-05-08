@@ -125,28 +125,69 @@ var MarkupMirrorEditor = function(element, options) {
 };
 
 
-/* initialize plugin for all textarea.markupmirror-editor elements */
+/* Initialize plugin for all textarea.markupmirror-editor elements.
+   Ignore the add-rows of model inlines because CM cannot be copied. */
 var preview_delay,
-    $textarea = $('.markupmirror-editor'),
+    $textarea = $('.markupmirror-editor:not(.empty-form textarea)'),
     MME = new MarkupMirrorEditor(undefined,
             $.extend({
                 'onChange': function(editor) {
                     clearTimeout(preview_delay);
                     preview_delay = setTimeout(function() {
-                        updatePreview(editor);
+                        update_preview(editor);
                     }, 500);
                 }
             },
             $textarea.data('mmSettings')))
         .configure({
-            'onInit': createIframe
+            'onInit': create_iframe
         })
         .add($textarea);
 
 
+
+/* refresh the iframe for a group of CodeMirrors */
+function refresh_iframe($codemirror) {
+    $codemirror.each(function() {
+        var $this = $(this);
+        $this.get(0).CodeMirror.refresh();
+        $this.children('iframe').trigger('_resize');
+    });
+}
+
+/* inserting new inlines (stacked or tabular) */
+$('.add-row').children('a').on('click', function(event) {
+    var $group = $(event.target)
+        .closest('.inline-group'),
+        is_tabular = $group.children('.inline-related:first').is('.tabular'),
+        added_form;
+    if (is_tabular) {
+        added_form = $group.find('.form-row:not(.empty-form)').last();
+    } else {
+        added_form = $group.find('.inline-related:not(.empty-form)').last();
+    }
+    MME.add(added_form.find('.markupmirror-editor'));
+});
+/* opening collapsed fieldsets */
+$('.collapse').find('.collapse-toggle').on('click', function(event) {
+    var $codemirror = $(event.target)
+        .closest('.module')
+        .find('.CodeMirror');
+    refresh_iframe($codemirror);
+});
+/* switching tabs in FeinCMS */
+$('.change-form').on('click', '.navi_tab', function(event) {
+    var $tab = $(event.target),
+        id = $tab.attr('id'),
+        panel_id = id.substr(0, id.length - 4),  // _tab -> _body
+        $codemirror = $('#' + panel_id + '_body').find('.CodeMirror');
+    refresh_iframe($codemirror);
+});
+
+
 /* when changing the textarea we replace the iframe content with the
    new coming from the server */
-function updatePreview(editor) {
+function update_preview(editor) {
     var $textarea = $(editor.getTextArea()),
         $codemirror = $textarea.next('.CodeMirror'),
         $iframe = $codemirror.children('iframe'),
@@ -173,7 +214,7 @@ function updatePreview(editor) {
 
 
 /* when init a textarea with codemirror we also create an iframe */
-function createIframe(textarea) {
+function create_iframe(textarea) {
     var $textarea = $(textarea),
         $iframe = $('<iframe />').attr(
             'src', $textarea.data('mmSettings')['base_url']),
@@ -206,7 +247,7 @@ function createIframe(textarea) {
         .appendTo($codemirror);
 
     /* update iframe contents for the first time */
-    updatePreview($codemirror.get(0).CodeMirror);
+    update_preview($codemirror.get(0).CodeMirror);
 }
 
 
