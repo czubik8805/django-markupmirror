@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1b2 - unreleased
+0.1b2 - 2012-05-08
 ------------------
 
 * Fixed problem with initializing the editor in FeinCMS when adding new
