@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.1b2 - unreleased
+------------------
+
+* Fixed problem with initializing the editor in FeinCMS when adding new
+  content blocks.
+
 0.1b1 - 2012-05-08
 ------------------
 
