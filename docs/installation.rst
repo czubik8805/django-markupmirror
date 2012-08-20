@@ -42,7 +42,7 @@ django-markupmirror depends on:
 
 * `Django`_ 1.4+ (for now tested with 1.4 only), obviously.
 
-* `FeinCMS`_ 1.5+ (for now tested with 1.5.3 only), if you want to use the page
+* `FeinCMS`_ 1.5+ (for now tested with 1.5.3 and 1.6.2 only), if you want to use the page
   content-type.
 
 * `Markdown 2.1+`_, if you want to use the ``MarkdownMarkup`` converter.
