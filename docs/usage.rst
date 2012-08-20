@@ -102,7 +102,7 @@ markup converters, the only thing left to do is to use the
 A field with fixed markup type would have to provide a ``markup_type``::
 
     from django.db import models
-    from markupmirror.fields import MarkupMirrorFields
+    from markupmirror.fields import MarkupMirrorField
 
     class MyModel(models.Model):
         content = MarkupMirrorField(markup_type='markdown')
