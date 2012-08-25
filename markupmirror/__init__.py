@@ -2,8 +2,8 @@ VERSION_INFO = {
     'major': 0,
     'minor': 1,
     'micro': 0,
-    'sub': 'beta',
-    'serial': 2,
+    'sub': 'candidate',
+    'serial': 1,
 }
 
 
