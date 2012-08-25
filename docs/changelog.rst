@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.1c1 - 2012-08-25
+------------------
+
+* A few documentation fixes. Thanks Paolo Dina.
+
 0.1b2 - 2012-05-08
 ------------------
 
