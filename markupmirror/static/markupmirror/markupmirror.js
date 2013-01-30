@@ -181,7 +181,7 @@ $('.collapse').find('.collapse-toggle').on('click', function(event) {
 });
 
 /* FeinCMS related handlers */
-if (feincms !== undefined) {
+if (typeof feincms !== "undefined" && feincms !== null) {
 
     /* switching tabs in FeinCMS */
     $('.change-form').on('click', '.navi_tab', function(event) {
