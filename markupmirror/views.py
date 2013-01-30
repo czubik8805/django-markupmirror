@@ -15,7 +15,8 @@ class MarkupPreview(View):
             return HttpResponse(u"", content_type='text/html')
         markup = markup_pool.get_markup(markup_type)
         text = self.request.POST.get('text', u"")
-        return HttpResponse(markup(text), content_type='text/html')
+        result = markup(text, request=request)
+        return HttpResponse(result, content_type='text/html')
 
 
 __all__ = ('MarkupMirrorPreview',)
