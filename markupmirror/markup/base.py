@@ -4,6 +4,9 @@ from markupmirror.exceptions import *
 from markupmirror import settings
 
 import logging
+import inspect
+
+
 logger = logging.getLogger("markupmirror")
 
 
@@ -45,13 +48,21 @@ class BaseMarkup(object):
         """Called after ``convert``. Similar to ``before_convert``."""
         return markup
 
-    def __call__(self, markup):
+    def __call__(self, markup, request=None):
         """Main entry point. Calls ``before_convert``, ``convert`` and
         ``after_convert`` in that order.
 
         """
-        return force_unicode(
-            self.after_convert(self.convert(self.before_convert(markup))))
+        def call(method, markup):
+            """Call method with the markup and if specified, the request"""
+            kwargs = {}
+            if 'request' in inspect.getargspec(method.im_func)[0]:
+                kwargs['request'] = request
+            return method(markup, **kwargs)
+        before = call(self.before_convert, markup)
+        converted = call(self.convert, before)
+        after = call(self.after_convert, converted)
+        return force_unicode(after)
 
 
 class MarkupPool(object):
