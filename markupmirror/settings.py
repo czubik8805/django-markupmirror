@@ -52,3 +52,18 @@ MARKUPMIRROR_CODEMIRROR_SETTINGS = getattr(settings,
         'lineWrapping': True,
         'path': settings.STATIC_URL + 'markupmirror/',
     })
+
+
+# Available markup types
+
+MARKUPMIRROR_MARKUP_TYPES = {
+    "html": "markupmirror.markup.HtmlMarkup",
+    "plain": "markupmirror.markup.PlainTextMarkup",
+    "textile": "markupmirror.markup.TextileMarkup",
+    "markdown": "markupmirror.markup.MarkdownMarkup",
+    "restructuredText": "markupmirror.markup.ReStructuredTextMarkup",
+}
+if getattr(settings, 'MARKUPMIRROR_IGNORE_DEFAULT_TYPES', False):
+    MARKUPMIRROR_MARKUP_TYPES = {}
+MARKUPMIRROR_MARKUP_TYPES.update(
+    getattr(settings, 'MARKUPMIRROR_MARKUP_TYPES', {}))

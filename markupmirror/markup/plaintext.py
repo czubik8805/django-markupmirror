@@ -20,8 +20,4 @@ class PlainTextMarkup(BaseMarkup):
     def convert(self, markup):
         return urlize(linebreaks(markup))
 
-
-register_markup(PlainTextMarkup)
-
-
 __all__ = ('PlainTextMarkup',)

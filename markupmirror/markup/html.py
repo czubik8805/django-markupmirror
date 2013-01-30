@@ -14,8 +14,4 @@ class HtmlMarkup(BaseMarkup):
     codemirror_mode = 'text/html'
     title = _(u"HTML")
 
-
-register_markup(HtmlMarkup)
-
-
 __all__ = ('HtmlMarkup',)
