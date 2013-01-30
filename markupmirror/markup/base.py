@@ -1,6 +1,10 @@
 from django.utils.encoding import force_unicode
 
 from markupmirror.exceptions import *
+from markupmirror import settings
+
+import logging
+logger = logging.getLogger("markupmirror")
 
 
 class BaseMarkup(object):
@@ -59,7 +63,21 @@ class MarkupPool(object):
 
     """
     def __init__(self):
-        self.markups = {}
+        self._markups = None
+
+    @property
+    def markups(self):
+        """Default our markups from settings.
+
+        Done here to avoid doing this during project settings.py construction
+        """
+        if self._markups is None:
+            self._markups = {}
+            for markup in settings.MARKUPMIRROR_MARKUP_TYPES.values():
+                markup = self.markup_from(markup)
+                if markup is not None:
+                    self.register_markup(markup)
+        return self._markups
 
     def register_markup(self, markup):
         """Registers a markup converter class.
@@ -76,7 +94,59 @@ class MarkupPool(object):
                 % markup)
 
         markup_name = markup.get_name()
+
+        # Make sure we can import all the required things
+        if not hasattr(markup, 'required') and hasattr(markup, 'requires'):
+            unfulfilled = self.fulfill_required(markup)
+            if unfulfilled:
+                errors = "\n\t".join("%s:%s" % (requirement, error)
+                    for requirement, error in unfulfilled)
+                logger.warning("Couldn't register markup %s:%s\n\t%s",
+                    markup_name, markup, errors)
+                return
+
         self.markups[markup_name] = markup()
+
+    def markup_from(self, markup):
+        """Import markup from the specified markup.
+
+        If already an object, then return as is otherwise, import it first.
+
+        """
+        if not isinstance(markup, basestring):
+            return markup
+
+        parts = markup.split('.')
+        name = parts[-1]
+        leadup = '.'.join(parts[:-1])
+        loaded = __import__(leadup, globals(), locals(), [name], -1)
+        return getattr(loaded, name)
+
+    def fulfill_required(self, markup):
+        """See that we can import everything in the requires field.
+
+        Return list of [(requirement, error), ...]
+        for all the requirements that couldn't be fullfilled
+
+        """
+        requires = markup.requires
+        required = markup.required = {}
+        unfulfilled = []
+
+        if isinstance(requires, basestring):
+            requires = [requires]
+
+        for req in requires:
+            parts = req.split('.')
+            try:
+                name = parts[-1]
+                leadup = '.'.join(parts[:-1])
+                loaded = __import__(leadup, globals(), locals(), [name], -1)
+                required[name] = getattr(loaded, name)
+            except ImportError as error:
+                unfulfilled.append((name, error))
+
+        return unfulfilled
 
     def unregister_markup(self, markup_name):
         """Unregisters a markup converter with the name ``markup_name``.

@@ -63,6 +63,28 @@ only needs to inherit from ``BaseMarkup`` and implement the ``convert`` method.
    :members: convert, before_convert, after_convert, __call__, get_name
    :special-members:
 
+It may also have a ``requires`` field that is either a single string or an
+iterable of strings. Each string must be a dot seperated import path to some
+library that is required for the conversion to work.
+
+When the markup type is registered, these ``requires`` will be resolved and put
+into a ``required`` dictionary on the class where the key is the final name of
+the import.
+
+For example:
+
+.. code-block:: python
+
+    from markupmirror.markup.base import BaseMarkup
+
+    class ExampleMarkup(BaseMarkup):
+        requires = ("wikimarkup.parse", )
+        def convert(self, markup):
+            return self.required['parse'](markup)
+
+If any requirements can't be resolved then the ``markupmirror`` logger will
+emit a warning complaining about this and the markup type is not registered.
+
 Register and unregister Markup Types
 ------------------------------------
 
@@ -91,6 +113,23 @@ This would make the ``ExampleMarkup`` converter available through the key
 ``example``, derived from its class name::
 
     example_markup = markup_pool['example']
+
+Registration via settings.py
+----------------------------
+
+You may also control what markup types are registered on initialisation via
+the following two settings in your project's settings.py:
+
+    MARKUPMIRROR_IGNORE_DEFAULT_TYPES
+        Whether to ignore all default markup types
+
+    MARKUPMIRROR_MARKUP_TYPES
+        Dictionary of key to markup type.
+
+        Where markup type is either an subclass of ``BaseMarkup``
+        or a dot seperated import path to a subclass of ``BaseMarkup``.
+
+        These will be merged on top of the default markup types.
 
 Using the ``MarkupMirrorField``
 ===============================

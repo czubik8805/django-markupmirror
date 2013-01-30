@@ -77,6 +77,29 @@ behaviour of django-markupmirror:
 
    Defaults to ``plaintext``.
 
+.. py:data:: MARKUPMIRROR_IGNORE_DEFAULT_TYPES
+
+   Whether to ignore the default markup types before they are registered
+
+.. py:data:: MARKUPMIRROR_MARKUP_TYPES
+
+   Dictionary of key to markup type.
+
+   Where markup type is either an subclass of ``BaseMarkup``
+   or a dot seperated import path to a subclass of ``BaseMarkup``.
+
+   These will be merged on top of the default markup types.
+
+   Defaults to::
+
+    MARKUPMIRROR_MARKUP_TYPES = {
+        "html": "markupmirror.markup.HtmlMarkup",
+        "plain": "markupmirror.markup.PlainTextMarkup",
+        "textile": "markupmirror.markup.TextileMarkup",
+        "markdown": "markupmirror.markup.MarkdownMarkup",
+        "restructuredText": "markupmirror.markup.ReStructuredTextMarkup",
+    }
+
 .. py:data:: MARKUPMIRROR_MARKDOWN_EXTENSIONS
 
    Defines the extensions to load for `Markdown`_. Markdown's package
