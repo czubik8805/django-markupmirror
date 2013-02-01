@@ -67,6 +67,10 @@ only needs to inherit from ``BaseMarkup`` and implement the ``convert`` method.
     parameter called ``request``, then any ``request`` passed into ``__call__``
     will be passed into those methods.
 
+    And if they take a parameter called ``model_instance``, then when they are
+    called due to saving a model, the instance being saved will be passed in as
+    ``model_instance``.
+
 It may also have a ``requires`` field that is either a single string or an
 iterable of strings. Each string must be a dot seperated import path to some
 library that is required for the conversion to work.
