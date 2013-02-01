@@ -48,7 +48,7 @@ class BaseMarkup(object):
         """Called after ``convert``. Similar to ``before_convert``."""
         return markup
 
-    def __call__(self, markup, request=None):
+    def __call__(self, markup, request=None, model_instance=None):
         """Main entry point. Calls ``before_convert``, ``convert`` and
         ``after_convert`` in that order.
 
@@ -56,8 +56,11 @@ class BaseMarkup(object):
         def call(method, markup):
             """Call method with the markup and if specified, the request"""
             kwargs = {}
-            if 'request' in inspect.getargspec(method.im_func)[0]:
+            available = inspect.getargspec(method.im_func)[0]
+            if 'request' in available:
                 kwargs['request'] = request
+            if 'model_instance' in available:
+                kwargs['model_instance'] = model_instance
             return method(markup, **kwargs)
         before = call(self.before_convert, markup)
         converted = call(self.convert, before)

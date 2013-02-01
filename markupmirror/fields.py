@@ -182,7 +182,7 @@ class MarkupMirrorField(models.TextField):
         else:
             raw = value.raw
 
-        rendered = markup_pool[value.markup_type](raw)
+        rendered = markup_pool[value.markup_type](raw, model_instance=model_instance)
         setattr(model_instance, _rendered_field_name(self.attname), rendered)
         return value.raw
 
