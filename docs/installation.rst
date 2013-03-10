@@ -93,11 +93,11 @@ behaviour of django-markupmirror:
    Defaults to::
 
     MARKUPMIRROR_MARKUP_TYPES = {
-        "html": "markupmirror.markup.HtmlMarkup",
-        "plain": "markupmirror.markup.PlainTextMarkup",
-        "textile": "markupmirror.markup.TextileMarkup",
-        "markdown": "markupmirror.markup.MarkdownMarkup",
-        "restructuredText": "markupmirror.markup.ReStructuredTextMarkup",
+        'html': 'markupmirror.markup.HtmlMarkup',
+        'plain': 'markupmirror.markup.PlainTextMarkup',
+        'textile': 'markupmirror.markup.TextileMarkup',
+        'markdown': 'markupmirror.markup.MarkdownMarkup',
+        'restructuredText': 'markupmirror.markup.ReStructuredTextMarkup',
     }
 
 .. py:data:: MARKUPMIRROR_MARKDOWN_EXTENSIONS

@@ -86,7 +86,9 @@ For example:
     from markupmirror.markup.base import BaseMarkup
 
     class ExampleMarkup(BaseMarkup):
-        requires = ("wikimarkup.parse", )
+
+        requires = ('wikimarkup.parse', )
+
         def convert(self, markup):
             return self.required['parse'](markup)
 
