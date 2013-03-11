@@ -44,14 +44,14 @@ The Markup Pool
 The markup pool is the main access point to markup converters. They are
 registered with the pool, and retrieved from it.
 
-.. automodule:: markupmirror.markup.base
+..  automodule:: markupmirror.markup.base
 
-.. py:data:: markupmirror.markup.base.markup_pool
+..  py:data:: markupmirror.markup.base.markup_pool
 
-   Instance of ``MarkupPool`` for public use.
+    Instance of ``MarkupPool`` for public use.
 
-.. autoclass:: MarkupPool
-   :members:
+..  autoclass:: MarkupPool
+    :members:
 
 Create your own Markup Type
 ---------------------------
@@ -59,38 +59,36 @@ Create your own Markup Type
 You can easily create your own markup converters for any purpose. The converter
 only needs to inherit from ``BaseMarkup`` and implement the ``convert`` method.
 
-.. autoclass:: markupmirror.markup.base.BaseMarkup
-   :members: convert, before_convert, after_convert, __call__, get_name
-   :special-members:
+..  autoclass:: markupmirror.markup.base.BaseMarkup
+    :members: convert, before_convert, after_convert, __call__, get_name
+    :special-members:
 
-.. note:: If ``convert``, ``before_convert`` or ``after_convert`` take a
-    parameter called ``request``, then any ``request`` passed into ``__call__``
-    will be passed into those methods.
+..  note::
+    If ``convert``, ``before_convert`` or ``after_convert`` accept
+    ``*args`` and ``**kwargs`` which can be exploited to pass the request or a
+    model instance into the conversion process.
 
-    And if they take a parameter called ``model_instance``, then when they are
-    called due to saving a model, the instance being saved will be passed in as
-    ``model_instance``.
+It may also have a ``requires`` dictionary attribute that defines named
+requirements by their full import path.
 
-It may also have a ``requires`` field that is either a single string or an
-iterable of strings. Each string must be a dot seperated import path to some
-library that is required for the conversion to work.
-
-When the markup type is registered, these ``requires`` will be resolved and put
-into a ``required`` dictionary on the class where the key is the final name of
-the import.
+When the markup type is registered, these ``requires`` will be resolved and
+made available through the ``requirement`` attribute (also a dictionary) of the
+markup class.
 
 For example:
 
-.. code-block:: python
+..  code-block:: python
 
     from markupmirror.markup.base import BaseMarkup
 
     class ExampleMarkup(BaseMarkup):
 
-        requires = ('wikimarkup.parse', )
+        requires = {
+            'wikimarkup': wikimarkup.parse',
+        }
 
         def convert(self, markup):
-            return self.required['parse'](markup)
+            return self.requirements['wikimarkup'](markup)
 
 If any requirements can't be resolved then the ``markupmirror`` logger will
 emit a warning complaining about this and the markup type is not registered.
@@ -167,10 +165,10 @@ If you provide neither ``markup_type`` nor ``default_markup_type``, the
 
 For reference, see the ``MarkupMirrorField`` and ``Markup`` classes:
 
-.. automodule:: markupmirror.fields
+..  automodule:: markupmirror.fields
 
-.. autoclass:: MarkupMirrorField
+..  autoclass:: MarkupMirrorField
 
-.. autoclass:: Markup
-   :members: raw, markup_type, rendered, __unicode__
-   :special-members:
+..  autoclass:: Markup
+    :members: raw, markup_type, rendered, __unicode__
+    :special-members:
