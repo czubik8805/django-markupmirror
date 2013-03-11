@@ -1,9 +1,14 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.test import TestCase
 
 from markupmirror.exceptions import InvalidMarkup
 from markupmirror.markup.base import BaseMarkup
 from markupmirror.markup.base import markup_pool
 from markupmirror.markup.base import register_markup
+
+
+__all__ = ('BaseMarkupTests', 'MarkupPoolTests')
 
 
 class DummyMarkup(BaseMarkup):
@@ -105,6 +110,3 @@ class MarkupPoolTests(TestCase):
         self.assertEqual(
             ['html', 'markdown', 'plaintext', 'restructuredtext', 'textile'],
             sorted(all_markups.keys()))
-
-
-__all__ = ('BaseMarkupTests', 'MarkupPoolTests')

@@ -1,9 +1,14 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.test import TestCase
 
 from markupmirror.markup.html import HtmlMarkup
 
 
-MARKUP = u"""\
+__all__ = ('HTMLMarkupTests',)
+
+
+MARKUP = """\
 <h1>A First Level Header</h1>
 
 <h2>A Second Level Header</h2>
@@ -31,6 +36,3 @@ class HTMLMarkupTests(TestCase):
         """The ``HtmlMarkup`` converter does not do anything."""
         html_markup = HtmlMarkup()
         self.assertHTMLEqual(html_markup(MARKUP), MARKUP)
-
-
-__all__ = ('HTMLMarkupTests',)

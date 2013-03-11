@@ -1,5 +1,5 @@
 """Test settigs for django-markupmirror."""
-
+from __future__ import absolute_import, unicode_literals
 import os
 
 
@@ -13,6 +13,8 @@ def tests_path_to(*parts):
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+SECRET_KEY = 'abcdefghijklmnopqrstuvwxyz'
 
 INSTALLED_APPS = (
     'django_nose',
@@ -68,10 +70,12 @@ LOGGING = {
 
 MARKUPMIRROR_DEFAULT_MARKUP_TYPE = 'markdown'
 
+MARKUPMIRROR_IGNORE_DEFAULT_TYPES = False
+
 
 # ### django-nose
 
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+TEST_RUNNER = b'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
     '--detailed-errors',

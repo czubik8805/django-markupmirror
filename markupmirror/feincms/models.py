@@ -1,9 +1,14 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from markupmirror import settings
 from markupmirror.fields import MarkupMirrorField
+
+
+__all__ = ('MarkupMirrorContent',)
 
 
 class MarkupMirrorContent(models.Model):
@@ -14,15 +19,15 @@ class MarkupMirrorContent(models.Model):
     # __name__ = 'richtextcontent'
 
     content = MarkupMirrorField(
-        verbose_name=_(u"Markup content"),
+        verbose_name=_("Markup content"),
         markup_type=settings.MARKUPMIRROR_DEFAULT_MARKUP_TYPE,
         blank=True)
 
     class Meta:
         abstract = True
         app_label = 'wienfluss'
-        verbose_name = _(u"Markup content")
-        verbose_name_plural = _(u"Markup content")
+        verbose_name = _("Markup content")
+        verbose_name_plural = _("Markup content")
 
     def render(self, **kwargs):
         request = kwargs.get('request')
@@ -30,6 +35,3 @@ class MarkupMirrorContent(models.Model):
             'content': self,
             'request': request
         })
-
-
-__all__ = ('MarkupMirrorContent',)

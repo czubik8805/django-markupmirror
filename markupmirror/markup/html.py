@@ -1,7 +1,11 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.utils.translation import ugettext_lazy as _
 
 from markupmirror.markup.base import BaseMarkup
-from markupmirror.markup.base import register_markup
+
+
+__all__ = ('HtmlMarkup',)
 
 
 class HtmlMarkup(BaseMarkup):
@@ -12,6 +16,4 @@ class HtmlMarkup(BaseMarkup):
 
     """
     codemirror_mode = 'text/html'
-    title = _(u"HTML")
-
-__all__ = ('HtmlMarkup',)
+    title = _("HTML")
