@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 import textwrap
 
 from django.test import TestCase
@@ -5,7 +6,10 @@ from django.test import TestCase
 from markupmirror.markup.plaintext import PlainTextMarkup
 
 
-MARKUP = u"""\
+__all__ = ('PlainTextMarkupTests',)
+
+
+MARKUP = """\
 This is some plaintext markup.
 It includes http://www.domain.com/ links and
 
@@ -27,12 +31,9 @@ class PlainTextMarkupTests(TestCase):
         plaintext_markup = PlainTextMarkup()
         self.assertHTMLEqual(
             plaintext_markup(MARKUP),
-            textwrap.dedent(u"""\
+            textwrap.dedent("""\
                 <p>This is some plaintext markup.<br />
                 It includes <a href="http://www.domain.com/">
                     http://www.domain.com/</a> links and</p>
                 <p>also some linebreaks.<br /></p>
                 """))
-
-
-__all__ = ('PlainTextMarkupTests',)

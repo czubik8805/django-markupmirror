@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 import textwrap
 
 from django.test import TestCase
@@ -5,7 +6,10 @@ from django.test import TestCase
 from markupmirror.markup.markdown_ import MarkdownMarkup
 
 
-MARKUP = u"""\
+__all__ = ('MarkdownMarkupTests',)
+
+
+MARKUP = """\
 A First Level Header
 ====================
 
@@ -43,7 +47,7 @@ class MarkdownMarkupTests(TestCase):
         # === becomes h2 because of headerid(level=2) extension
         self.assertHTMLEqual(
             markdown_markup(MARKUP),
-            textwrap.dedent(u"""\
+            textwrap.dedent("""\
                 <h2 id="a-first-level-header">A First Level Header</h2>
                 <h3 id="a-second-level-header">A Second Level Header</h3>
                 <p>Now is the time for all good men to come to
@@ -84,6 +88,3 @@ class MarkdownMarkupTests(TestCase):
 
     #     # re-register markdown to restore default state
     #     register_markup(MarkdownMarkup)
-
-
-__all__ = ('MarkdownMarkupTests',)

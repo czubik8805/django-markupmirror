@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 import textwrap
 
 from django.test import TestCase
@@ -5,7 +6,10 @@ from django.test import TestCase
 from markupmirror.markup.restructuredtext import ReStructuredTextMarkup
 
 
-MARKUP = u"""\
+__all__ = ('ReStructuredTextMarkupTests',)
+
+
+MARKUP = """\
 A First Level Header
 ====================
 
@@ -42,7 +46,7 @@ class ReStructuredTextMarkupTests(TestCase):
         restructuredtext_markup = ReStructuredTextMarkup()
         self.assertHTMLEqual(
             restructuredtext_markup(MARKUP),
-            textwrap.dedent(u"""\
+            textwrap.dedent("""\
                 <div class="document" id="a-first-level-header">
                     <h1 class="title">A First Level Header</h1>
                     <h2 class="subtitle" id="a-second-level-header">
@@ -61,6 +65,3 @@ class ReStructuredTextMarkupTests(TestCase):
                     </div>
                 </div>
                 """))
-
-
-__all__ = ('ReStructuredTextMarkupTests',)

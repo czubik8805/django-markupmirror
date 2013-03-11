@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 import os
 import textwrap
 
@@ -6,7 +7,7 @@ from setuptools import find_packages
 
 
 AUTHORS = (
-    ("Fabian B\xc3\xbcchler", "fabian.buechler@gmail.com"),
+    ("Fabian B\xfcchler", "fabian.buechler@gmail.com"),
 )
 
 
@@ -32,7 +33,7 @@ setup(
         read('README.rst'),
         read('docs', 'quickstart.rst'),
         read('docs', 'changelog.rst'),
-        ]),
+    ]),
     url="https://bitbucket.org/fabianbuechler/django-markupmirror",
     keywords="django markup field widget codemirror",
     license="BSD License",

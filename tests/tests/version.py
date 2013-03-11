@@ -1,6 +1,10 @@
+from __future__ import absolute_import, unicode_literals
 from django.test import TestCase
 
 import markupmirror
+
+
+__all__ = ('VersionTests',)
 
 
 class VersionTests(TestCase):
@@ -86,6 +90,3 @@ class VersionTests(TestCase):
         # invalid micro
         markupmirror.VERSION_INFO['micro'] = 'seven'
         self.assertRaises(AssertionError, markupmirror.get_version)
-
-
-__all__ = ('VersionTests',)
