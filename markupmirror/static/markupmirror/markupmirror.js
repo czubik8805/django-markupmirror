@@ -229,8 +229,8 @@ function update_preview(editor) {
         $codemirror = $textarea.next('.CodeMirror'),
         $iframe = $codemirror.children('iframe'),
         mm_settings = $textarea.data('mmSettings'),
-        url = mm_settings['preview_url'],
-        markup_type = mm_settings['markup_type'];
+        url = mm_settings.preview_url,
+        markup_type = mm_settings.markup_type;
 
     $.post(url, {
             /* csrfmiddlewaretoken: '{{ csrf_token }}', */
@@ -254,7 +254,7 @@ function update_preview(editor) {
 function create_iframe(textarea) {
     var $textarea = $(textarea),
         $iframe = $('<iframe />').attr(
-            'src', $textarea.data('mmSettings')['base_url']),
+            'src', $textarea.data('mmSettings').base_url),
         $codemirror = $textarea.next('.CodeMirror');
 
     $iframe
