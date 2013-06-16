@@ -45,8 +45,6 @@ MARKUPMIRROR_TEXTILE_SETTINGS = getattr(settings,
 
 MARKUPMIRROR_CODEMIRROR_SETTINGS = getattr(settings,
     'MARKUPMIRROR_CODEMIRROR_SETTINGS', {
-        'width': '50%',
-        'height': '300px',
         'indentUnit': 4,
         'lineNumbers': True,
         'lineWrapping': True,
