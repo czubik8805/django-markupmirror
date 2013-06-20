@@ -44,14 +44,14 @@ The Markup Pool
 The markup pool is the main access point to markup converters. They are
 registered with the pool, and retrieved from it.
 
-.. automodule:: markupmirror.markup.base
+..  automodule:: markupmirror.markup.base
 
-.. py:data:: markupmirror.markup.base.markup_pool
+..  py:data:: markupmirror.markup.base.markup_pool
 
-   Instance of ``MarkupPool`` for public use.
+    Instance of ``MarkupPool`` for public use.
 
-.. autoclass:: MarkupPool
-   :members:
+..  autoclass:: MarkupPool
+    :members:
 
 Create your own Markup Type
 ---------------------------
@@ -59,9 +59,39 @@ Create your own Markup Type
 You can easily create your own markup converters for any purpose. The converter
 only needs to inherit from ``BaseMarkup`` and implement the ``convert`` method.
 
-.. autoclass:: markupmirror.markup.base.BaseMarkup
-   :members: convert, before_convert, after_convert, __call__, get_name
-   :special-members:
+..  autoclass:: markupmirror.markup.base.BaseMarkup
+    :members: convert, before_convert, after_convert, __call__, get_name
+    :special-members:
+
+..  note::
+    If ``convert``, ``before_convert`` or ``after_convert`` accept
+    ``*args`` and ``**kwargs`` which can be exploited to pass the request or a
+    model instance into the conversion process.
+
+It may also have a ``requires`` dictionary attribute that defines named
+requirements by their full import path.
+
+When the markup type is registered, these ``requires`` will be resolved and
+made available through the ``requirement`` attribute (also a dictionary) of the
+markup class.
+
+For example:
+
+..  code-block:: python
+
+    from markupmirror.markup.base import BaseMarkup
+
+    class ExampleMarkup(BaseMarkup):
+
+        requires = {
+            'wikimarkup': wikimarkup.parse',
+        }
+
+        def convert(self, markup):
+            return self.requirements['wikimarkup'](markup)
+
+If any requirements can't be resolved then the ``markupmirror`` logger will
+emit a warning complaining about this and the markup type is not registered.
 
 Register and unregister Markup Types
 ------------------------------------
@@ -92,6 +122,23 @@ This would make the ``ExampleMarkup`` converter available through the key
 
     example_markup = markup_pool['example']
 
+Registration via settings.py
+----------------------------
+
+You may also control what markup types are registered on initialisation via
+the following two settings in your project's settings.py:
+
+    MARKUPMIRROR_IGNORE_DEFAULT_TYPES
+        Whether to ignore all default markup types
+
+    MARKUPMIRROR_MARKUP_TYPES
+        Dictionary of key to markup type.
+
+        Where markup type is either an subclass of ``BaseMarkup``
+        or a dot seperated import path to a subclass of ``BaseMarkup``.
+
+        These will be merged on top of the default markup types.
+
 Using the ``MarkupMirrorField``
 ===============================
 
@@ -118,10 +165,10 @@ If you provide neither ``markup_type`` nor ``default_markup_type``, the
 
 For reference, see the ``MarkupMirrorField`` and ``Markup`` classes:
 
-.. automodule:: markupmirror.fields
+..  automodule:: markupmirror.fields
 
-.. autoclass:: MarkupMirrorField
+..  autoclass:: MarkupMirrorField
 
-.. autoclass:: Markup
-   :members: raw, markup_type, rendered, __unicode__
-   :special-members:
+..  autoclass:: Markup
+    :members: raw, markup_type, rendered, __unicode__
+    :special-members:

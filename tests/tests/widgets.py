@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 import textwrap
 
 from django.core.urlresolvers import reverse
@@ -10,6 +11,9 @@ from markupmirror.widgets import AdminMarkupMirrorTextareaWidget
 
 from tests import settings
 from tests.models import Post, PostForm
+
+
+__all__ = ('MarkupMirrorWidgetTests',)
 
 
 class MarkupMirrorWidgetTests(TestCase):
@@ -52,12 +56,12 @@ class MarkupMirrorWidgetTests(TestCase):
         comment = form.fields['comment']
         self.assertHTMLEqual(
             comment.widget.render('comment', self.mp.comment),
-            textwrap.dedent(u"""\
+            textwrap.dedent("""\
                 <textarea rows="10" cols="40" name="comment"
                           class="markupmirror-editor"
                           data-mm-settings='{0}'></textarea>""").format(
-                    json.dumps(self.mm_settings, sort_keys=True))
-            )
+            json.dumps(self.mm_settings, sort_keys=True))
+        )
 
     def test_widget_additional_attributes(self):
         """Tests that additional attributes passed to the widget's ``render``
@@ -69,14 +73,14 @@ class MarkupMirrorWidgetTests(TestCase):
         self.assertHTMLEqual(
             comment.widget.render('comment', self.mp.comment, attrs={
                 'data-something': "else",
-                }),
-            textwrap.dedent(u"""\
+            }),
+            textwrap.dedent("""\
                 <textarea rows="10" cols="40" name="comment"
                           class="markupmirror-editor"
                           data-mm-settings='{0}'
                           data-something="else"></textarea>""").format(
-                    json.dumps(self.mm_settings, sort_keys=True))
-            )
+            json.dumps(self.mm_settings, sort_keys=True))
+        )
 
     def test_widget_default_mode_and_markuptype(self):
         """Widgets initialized without data (create model forms) should
@@ -94,12 +98,12 @@ class MarkupMirrorWidgetTests(TestCase):
         })
         self.assertHTMLEqual(
             comment.widget.render('comment', u""),
-            textwrap.dedent(u"""\
+            textwrap.dedent("""\
                 <textarea rows="10" cols="40" name="comment"
                           class="markupmirror-editor"
                           data-mm-settings='{0}'></textarea>""").format(
-                json.dumps(attrs, sort_keys=True))
-            )
+            json.dumps(attrs, sort_keys=True))
+        )
 
     def test_admin_widget_render(self):
         """Tests that the ``AdminMarkupMirrorTextareaWidget`` renders
@@ -114,11 +118,9 @@ class MarkupMirrorWidgetTests(TestCase):
         })
         self.assertHTMLEqual(
             admin_widget.render('comment', self.mp.comment),
-            textwrap.dedent(u"""\
+            textwrap.dedent("""\
                 <textarea rows="10" cols="40" name="comment"
                           class="vLargeTextField markupmirror-editor"
                           data-mm-settings='{0}' />""").format(
-                json.dumps(attrs, sort_keys=True))
-            )
-
-__all__ = ('MarkupMirrorWidgetTests',)
+            json.dumps(attrs, sort_keys=True))
+        )

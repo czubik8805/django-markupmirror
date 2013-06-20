@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 import textwrap
 
 from django.core import serializers
@@ -10,6 +11,9 @@ from markupmirror.fields import MarkupMirrorField
 from markupmirror.markup.base import markup_pool
 
 from tests.models import Concrete, Post, PostForm
+
+
+__all__ = ('MarkupMirrorFieldTests',)
 
 
 class MarkupMirrorFieldTests(TestCase):
@@ -137,7 +141,8 @@ class MarkupMirrorFieldTests(TestCase):
         """
         self.rp.body = "**reST**"
         self.rp.save()
-        self.assertEquals(unicode(self.rp.body),
+        self.assertEquals(
+            unicode(self.rp.body),
             unicode(self.rp.body.rendered), textwrap.dedent(u"""\
             <div class="document">
             <p><strong>reST</strong></p>
@@ -148,7 +153,8 @@ class MarkupMirrorFieldTests(TestCase):
                              'body_rendered', 'body_markup_type')
         rest_markup.raw = "*reST*"
         self.rp.body = rest_markup
-        self.assertEquals(unicode(self.rp.body),
+        self.assertEquals(
+            unicode(self.rp.body),
             unicode(self.rp.body.rendered), textwrap.dedent(u"""\
             <div class="document">
             <p><em>reST</em></p>
@@ -160,7 +166,8 @@ class MarkupMirrorFieldTests(TestCase):
 
         self.rp.body.raw = '*more reST*'
         self.rp.save()
-        self.assertEquals(unicode(self.rp.body),
+        self.assertEquals(
+            unicode(self.rp.body),
             unicode(self.rp.body.rendered), textwrap.dedent(u"""\
             <div class="document">
             <p><em>more reST</em></p>
@@ -192,56 +199,56 @@ class MarkupMirrorFieldTests(TestCase):
         json_data = json.loads(stream)
         self.assertEqual(json_data, [
             {
-                u'fields': {
-                    u'body': u'**markdown**',
-                    u'body_markup_type': u'markdown',
-                    u'body_rendered': u'<p><strong>markdown</strong></p>',
-                    u'comment': '',
-                    u'comment_markup_type': u'markdown',
-                    u'comment_rendered': '',
-                    u'markdown_field': '',
-                    u'markdown_field_markup_type': u'markdown',
-                    u'markdown_field_rendered': '',
-                    u'title': u'example Markdown post',
+                'fields': {
+                    'body': '**markdown**',
+                    'body_markup_type': 'markdown',
+                    'body_rendered': '<p><strong>markdown</strong></p>',
+                    'comment': '',
+                    'comment_markup_type': 'markdown',
+                    'comment_rendered': '',
+                    'markdown_field': '',
+                    'markdown_field_markup_type': 'markdown',
+                    'markdown_field_rendered': '',
+                    'title': 'example Markdown post',
                 },
-                u'model': u'tests.post',
-                u'pk': 1,
+                'model': 'tests.post',
+                'pk': 1,
             },
             {
-                u'fields': {
-                    u'body': u'*reST*',
-                    u'body_markup_type': u'restructuredtext',
-                    u'body_rendered':
-                        u'<div class="document">'
-                        u'\n<p><em>reST</em></p>\n</div>\n',
-                    u'comment': '',
-                    u'comment_markup_type': u'markdown',
-                    u'comment_rendered': '',
-                    u'markdown_field': '',
-                    u'markdown_field_markup_type': u'markdown',
-                    u'markdown_field_rendered': '',
-                    u'title': u'example reStructuredText post',
+                'fields': {
+                    'body': '*reST*',
+                    'body_markup_type': 'restructuredtext',
+                    'body_rendered': (
+                        '<div class="document">'
+                        '\n<p><em>reST</em></p>\n</div>\n'),
+                    'comment': '',
+                    'comment_markup_type': 'markdown',
+                    'comment_rendered': '',
+                    'markdown_field': '',
+                    'markdown_field_markup_type': 'markdown',
+                    'markdown_field_rendered': '',
+                    'title': 'example reStructuredText post',
                 },
-                u'model': u'tests.post',
-                u'pk': 2,
+                'model': 'tests.post',
+                'pk': 2,
             },
             {
-                u'fields': {
-                    u'body': u"<script>alert('xss');</script>",
-                    u'body_markup_type': u'markdown',
-                    u'body_rendered': u"<script>alert('xss');</script>",
-                    u'comment': u"<script>alert('xss');</script>",
-                    u'comment_markup_type': u'markdown',
-                    u'comment_rendered':
-                        u'<p>&lt;script&gt;'
-                        u'alert(&#39;xss&#39;);&lt;/script&gt;</p>',
-                    u'markdown_field': '',
-                    u'markdown_field_markup_type': u'markdown',
-                    u'markdown_field_rendered': '',
-                    u'title': u'example XSS post',
+                'fields': {
+                    'body': u"<script>alert('xss');</script>",
+                    'body_markup_type': 'markdown',
+                    'body_rendered': u"<script>alert('xss');</script>",
+                    'comment': u"<script>alert('xss');</script>",
+                    'comment_markup_type': 'markdown',
+                    'comment_rendered': (
+                        '<p>&lt;script&gt;'
+                        'alert(&#39;xss&#39;);&lt;/script&gt;</p>'),
+                    'markdown_field': '',
+                    'markdown_field_markup_type': 'markdown',
+                    'markdown_field_rendered': '',
+                    'title': 'example XSS post',
                 },
-                u'model': u'tests.post',
-                u'pk': 3,
+                'model': 'tests.post',
+                'pk': 3,
             },
         ])
 
@@ -259,7 +266,7 @@ class MarkupMirrorFieldTests(TestCase):
         self.assertEquals(self.xss_post.comment.raw, self.xss_str)
         self.assertEquals(
             unicode(self.xss_post.comment.rendered),
-            u'<p>&lt;script&gt;alert(&#39;xss&#39;);&lt;/script&gt;</p>')
+            '<p>&lt;script&gt;alert(&#39;xss&#39;);&lt;/script&gt;</p>')
 
     def test_escape_html_false(self):
         """The ``MarkupMirrorField.escape_html`` prevents this escaping."""
@@ -278,7 +285,8 @@ class MarkupMirrorFieldTests(TestCase):
 
     def test_markup_type_validation(self):
         """Invalid markup types are rejected."""
-        self.assertRaises(ImproperlyConfigured, MarkupMirrorField,
+        self.assertRaises(
+            ImproperlyConfigured, MarkupMirrorField,
             'verbose name', 'markup_field', 'bad_markup_type')
 
     def test_default_markup_types(self):
@@ -313,7 +321,4 @@ class MarkupMirrorFieldTests(TestCase):
             '{{"markup_type": "{0}", "mode": "{1}"}}'.format(
                 self.mp.comment.markup_type,
                 markup_pool[self.mp.comment.markup_type].codemirror_mode)
-            )
-
-
-__all__ = ('MarkupMirrorFieldTests',)
+        )

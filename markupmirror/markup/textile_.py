@@ -13,21 +13,13 @@ class TextileMarkup(BaseMarkup):
     """
     codemirror_mode = 'text/plain'
     title = _(u"Textile")
+    requires = ("textile.textile", )
 
     def __init__(self):
         self.textile_settings = settings.MARKUPMIRROR_TEXTILE_SETTINGS
-        self.textile = textile
+        self.textile = self.required['textile']
 
     def convert(self, markup):
         return self.textile(markup, **self.textile_settings)
-
-
-# Only register if textile is installed
-try:
-    from textile import textile
-    register_markup(TextileMarkup)
-except ImportError:
-    pass
-
 
 __all__ = ('TextileMarkup',)

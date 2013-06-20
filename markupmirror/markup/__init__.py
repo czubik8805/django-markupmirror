@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 # Add all markup.* submodules here for autodiscovery
 from markupmirror.markup.base import *
 from markupmirror.markup.html import *

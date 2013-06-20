@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from tests.tests.feincms_ import *
 from tests.tests.fields import *
 from tests.tests.markup_base import *

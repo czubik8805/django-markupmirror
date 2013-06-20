@@ -1,9 +1,13 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.utils.html import linebreaks
 from django.utils.html import urlize
 from django.utils.translation import ugettext_lazy as _
 
 from markupmirror.markup.base import BaseMarkup
-from markupmirror.markup.base import register_markup
+
+
+__all__ = ('PlainTextMarkup',)
 
 
 class PlainTextMarkup(BaseMarkup):
@@ -15,13 +19,7 @@ class PlainTextMarkup(BaseMarkup):
 
     """
     codemirror_mode = 'text/plain'
-    title = _(u"Plain text")
+    title = _("Plain text")
 
     def convert(self, markup):
         return urlize(linebreaks(markup))
-
-
-register_markup(PlainTextMarkup)
-
-
-__all__ = ('PlainTextMarkup',)

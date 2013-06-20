@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from django import forms
 from django.contrib.admin.widgets import AdminTextareaWidget
 from django.core.urlresolvers import reverse
@@ -5,6 +7,9 @@ from django.utils import simplejson as json
 
 from markupmirror import settings
 from markupmirror.markup.base import markup_pool
+
+
+__all__ = ('MarkupMirrorTextarea', 'AdminMarkupMirrorTextareaWidget')
 
 
 class MarkupMirrorTextarea(forms.Textarea):
@@ -71,10 +76,7 @@ class MarkupMirrorTextarea(forms.Textarea):
         js = settings.MARKUPMIRROR_JS
 
 
-class AdminMarkupMirrorTextareaWidget(
-    MarkupMirrorTextarea, AdminTextareaWidget):
+class AdminMarkupMirrorTextareaWidget(MarkupMirrorTextarea,
+                                      AdminTextareaWidget):
 
     css_classes = ('vLargeTextField', 'markupmirror-editor')
-
-
-__all__ = ('MarkupMirrorTextarea', 'AdminMarkupMirrorTextareaWidget')

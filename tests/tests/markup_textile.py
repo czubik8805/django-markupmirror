@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 import textwrap
 
 from django.test import TestCase
@@ -5,7 +6,10 @@ from django.test import TestCase
 from markupmirror.markup.textile_ import TextileMarkup
 
 
-MARKUP = u"""\
+__all__ = ('TextileMarkupTests',)
+
+
+MARKUP = """\
 h1. A First Level Header
 
 h2. A Second Level Header
@@ -35,7 +39,7 @@ class TextileMarkupTests(TestCase):
         textile_markup = TextileMarkup()
         self.assertHTMLEqual(
             textile_markup(MARKUP),
-            textwrap.dedent(u"""\
+            textwrap.dedent("""\
                 <h1>A First Level Header</h1>
 
                 <h2>A Second Level Header</h2>
@@ -54,6 +58,3 @@ class TextileMarkupTests(TestCase):
                     This is the second paragraph in the blockquote.</p>
                 </blockquote>
                 """))
-
-
-__all__ = ('TextileMarkupTests',)

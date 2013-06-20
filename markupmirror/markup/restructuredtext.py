@@ -13,9 +13,10 @@ class ReStructuredTextMarkup(BaseMarkup):
     """
     codemirror_mode = 'text/x-rst'
     title = _(u"reStructuredText")
+    requires = ('docutils.core.publish_parts', )
 
     def __init__(self):
-        self.restructuredtext = publish_parts
+        self.restructuredtext = self.required['publish_parts']
 
     def convert(self, markup):
         parts = self.restructuredtext(
@@ -27,14 +28,5 @@ class ReStructuredTextMarkup(BaseMarkup):
         # headlines (=== or ---), they would be stripped off the result
         # otherwise.
         return parts['html_body']
-
-
-# Only register if docutils is installed
-try:
-    from docutils.core import publish_parts
-    register_markup(ReStructuredTextMarkup)
-except ImportError:
-    pass
-
 
 __all__ = ('ReStructuredTextMarkup',)
