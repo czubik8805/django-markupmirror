@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from django.utils import simplejson as json
@@ -6,6 +8,9 @@ from django.utils.safestring import mark_safe
 
 from markupmirror import widgets
 from markupmirror.markup.base import markup_pool
+
+
+__all__ = ('Markup', 'MarkupMirrorFieldDescriptor', 'MarkupMirrorField')
 
 
 # suffixes for rendered and markup_type fields
@@ -121,7 +126,7 @@ class MarkupMirrorField(models.TextField):
         self.escape_html = escape_html
 
         if (self.default_markup_type and
-            self.default_markup_type not in markup_pool):
+                self.default_markup_type not in markup_pool):
             raise ImproperlyConfigured(
                 "Invalid default_markup_type for field '%r', "
                 "available types: %s" % (
@@ -143,9 +148,10 @@ class MarkupMirrorField(models.TextField):
         """
         if not cls._meta.abstract:
             # markup_type
-            choices = [(markup_type, markup.title) for markup_type, markup in
+            choices = [
+                (markup_type, markup.title) for markup_type, markup in
                 sorted(markup_pool.markups.iteritems(),
-                    key=lambda markup: markup[1].title.lower())]
+                       key=lambda markup: markup[1].title.lower())]
             markup_type_field = models.CharField(
                 choices=choices, max_length=30,
                 default=self.default_markup_type, blank=self.blank,
@@ -182,7 +188,8 @@ class MarkupMirrorField(models.TextField):
         else:
             raw = value.raw
 
-        rendered = markup_pool[value.markup_type](raw)
+        rendered = markup_pool[value.markup_type](
+            raw, model_instance=model_instance)
         setattr(model_instance, _rendered_field_name(self.attname), rendered)
         return value.raw
 
@@ -214,7 +221,7 @@ class MarkupMirrorField(models.TextField):
             'class': 'markupmirror-editor',
         }
         if (self.default_markup_type and
-            self.default_markup_type in markup_pool):
+                self.default_markup_type in markup_pool):
             # prepare default settings for CodeMirror and preview in case
             # the widget has no value yet.
             mm_settings = {
@@ -230,9 +237,6 @@ class MarkupMirrorField(models.TextField):
 
         defaults.update(kwargs)
         return super(MarkupMirrorField, self).formfield(**defaults)
-
-
-__all__ = ('Markup', 'MarkupMirrorFieldDescriptor', 'MarkupMirrorField')
 
 
 # register MarkupMirrorField to use the custom widget in the Admin

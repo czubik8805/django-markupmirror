@@ -1,8 +1,12 @@
+from __future__ import absolute_import, unicode_literals
 import textwrap
 
 from django.utils.safestring import SafeData
 
 from django.test import TestCase
+
+
+__all__ = ('FeinCMSTests',)
 
 
 class FeinCMSTests(TestCase):
@@ -25,7 +29,8 @@ class FeinCMSTests(TestCase):
 
         # unregister previous imports
         import sys
-        to_delete = [module for module in sys.modules
+        to_delete = [
+            module for module in sys.modules
             if (module.startswith('markupmirror.feincms') or
                 module.startswith('feincms'))]
         for module in to_delete:
@@ -81,6 +86,3 @@ class FeinCMSTests(TestCase):
                 textwrap.dedent(u"""\
                     <p><strong>markdown</strong></p>
                     """))
-
-
-__all__ = ('FeinCMSTests',)

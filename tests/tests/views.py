@@ -1,7 +1,12 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.http import HttpResponse
 from django.http import HttpResponseNotAllowed
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+
+
+__all__ = ('MarkupPreviewViewTests',)
 
 
 class MarkupPreviewViewTests(TestCase):
@@ -22,10 +27,8 @@ class MarkupPreviewViewTests(TestCase):
         """
         url = reverse('markupmirror:preview')
         self.assertIsInstance(self.client.get(url), HttpResponseNotAllowed)
-        self.assertIsInstance(self.client.post(url, {
+        self.assertIsInstance(
+            self.client.post(url, {
                 'text': "**markup**",
                 'markup_type': 'plaintext'
             }), HttpResponse)
-
-
-__all__ = ('MarkupPreviewViewTests',)

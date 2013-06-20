@@ -1,3 +1,6 @@
+from __future__ import absolute_import, unicode_literals
+
+
 VERSION_INFO = {
     'major': 0,
     'minor': 1,

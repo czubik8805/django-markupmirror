@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from django import forms
 from django.db import models
 
@@ -40,7 +42,7 @@ Page.register_templates({
     'path': 'feincms_page.html',
     'regions': (
         ('main', 'Main region'),
-        ),
+    ),
 })
 
 # register *only* this contenttype
