@@ -1,8 +1,12 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.utils.translation import ugettext_lazy as _
 
 from markupmirror import settings
 from markupmirror.markup.base import BaseMarkup
-from markupmirror.markup.base import register_markup
+
+
+__all__ = ('TextileMarkup',)
 
 
 class TextileMarkup(BaseMarkup):
@@ -12,14 +16,14 @@ class TextileMarkup(BaseMarkup):
 
     """
     codemirror_mode = 'text/plain'
-    title = _(u"Textile")
-    requires = ("textile.textile", )
+    title = _("Textile")
+    requires = {
+        'textile': 'textile.textile',
+    }
 
     def __init__(self):
         self.textile_settings = settings.MARKUPMIRROR_TEXTILE_SETTINGS
-        self.textile = self.required['textile']
+        self.textile = self.requirements['textile']
 
-    def convert(self, markup):
+    def convert(self, markup, *args, **kwargs):
         return self.textile(markup, **self.textile_settings)
-
-__all__ = ('TextileMarkup',)

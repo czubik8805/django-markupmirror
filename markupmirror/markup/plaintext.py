@@ -21,5 +21,5 @@ class PlainTextMarkup(BaseMarkup):
     codemirror_mode = 'text/plain'
     title = _("Plain text")
 
-    def convert(self, markup):
+    def convert(self, markup, *args, **kwargs):
         return urlize(linebreaks(markup))

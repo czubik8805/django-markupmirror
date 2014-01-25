@@ -1,13 +1,20 @@
-from django.utils.encoding import force_unicode
+from __future__ import absolute_import, unicode_literals
+import logging
+
+try:
+    from django.utils.encoding import smart_text, smart_bytes
+except ImportError:
+    from django.utils.encoding import (
+        smart_unicode as smart_text, smart_str as smart_bytes)
 
 from markupmirror.exceptions import *
 from markupmirror import settings
 
-import logging
-import inspect
+
+__all__ = ('markup_pool', 'register_markup', 'BaseMarkup')
 
 
-logger = logging.getLogger("markupmirror")
+LOG = logging.getLogger("markupmirror")
 
 
 class BaseMarkup(object):
@@ -23,6 +30,8 @@ class BaseMarkup(object):
     """
     codemirror_mode = ''
     title = ""
+    requires = {}
+    _requirements = {}
 
     @classmethod
     def get_name(cls):
@@ -32,11 +41,16 @@ class BaseMarkup(object):
         """
         return cls.__name__.replace("Markup", "", 1).lower()
 
-    def convert(self, markup):
+    @property
+    def requirements(self):
+        """Provide access to loaded requirements."""
+        return self._requirements
+
+    def convert(self, markup, *args, **kwargs):
         """Main conversion method. Must be implemented in subclasses."""
         return markup
 
-    def before_convert(self, markup):
+    def before_convert(self, markup, *args, **kwargs):
         """Called before ``convert``. Can be used to separate the main
         conversion through a third-party library (e.g. Markdown) from
         additional logic.
@@ -44,28 +58,19 @@ class BaseMarkup(object):
         """
         return markup
 
-    def after_convert(self, markup):
+    def after_convert(self, markup, *args, **kwargs):
         """Called after ``convert``. Similar to ``before_convert``."""
         return markup
 
-    def __call__(self, markup, request=None, model_instance=None):
+    def __call__(self, markup, *args, **kwargs):
         """Main entry point. Calls ``before_convert``, ``convert`` and
         ``after_convert`` in that order.
 
         """
-        def call(method, markup):
-            """Call method with the markup and if specified, the request"""
-            kwargs = {}
-            available = inspect.getargspec(method.im_func)[0]
-            if 'request' in available:
-                kwargs['request'] = request
-            if 'model_instance' in available:
-                kwargs['model_instance'] = model_instance
-            return method(markup, **kwargs)
-        before = call(self.before_convert, markup)
-        converted = call(self.convert, before)
-        after = call(self.after_convert, converted)
-        return force_unicode(after)
+        converted = self.before_convert(markup, *args, **kwargs)
+        converted = self.convert(converted, *args, **kwargs)
+        converted = self.after_convert(converted, *args, **kwargs)
+        return smart_text(converted)
 
 
 class MarkupPool(object):
@@ -81,14 +86,18 @@ class MarkupPool(object):
 
     @property
     def markups(self):
-        """Default our markups from settings.
+        """List registered markup types.
 
-        Done here to avoid doing this during project settings.py construction
+        Defaults to the ``MARKUPMIRROR_MARKUP_TYPES`` defined in settings.
+
+        First access loads and registeres the configured markup converters
+        with this pool.
+
         """
         if self._markups is None:
             self._markups = {}
             for markup in settings.MARKUPMIRROR_MARKUP_TYPES.values():
-                markup = self.markup_from(markup)
+                markup = self.load_markup(markup)
                 if markup is not None:
                     self.register_markup(markup)
         return self._markups
@@ -109,20 +118,22 @@ class MarkupPool(object):
 
         markup_name = markup.get_name()
 
-        # Make sure we can import all the required things
-        if not hasattr(markup, 'required') and hasattr(markup, 'requires'):
-            unfulfilled = self.fulfill_required(markup)
-            if unfulfilled:
-                errors = "\n\t".join("%s:%s" % (requirement, error)
-                    for requirement, error in unfulfilled)
-                logger.warning("Couldn't register markup %s:%s\n\t%s",
+        # Make sure we can import all the required modules
+        if markup.requires:
+            failed = self.load_requirements(markup)
+            if failed:
+                errors = "\n\t".join(
+                    "%s:%s" % (requirement, error)
+                    for requirement, error in failed)
+                LOG.warning(
+                    "Couldn't register markup %s:%s\n\t%s",
                     markup_name, markup, errors)
                 return
 
         self.markups[markup_name] = markup()
 
-    def markup_from(self, markup):
-        """Import markup from the specified markup.
+    def load_markup(self, markup):
+        """Import markup converter class from specified path.
 
         If already an object, then return as is otherwise, import it first.
 
@@ -130,37 +141,36 @@ class MarkupPool(object):
         if not isinstance(markup, basestring):
             return markup
 
-        parts = markup.split('.')
+        markup = smart_bytes(markup)
+        parts = markup.split(b'.')
         name = parts[-1]
-        leadup = '.'.join(parts[:-1])
+        leadup = b'.'.join(parts[:-1])
         loaded = __import__(leadup, globals(), locals(), [name], -1)
         return getattr(loaded, name)
 
-    def fulfill_required(self, markup):
+    def load_requirements(self, markup):
         """See that we can import everything in the requires field.
 
         Return list of [(requirement, error), ...]
         for all the requirements that couldn't be fullfilled
 
         """
-        requires = markup.requires
-        required = markup.required = {}
-        unfulfilled = []
+        failed = []
 
-        if isinstance(requires, basestring):
-            requires = [requires]
-
-        for req in requires:
-            parts = req.split('.')
+        for requirement, import_path in markup.requires.items():
+            import_path = smart_bytes(import_path)
+            parts = import_path.split(b'.')
             try:
-                name = parts[-1]
-                leadup = '.'.join(parts[:-1])
-                loaded = __import__(leadup, globals(), locals(), [name], -1)
-                required[name] = getattr(loaded, name)
+                req_callable = parts[-1]
+                leadup = b'.'.join(parts[:-1])
+                loaded = __import__(
+                    leadup, globals(), locals(), [req_callable], -1)
+                markup._requirements[requirement] = getattr(
+                    loaded, req_callable)
             except ImportError as error:
-                unfulfilled.append((name, error))
+                failed.append((requirement, error))
 
-        return unfulfilled
+        return failed
 
     def unregister_markup(self, markup_name):
         """Unregisters a markup converter with the name ``markup_name``.
@@ -211,6 +221,3 @@ class MarkupPool(object):
 
 markup_pool = MarkupPool()  # Instance of ``MarkupPool`` for public use.
 register_markup = markup_pool.register_markup
-
-
-__all__ = ('markup_pool', 'register_markup', 'BaseMarkup')
