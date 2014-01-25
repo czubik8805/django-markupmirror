@@ -1,0 +1,7 @@
+* Rename textile_ and markdown_ modules (no _ required with absolute imports).
+* Update CodeMirror, libs and modes.
+* Update jQuery.
+* Update normalize.css
+* Update requirements for tests.
+* Add contributors to AUTHORS file.
+* Test with new versions of Django, FeinCMS, docutils, markdown and textile.
