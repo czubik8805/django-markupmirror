@@ -45,6 +45,7 @@ class MarkdownMarkupTests(TestCase):
         """
         markdown_markup = MarkdownMarkup()
         # === becomes h2 because of headerid(level=2) extension
+        import ipdb; ipdb.set_trace()
         self.assertHTMLEqual(
             markdown_markup(MARKUP),
             textwrap.dedent("""\

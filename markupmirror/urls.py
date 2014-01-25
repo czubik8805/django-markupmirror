@@ -10,7 +10,6 @@ __all__ = ('preview',)
 
 
 urlpatterns = [
-    '',
     url(r'^preview/$', MarkupPreview.as_view(), name='preview'),
     url(r'^base/$',
         TemplateView.as_view(

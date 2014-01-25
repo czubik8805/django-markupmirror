@@ -1,10 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 
-from django.conf.urls.defaults import include
+from django.conf.urls.defaults import include, patterns
 
 import markupmirror.urls
 
 
-urlpatterns = [
+urlpatterns = patterns(
+    '',
     (r'^markupmirror/', include(markupmirror.urls.preview)),
-]
+)

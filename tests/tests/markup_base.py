@@ -34,13 +34,13 @@ class BaseMarkupTests(TestCase):
         """
         class DummyMarkup(BaseMarkup):
 
-            def before_convert(self, markup):
+            def before_convert(self, markup, *args, **kwargs):
                 return markup.replace("1", "2", 1)
 
-            def convert(self, markup):
+            def convert(self, markup, *args, **kwargs):
                 return markup.replace("2", "3", 1)
 
-            def after_convert(self, markup):
+            def after_convert(self, markup, *args, **kwargs):
                 return markup.replace("3", "4", 1)
 
         dummy_markup = DummyMarkup()
