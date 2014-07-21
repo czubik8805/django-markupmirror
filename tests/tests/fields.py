@@ -1,10 +1,15 @@
 from __future__ import absolute_import, unicode_literals
+
+try:
+    import django.utils.simplejson as json
+except ImportError: # Django 1.5 no longer bundles simplejson
+    import json
+
 import textwrap
 
 from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
-from django.utils import simplejson as json
 
 from markupmirror.fields import Markup
 from markupmirror.fields import MarkupMirrorField
