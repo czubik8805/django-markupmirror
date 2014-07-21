@@ -1,8 +1,12 @@
 from __future__ import absolute_import, unicode_literals
 
+try:
+    import django.utils.simplejson as json
+except ImportError: # Django 1.5 no longer bundles simplejson
+    import json
+
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
-from django.utils import simplejson as json
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 

@@ -1,9 +1,13 @@
 from __future__ import absolute_import, unicode_literals
 
+try:
+    import django.utils.simplejson as json
+except ImportError: # Django 1.5 no longer bundles simplejson
+    import json
+
 from django import forms
 from django.contrib.admin.widgets import AdminTextareaWidget
 from django.core.urlresolvers import reverse
-from django.utils import simplejson as json
 
 from markupmirror import settings
 from markupmirror.markup.base import markup_pool
