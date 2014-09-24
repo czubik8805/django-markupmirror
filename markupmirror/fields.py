@@ -2,13 +2,16 @@ from __future__ import absolute_import, unicode_literals
 
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
-from django.utils import simplejson as json
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 from markupmirror import widgets
 from markupmirror.markup.base import markup_pool
 
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 __all__ = ('Markup', 'MarkupMirrorFieldDescriptor', 'MarkupMirrorField')
 

@@ -3,9 +3,9 @@ from __future__ import absolute_import, unicode_literals
 
 VERSION_INFO = {
     'major': 0,
-    'minor': 1,
+    'minor': 2,
     'micro': 0,
-    'sub': 'candidate',
+    'sub': 'alpha',
     'serial': 1,
 }
 
