@@ -1,10 +1,14 @@
 from django import forms
 from django.contrib.admin.widgets import AdminTextareaWidget
 from django.core.urlresolvers import reverse
-from django.utils import simplejson as json
 
 from markupmirror import settings
 from markupmirror.markup.base import markup_pool
+
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 
 class MarkupMirrorTextarea(forms.Textarea):
