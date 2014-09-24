@@ -3,13 +3,17 @@ import textwrap
 from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
-from django.utils import simplejson as json
 
 from markupmirror.fields import Markup
 from markupmirror.fields import MarkupMirrorField
 from markupmirror.markup.base import markup_pool
 
 from tests.models import Concrete, Post, PostForm
+
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 
 class MarkupMirrorFieldTests(TestCase):
