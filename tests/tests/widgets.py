@@ -3,7 +3,6 @@ import textwrap
 
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.utils import simplejson as json
 
 from markupmirror import settings as mm_settings
 from markupmirror.markup.base import markup_pool
@@ -11,6 +10,11 @@ from markupmirror.widgets import AdminMarkupMirrorTextareaWidget
 
 from tests import settings
 from tests.models import Post, PostForm
+
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 
 __all__ = ('MarkupMirrorWidgetTests',)

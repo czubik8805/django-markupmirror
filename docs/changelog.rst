@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.2a1 - 2014-09-24
+------------------
+
+* Fixed problem with deprecation warning (django simplejson)
+
 0.1c1 - 2012-08-25
 ------------------
 
