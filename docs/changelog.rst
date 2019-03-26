@@ -5,6 +5,8 @@ Changelog
 ------------------
 
 * Fixed problem with deprecation warning (django simplejson)
+* Using python's json or simplejson
+
 
 0.1c1 - 2012-08-25
 ------------------

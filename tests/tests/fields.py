@@ -1,4 +1,10 @@
 from __future__ import absolute_import, unicode_literals
+
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 import textwrap
 
 from django.core import serializers

@@ -1,5 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 from django import forms
 from django.contrib.admin.widgets import AdminTextareaWidget
 from django.core.urlresolvers import reverse

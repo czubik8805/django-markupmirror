@@ -1,5 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from django.utils.html import escape
