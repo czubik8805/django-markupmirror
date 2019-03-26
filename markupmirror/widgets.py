@@ -12,6 +12,11 @@ from django.core.urlresolvers import reverse
 from markupmirror import settings
 from markupmirror.markup.base import markup_pool
 
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 
 __all__ = ('MarkupMirrorTextarea', 'AdminMarkupMirrorTextareaWidget')
 

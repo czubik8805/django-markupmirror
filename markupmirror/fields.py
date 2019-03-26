@@ -13,6 +13,10 @@ from django.utils.safestring import mark_safe
 from markupmirror import widgets
 from markupmirror.markup.base import markup_pool
 
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 __all__ = ('Markup', 'MarkupMirrorFieldDescriptor', 'MarkupMirrorField')
 

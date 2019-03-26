@@ -17,6 +17,11 @@ from markupmirror.markup.base import markup_pool
 
 from tests.models import Concrete, Post, PostForm
 
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 
 __all__ = ('MarkupMirrorFieldTests',)
 

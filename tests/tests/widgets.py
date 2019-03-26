@@ -17,6 +17,11 @@ from markupmirror.widgets import AdminMarkupMirrorTextareaWidget
 from tests import settings
 from tests.models import Post, PostForm
 
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 
 __all__ = ('MarkupMirrorWidgetTests',)
 
