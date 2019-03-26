@@ -46,9 +46,7 @@ MARKUPMIRROR_CSS = (
 # Settings for markup converters
 
 # Extensions and settings for markdown
-MARKUPMIRROR_MARKDOWN_EXTENSIONS = getattr(
-    settings, 'MARKUPMIRROR_MARKDOWN_EXTENSIONS',
-    ['extra', 'headerid(level=2)'])
+MARKUPMIRROR_MARKDOWN_EXTENSIONS = getattr(settings, 'MARKUPMIRROR_MARKDOWN_EXTENSIONS', [])
 
 MARKUPMIRROR_MARKDOWN_OUTPUT_FORMAT = getattr(
     settings, 'MARKUPMIRROR_MARKDOWN_OUTPUT_FORMAT', 'html5')

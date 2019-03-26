@@ -52,7 +52,7 @@ class MarkupMirrorTextarea(forms.Textarea):
         markup_type = settings.MARKUPMIRROR_DEFAULT_MARKUP_TYPE
 
         # if value is filled, use the markup type defined with the content
-        if value is not None and not isinstance(value, unicode):
+        if value is not None and not isinstance(value, str):
             # get markup converter by type.
             # ``value`` is ``markupmirror.fields.Markup``.
             markup_type = value.markup_type
