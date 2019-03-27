@@ -1,5 +1,7 @@
 from __future__ import absolute_import, unicode_literals
+
 import logging
+from importlib import import_module
 
 try:
     from django.utils.encoding import smart_text, smart_bytes
@@ -138,15 +140,15 @@ class MarkupPool(object):
         If already an object, then return as is otherwise, import it first.
 
         """
-        if not isinstance(markup, basestring):
+        if not isinstance(markup, str):
             return markup
 
         markup = smart_bytes(markup)
         parts = markup.split(b'.')
         name = parts[-1]
         leadup = b'.'.join(parts[:-1])
-        loaded = __import__(leadup, globals(), locals(), [name], -1)
-        return getattr(loaded, name)
+        loaded = import_module(leadup.decode("utf-8"))
+        return getattr(loaded, name.decode("utf-8"))
 
     def load_requirements(self, markup):
         """See that we can import everything in the requires field.
@@ -163,10 +165,8 @@ class MarkupPool(object):
             try:
                 req_callable = parts[-1]
                 leadup = b'.'.join(parts[:-1])
-                loaded = __import__(
-                    leadup, globals(), locals(), [req_callable], -1)
-                markup._requirements[requirement] = getattr(
-                    loaded, req_callable)
+                loaded = import_module(leadup.decode("utf-8"))
+                markup._requirements[requirement] = getattr(loaded, req_callable.decode("utf-8"))
             except ImportError as error:
                 failed.append((requirement, error))
 
