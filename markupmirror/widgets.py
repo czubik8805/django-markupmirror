@@ -64,8 +64,8 @@ class MarkupMirrorTextarea(forms.Textarea):
         mm_settings.update({
             'mode': markup_pool[markup_type].codemirror_mode,
             'markup_type': markup_type,
-            'preview_url': reverse('preview'),
-            'base_url': reverse('base'),
+            'preview_url': reverse('markupmirror:preview'),
+            'base_url': reverse('markupmirror:base'),
         })
 
         # provide mm_settings as data attribute in widget
