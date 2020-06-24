@@ -7,7 +7,7 @@ except ImportError:
 
 from django import forms
 from django.contrib.admin.widgets import AdminTextareaWidget
-from django.urls import reverse
+from django.core.urlresolvers import reverse
 
 from markupmirror import settings
 from markupmirror.markup.base import markup_pool
