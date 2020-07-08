@@ -3,10 +3,10 @@ from __future__ import absolute_import, unicode_literals
 
 VERSION_INFO = {
     'major': 0,
-    'minor': 2,
+    'minor': 3,
     'micro': 0,
     'sub': 'alpha',
-    'serial': 2,
+    'serial': 1,
 }
 
 
