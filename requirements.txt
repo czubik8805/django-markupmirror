@@ -9,7 +9,6 @@ FeinCMS
 Markdown
 nose
 pep8
-South
 Sphinx
 textile
 tox

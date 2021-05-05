@@ -73,11 +73,13 @@ class VersionTests(TestCase):
         # invalid sub
         markupmirror.VERSION_INFO['sub'] = 'betta'
         markupmirror.VERSION_INFO['serial'] = 1
-        self.assertRaises(AssertionError, markupmirror.get_version)
+        with self.assertRaises(AssertionError):
+            markupmirror.get_version()
         # invalid serial
         markupmirror.VERSION_INFO['sub'] = 'beta'
         markupmirror.VERSION_INFO['serial'] = '1'
-        self.assertRaises(AssertionError, markupmirror.get_version)
+        with self.assertRaises(AssertionError):
+            markupmirror.get_version()
 
     def test_invalid_major_minor_micro(self):
         """``VERSION_INFO['major|minor|micro']`` must be integers."""

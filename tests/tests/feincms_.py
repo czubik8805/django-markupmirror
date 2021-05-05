@@ -39,8 +39,8 @@ class FeinCMSTests(TestCase):
         self.assertFalse('feincms' in sys.modules)
 
         # save original import
-        import __builtin__
-        original_import = __builtin__.__import__
+        import builtins
+        original_import = builtins.__import__
 
         # patch and test the import
         def import_hook(name, *args, **kwargs):
@@ -48,14 +48,14 @@ class FeinCMSTests(TestCase):
                 raise ImportError("TestCase ImportError")
             else:
                 original_import(name, *args, **kwargs)
-        __builtin__.__import__ = import_hook
+        builtins.__import__ = import_hook
 
         # without FeinCMS, the import should fail
         self.assertFalse(import_markupmirror_feincms())
 
         # with FeinCMS installed, the import should work
         # restore import
-        __builtin__.__import__ = original_import
+        builtins.__import__ = original_import
         self.assertTrue(import_markupmirror_feincms())
 
         # restore normal import

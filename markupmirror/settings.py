@@ -55,7 +55,8 @@ MARKUPMIRROR_MARKDOWN_OUTPUT_FORMAT = getattr(
 # Textile settings
 MARKUPMIRROR_TEXTILE_SETTINGS = getattr(
     settings, 'MARKUPMIRROR_TEXTILE_SETTINGS',
-    {'encoding': 'utf-8', 'output': 'utf-8'})
+    {}
+)
 
 
 # CodeMirror settings

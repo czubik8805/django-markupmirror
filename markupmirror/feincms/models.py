@@ -21,7 +21,8 @@ class MarkupMirrorContent(models.Model):
     content = MarkupMirrorField(
         verbose_name=_("Markup content"),
         markup_type=settings.MARKUPMIRROR_DEFAULT_MARKUP_TYPE,
-        blank=True)
+        blank=True,
+    )
 
     class Meta:
         abstract = True
