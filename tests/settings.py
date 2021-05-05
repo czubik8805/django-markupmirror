@@ -18,7 +18,6 @@ SECRET_KEY = 'abcdefghijklmnopqrstuvwxyz'
 
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
-    'django_nose',
     'markupmirror',
     'markupmirror.feincms',
     'tests',
@@ -74,15 +73,18 @@ MARKUPMIRROR_DEFAULT_MARKUP_TYPE = 'markdown'
 MARKUPMIRROR_IGNORE_DEFAULT_TYPES = False
 
 
-# ### django-nose
-
-# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-#
-# NOSE_ARGS = [
-#     '--detailed-errors',
-#     # '--verbose',
-#     '--with-coverage',
-#     '--cover-html',
-#     '--cover-html-dir=' + tests_path_to(os.path.pardir, 'docs', '_coverage'),
-#     '--cover-package=markupmirror',
-# ]
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]

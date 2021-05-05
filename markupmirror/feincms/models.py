@@ -32,7 +32,10 @@ class MarkupMirrorContent(models.Model):
 
     def render(self, **kwargs):
         request = kwargs.get('request')
-        return render_to_string('content/markupmirror/default.html', {
-            'content': self,
-            'request': request
-        })
+        return render_to_string(
+            template_name='content/markupmirror/default.html',
+            context={
+                'content': self,
+                'request': request
+            }
+        )

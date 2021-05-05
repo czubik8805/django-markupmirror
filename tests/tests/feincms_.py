@@ -68,7 +68,7 @@ class FeinCMSTests(TestCase):
         with a FeinCMS ``Page``.
 
         """
-        from feincms.module.page.models import Page
+        from tests.models import Page
         from markupmirror.markup.base import markup_pool
 
         mmc_type = Page._feincms_content_types[0]
