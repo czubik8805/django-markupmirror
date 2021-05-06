@@ -158,8 +158,11 @@ class MarkupMirrorField(models.TextField):
             # markup_type
             choices = [
                 (markup_type, markup.title) for markup_type, markup in
-                sorted(iter(markup_pool.markups.items()),
-                       key=lambda markup: markup[1].title.lower())]
+                sorted(
+                    markup_pool.markups.items(),
+                    key=lambda markup: markup[1].title.lower()
+                )
+            ]
             markup_type_field = models.CharField(
                 choices=choices, max_length=30,
                 default=self.default_markup_type, blank=self.blank,
@@ -208,7 +211,7 @@ class MarkupMirrorField(models.TextField):
             return value
 
     def value_to_string(self, obj):
-        value = models.Field.value_from_object(self, obj)
+        value = self.value_from_object(obj)
         return value.raw
 
     def formfield(self, **kwargs):
