@@ -1,15 +1,12 @@
-Django
+Django>=2.0,<3
 coverage
 django-mptt
-django-nose
 docutils
 ipython
 ipdb
-FeinCMS
+FeinCMS>=1.15.0
 Markdown
-nose
 pep8
-South
 Sphinx
 textile
 tox

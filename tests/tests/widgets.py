@@ -7,7 +7,7 @@ except ImportError:
 
 import textwrap
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 
 from markupmirror import settings as mm_settings

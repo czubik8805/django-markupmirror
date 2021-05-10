@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from django.http import HttpResponse
 from django.http import HttpResponseNotAllowed
 from django.test import TestCase
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 __all__ = ('MarkupPreviewViewTests',)

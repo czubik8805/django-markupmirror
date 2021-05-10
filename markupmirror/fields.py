@@ -158,8 +158,11 @@ class MarkupMirrorField(models.TextField):
             # markup_type
             choices = [
                 (markup_type, markup.title) for markup_type, markup in
-                sorted(markup_pool.markups.iteritems(),
-                       key=lambda markup: markup[1].title.lower())]
+                sorted(
+                    markup_pool.markups.items(),
+                    key=lambda markup: markup[1].title.lower()
+                )
+            ]
             markup_type_field = models.CharField(
                 choices=choices, max_length=30,
                 default=self.default_markup_type, blank=self.blank,
@@ -208,7 +211,7 @@ class MarkupMirrorField(models.TextField):
             return value
 
     def value_to_string(self, obj):
-        value = self._get_val_from_obj(obj)
+        value = self.value_from_object(obj)
         return value.raw
 
     def formfield(self, **kwargs):
@@ -253,20 +256,3 @@ from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 FORMFIELD_FOR_DBFIELD_DEFAULTS[MarkupMirrorField] = {
     'widget': widgets.AdminMarkupMirrorTextareaWidget,
 }
-
-
-# allow South to handle MarkupMirrorField smoothly
-try:
-    from south.modelsinspector import add_introspection_rules
-    # For a normal MarkupMirrorField, the add_rendered_field attribute is
-    # always True, which means no_rendered_field arg will always be
-    # True in a frozen MarkupMirrorField, which is what we want.
-    add_introspection_rules(
-        rules=[
-            ((MarkupMirrorField,), [], {
-                'rendered_field': ['rendered_field', {}],
-            })
-        ],
-        patterns=['markupmirror\.fields\.MarkupMirrorField'])
-except ImportError:
-    pass

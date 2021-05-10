@@ -8,6 +8,8 @@ from markupmirror.views import MarkupPreview
 
 __all__ = ('preview',)
 
+app_name = "markupmirror"
+
 
 urlpatterns = [
     url(r'^preview/$', MarkupPreview.as_view(), name='preview'),

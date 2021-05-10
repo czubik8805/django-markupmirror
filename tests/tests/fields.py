@@ -81,7 +81,7 @@ class MarkupMirrorFieldTests(TestCase):
 
         """
         self.assertEqual(
-            unicode(self.rp.body.rendered), textwrap.dedent(u"""\
+            str(self.rp.body.rendered), textwrap.dedent(u"""\
             <div class="document">
             <p><em>reST</em></p>
             </div>
@@ -94,8 +94,8 @@ class MarkupMirrorFieldTests(TestCase):
         """
         post1 = Post.objects.get(pk=self.mp.pk)
         self.assertIsInstance(post1.body, Markup)
-        self.assertEqual(unicode(post1.body),
-                         u"<p><strong>markdown</strong></p>")
+        self.assertEqual(str(post1.body.rendered),
+                         "<p><strong>markdown</strong></p>")
 
     def test_pre_save(self):
         """Test that saving markup values for markup_types which are not
@@ -152,24 +152,36 @@ class MarkupMirrorFieldTests(TestCase):
         self.rp.body = "**reST**"
         self.rp.save()
         self.assertEquals(
-            unicode(self.rp.body),
-            unicode(self.rp.body.rendered), textwrap.dedent(u"""\
-            <div class="document">
-            <p><strong>reST</strong></p>
-            </div>
-            """))
+            str(self.rp.body.rendered),
+            textwrap.dedent(
+                u"""\
+                <div class="document">
+                <p><strong>reST</strong></p>
+                </div>
+                """
+            )
+        )
 
-        rest_markup = Markup(self.rp, 'body',
-                             'body_rendered', 'body_markup_type')
+        rest_markup = Markup(
+            self.rp,
+            'body',
+            'body_rendered',
+            'body_markup_type'
+        )
+
         rest_markup.raw = "*reST*"
         self.rp.body = rest_markup
+        self.rp.save()
         self.assertEquals(
-            unicode(self.rp.body),
-            unicode(self.rp.body.rendered), textwrap.dedent(u"""\
-            <div class="document">
-            <p><em>reST</em></p>
-            </div>
-            """))
+            str(self.rp.body.rendered),
+            textwrap.dedent(
+                u"""\
+                <div class="document">
+                <p><em>reST</em></p>
+                </div>
+                """
+            )
+        )
 
     def test_raw_assignment(self):
         """Setting the ``Markup.raw`` property modifies the field's value."""
@@ -177,12 +189,13 @@ class MarkupMirrorFieldTests(TestCase):
         self.rp.body.raw = '*more reST*'
         self.rp.save()
         self.assertEquals(
-            unicode(self.rp.body),
-            unicode(self.rp.body.rendered), textwrap.dedent(u"""\
+            str(self.rp.body.rendered),
+            textwrap.dedent("""\
             <div class="document">
             <p><em>more reST</em></p>
             </div>
-            """))
+            """)
+        )
 
     def test_rendered_assignment(self):
         """The ``Markup.rendered`` property dos not have a setter."""
@@ -200,7 +213,7 @@ class MarkupMirrorFieldTests(TestCase):
         self.rp.body.markup_type = 'markdown'
         self.rp.save()
         self.assertEquals(self.rp.body.markup_type, 'markdown')
-        self.assertEquals(unicode(self.rp.body),
+        self.assertEquals(str(self.rp.body.rendered),
                           "<p><em>reST</em></p>")
 
     def test_serialize_to_json(self):
@@ -275,13 +288,13 @@ class MarkupMirrorFieldTests(TestCase):
         """Rendered content should be escaped to prevent XSS attacks."""
         self.assertEquals(self.xss_post.comment.raw, self.xss_str)
         self.assertEquals(
-            unicode(self.xss_post.comment.rendered),
+            str(self.xss_post.comment.rendered),
             '<p>&lt;script&gt;alert(&#39;xss&#39;);&lt;/script&gt;</p>')
 
     def test_escape_html_false(self):
         """The ``MarkupMirrorField.escape_html`` prevents this escaping."""
         self.assertEquals(self.xss_post.body.raw, self.xss_str)
-        self.assertEquals(unicode(self.xss_post.body.rendered), self.xss_str)
+        self.assertEquals(str(self.xss_post.body.rendered), self.xss_str)
 
     def test_inheritance(self):
         """Abstract base models inherit the ``MarkupMirrorField`` to the

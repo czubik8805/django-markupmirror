@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 
 VERSION_INFO = {
     'major': 0,
-    'minor': 3,
+    'minor': 4,
     'micro': 0,
     'sub': 'alpha',
     'serial': 1,
@@ -14,11 +14,11 @@ def get_version(short=False):
     """Concatenates ``VERSION_INFO`` to dotted version string."""
     assert len(VERSION_INFO) == 5
     assert VERSION_INFO['sub'] in ('alpha', 'beta', 'candidate', 'final')
-    assert VERSION_INFO['serial'] >= 1
     assert isinstance(VERSION_INFO['major'], int)
     assert isinstance(VERSION_INFO['minor'], int)
     assert isinstance(VERSION_INFO['micro'], int)
     assert isinstance(VERSION_INFO['serial'], int)
+    assert VERSION_INFO['serial'] >= 1
 
     version = "%(major)s.%(minor)s" % VERSION_INFO
     if not short:

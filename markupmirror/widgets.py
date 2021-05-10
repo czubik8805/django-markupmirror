@@ -44,7 +44,7 @@ class MarkupMirrorTextarea(forms.Textarea):
             default_attrs.update(attrs)
         super(MarkupMirrorTextarea, self).__init__(attrs=default_attrs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         default_attrs = {}
 
         # start with CodeMirror base settings
@@ -64,8 +64,8 @@ class MarkupMirrorTextarea(forms.Textarea):
         mm_settings.update({
             'mode': markup_pool[markup_type].codemirror_mode,
             'markup_type': markup_type,
-            'preview_url': reverse('preview'),
-            'base_url': reverse('base'),
+            'preview_url': reverse('markupmirror:preview'),
+            'base_url': reverse('markupmirror:base'),
         })
 
         # provide mm_settings as data attribute in widget
@@ -75,8 +75,12 @@ class MarkupMirrorTextarea(forms.Textarea):
         if attrs:
             default_attrs.update(attrs)
 
-        return super(MarkupMirrorTextarea, self).render(name, value,
-                                                        default_attrs)
+        return super(MarkupMirrorTextarea, self).render(
+            name,
+            value,
+            default_attrs,
+            renderer,
+        )
 
     class Media:
         css = {

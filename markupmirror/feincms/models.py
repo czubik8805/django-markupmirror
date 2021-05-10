@@ -21,7 +21,8 @@ class MarkupMirrorContent(models.Model):
     content = MarkupMirrorField(
         verbose_name=_("Markup content"),
         markup_type=settings.MARKUPMIRROR_DEFAULT_MARKUP_TYPE,
-        blank=True)
+        blank=True,
+    )
 
     class Meta:
         abstract = True
@@ -31,7 +32,10 @@ class MarkupMirrorContent(models.Model):
 
     def render(self, **kwargs):
         request = kwargs.get('request')
-        return render_to_string('content/markupmirror/default.html', {
-            'content': self,
-            'request': request
-        })
+        return render_to_string(
+            template_name='content/markupmirror/default.html',
+            context={
+                'content': self,
+                'request': request
+            }
+        )
