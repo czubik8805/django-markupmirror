@@ -70,10 +70,10 @@ class MarkupMirrorFieldTests(TestCase):
         of the ``Markup`` content wrapper class.
 
         """
-        self.assertEquals(self.mp.body.raw, "**markdown**")
-        self.assertEquals(self.mp.body.rendered,
+        self.assertEqual(self.mp.body.raw, "**markdown**")
+        self.assertEqual(self.mp.body.rendered,
                           "<p><strong>markdown</strong></p>")
-        self.assertEquals(self.mp.body.markup_type, "markdown")
+        self.assertEqual(self.mp.body.markup_type, "markdown")
 
     def test_markup_unicode(self):
         """Converting ``Markup`` to unicode uses the ``Markup.rendered``
@@ -151,7 +151,7 @@ class MarkupMirrorFieldTests(TestCase):
         """
         self.rp.body = "**reST**"
         self.rp.save()
-        self.assertEquals(
+        self.assertEqual(
             str(self.rp.body.rendered),
             textwrap.dedent(
                 u"""\
@@ -172,7 +172,7 @@ class MarkupMirrorFieldTests(TestCase):
         rest_markup.raw = "*reST*"
         self.rp.body = rest_markup
         self.rp.save()
-        self.assertEquals(
+        self.assertEqual(
             str(self.rp.body.rendered),
             textwrap.dedent(
                 u"""\
@@ -188,7 +188,7 @@ class MarkupMirrorFieldTests(TestCase):
 
         self.rp.body.raw = '*more reST*'
         self.rp.save()
-        self.assertEquals(
+        self.assertEqual(
             str(self.rp.body.rendered),
             textwrap.dedent("""\
             <div class="document">
@@ -212,8 +212,8 @@ class MarkupMirrorFieldTests(TestCase):
         """
         self.rp.body.markup_type = 'markdown'
         self.rp.save()
-        self.assertEquals(self.rp.body.markup_type, 'markdown')
-        self.assertEquals(str(self.rp.body.rendered),
+        self.assertEqual(self.rp.body.markup_type, 'markdown')
+        self.assertEqual(str(self.rp.body.rendered),
                           "<p><em>reST</em></p>")
 
     def test_serialize_to_json(self):
@@ -264,7 +264,7 @@ class MarkupMirrorFieldTests(TestCase):
                     'comment_markup_type': 'markdown',
                     'comment_rendered': (
                         '<p>&lt;script&gt;'
-                        'alert(&#39;xss&#39;);&lt;/script&gt;</p>'),
+                        'alert(&#x27;xss&#x27;);&lt;/script&gt;</p>'),
                     'markdown_field': '',
                     'markdown_field_markup_type': 'markdown',
                     'markdown_field_rendered': '',
@@ -282,19 +282,19 @@ class MarkupMirrorFieldTests(TestCase):
         """
         stream = serializers.serialize('json', Post.objects.all())
         obj = list(serializers.deserialize('json', stream))[0]
-        self.assertEquals(obj.object, self.mp)
+        self.assertEqual(obj.object, self.mp)
 
     def test_escape_html(self):
         """Rendered content should be escaped to prevent XSS attacks."""
-        self.assertEquals(self.xss_post.comment.raw, self.xss_str)
-        self.assertEquals(
+        self.assertEqual(self.xss_post.comment.raw, self.xss_str)
+        self.assertEqual(
             str(self.xss_post.comment.rendered),
-            '<p>&lt;script&gt;alert(&#39;xss&#39;);&lt;/script&gt;</p>')
+            '<p>&lt;script&gt;alert(&#x27;xss&#x27;);&lt;/script&gt;</p>')
 
     def test_escape_html_false(self):
         """The ``MarkupMirrorField.escape_html`` prevents this escaping."""
-        self.assertEquals(self.xss_post.body.raw, self.xss_str)
-        self.assertEquals(str(self.xss_post.body.rendered), self.xss_str)
+        self.assertEqual(self.xss_post.body.raw, self.xss_str)
+        self.assertEqual(str(self.xss_post.body.rendered), self.xss_str)
 
     def test_inheritance(self):
         """Abstract base models inherit the ``MarkupMirrorField`` to the
@@ -302,7 +302,7 @@ class MarkupMirrorFieldTests(TestCase):
 
         """
         concrete_fields = [f.name for f in Concrete._meta.fields]
-        self.assertEquals(
+        self.assertEqual(
             concrete_fields,
             ['id', 'content', 'content_markup_type', 'content_rendered'])
 

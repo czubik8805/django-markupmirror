@@ -3,11 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import logging
 from importlib import import_module
 
-try:
-    from django.utils.encoding import smart_text, smart_bytes
-except ImportError:
-    from django.utils.encoding import (
-        smart_unicode as smart_text, smart_str as smart_bytes)
+from django.utils.encoding import smart_str, smart_bytes
 
 from markupmirror.exceptions import *
 from markupmirror import settings
@@ -72,7 +68,7 @@ class BaseMarkup(object):
         converted = self.before_convert(markup, *args, **kwargs)
         converted = self.convert(converted, *args, **kwargs)
         converted = self.after_convert(converted, *args, **kwargs)
-        return smart_text(converted)
+        return smart_str(converted)
 
 
 class MarkupPool(object):

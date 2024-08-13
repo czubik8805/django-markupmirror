@@ -5,7 +5,7 @@ try:
 except ImportError:
     from django.utils.encoding import smart_str as smart_bytes
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from markupmirror.markup.base import BaseMarkup
 

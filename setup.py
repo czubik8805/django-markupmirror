@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import os
+import pathlib
 import textwrap
 
 from setuptools import setup
@@ -13,16 +14,12 @@ AUTHORS = (
 
 def read(*parts):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), *parts))
-    content = ""
-    fp = open(path)
-    content = fp.read()
-    fp.close()
-    return content
+    return pathlib.Path(path).read_text()
 
 
 setup(
     name='django-markupmirror',
-    version=__import__('markupmirror').get_version(),
+    version="0.5a1",
     author=", ".join([a[0] for a in AUTHORS]),
     author_email=", ".join([a[1] for a in AUTHORS]),
     description=textwrap.dedent("""\

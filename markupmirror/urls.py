@@ -1,6 +1,16 @@
 from __future__ import absolute_import, unicode_literals
 
-from django.conf.urls import url
+import django
+from packaging.version import parse
+
+
+django_version = parse(django.get_version())
+
+if django_version < parse('4.0'):
+    from django.conf.urls import url
+else:
+    from django.urls import re_path as url
+
 from django.views.generic.base import TemplateView
 
 from markupmirror.views import MarkupPreview
